@@ -23,7 +23,20 @@ foreach( loop_var IN LISTS R_INCLUDE_DIR_MATCHES )
   include_directories( ${R_INCLUDE_DIR} )
 endforeach( loop_var )
 
-add_library( Ritk SHARED ${Ritk_SOURCE_DIR}/src/antsRegistration.cxx ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+add_library( Ritk SHARED 
+# antsRegistration
+${Ritk_SOURCE_DIR}/src/antsRegistration.cxx 
+${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx 
+# ants_motion_estimation
+${Ritk_SOURCE_DIR}/src/antsMotionCorr.cxx 
+# ants_brain_extraction
+${Ritk_SOURCE_DIR}/src/N3BiasFieldCorrection.cxx
+${Ritk_SOURCE_DIR}/src/ThresholdImage.cxx 
+${Ritk_SOURCE_DIR}/src/ImageMath.cxx
+# ants_to_template 
+${Ritk_SOURCE_DIR}/src/ANTS.cxx
+${Ritk_SOURCE_DIR}/src/WarpTimeSeriesImageMultiTransform.cxx )
 target_link_libraries( Ritk ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
 set_target_properties( Ritk PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
 install( TARGETS Ritk DESTINATION . )
