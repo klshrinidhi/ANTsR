@@ -189,7 +189,7 @@ void HelperCommonType<TAffine>::ComputeAveragePartialParameters(
 
     if (w <= 0.0) {
         std::cout << "Total weight smaller than 0!!!" << std::endl;
-        exit(-1);
+	throw std::exception() ;
     }
 
     // normalize by weight

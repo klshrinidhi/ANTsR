@@ -566,7 +566,7 @@ int TruncateImageIntensity( unsigned int argc, char *argv[] )
   typedef float RealType;
 
   // usage  ImageMath 3 out.nii.gz  TrunateImageIntensity InImage.nii.gz FractionLo(e.g.0.025) FractionHi(e.g.0.975) Bins Mask
-  if (argc < 4 ) { std::cout <<" need more args -- see usage   " << std::endl  <<   " ImageMath 3 outimage.nii.gz  TruncateImageIntensity inputImage  {lowerQuantile=0.025} {upperQuantile=0.975}  {numberOfBins=65}  {binary-maskImage} " << std::endl;  exit(0); }
+  if (argc < 4 ) { std::cout <<" need more args -- see usage   " << std::endl  <<   " ImageMath 3 outimage.nii.gz  TruncateImageIntensity inputImage  {lowerQuantile=0.025} {upperQuantile=0.975}  {numberOfBins=65}  {binary-maskImage} " << std::endl;  throw std::exception() ; }
 
   unsigned int argct=2;
   std::string outname=std::string(argv[argct]); argct++;
@@ -834,7 +834,7 @@ int ConvertLandmarkFile(unsigned int argc, char *argv[])
 {
 
   unsigned int argct=2;
-  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  exit(0); }
+  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  throw std::exception() ; }
   std::string outname=std::string(argv[argct]); argct++;
   std::string operation = std::string(argv[argct]);  argct++;
   std::string infn=std::string(argv[argct]); argct++;
@@ -889,7 +889,7 @@ int TriPlanarView(unsigned int argc, char *argv[])
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
 
   unsigned int argct=2;
-  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  exit(0); }
+  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  throw std::exception() ; }
   std::string outname=std::string(argv[argct]); argct++;
   std::string operation = std::string(argv[argct]);  argct++;
   std::string maskfn=std::string(argv[argct]); argct++;
@@ -1047,7 +1047,7 @@ int ConvertVectorToImage(unsigned int argc, char *argv[])
   typedef itk::ImageRegionIteratorWithIndex<MatrixImageType> vIterator;
 
   int argct=2;
-  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  exit(0); }
+  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  throw std::exception() ; }
   std::string outname=std::string(argv[argct]); argct++;
   std::string operation = std::string(argv[argct]);  argct++;
   std::string maskfn=std::string(argv[argct]); argct++;
@@ -1255,7 +1255,7 @@ int SetOrGetPixel(int argc, char *argv[])
     ReadImage<ImageType>(image1, fn1.c_str());
     ReadImage<ImageType>(image2, fn1.c_str());
     }
-  if (!image1) {std::cout <<" no image ! " << std::endl; exit(0);}
+  if (!image1) {std::cout <<" no image ! " << std::endl; throw std::exception() ;}
 
   typename ImageType::IndexType index;
   index.Fill(0);
@@ -2306,7 +2306,7 @@ int CompCorr(int argc, char *argv[])
   timeVectorType vReference2=matrixOps->AverageColumns(mReference);
   Scalar testcorr=matrixOps->PearsonCorr(vReference,vReference2);
   if ( testcorr < 0 ) vReference=vReference*(-1);
-  if ( vReference.size() != timedims ) { std::cout << " CompCorr Error exiting " << std::endl; exit(1); }
+  if ( vReference.size() != timedims ) { std::cout << " CompCorr Error exiting " << std::endl; throw std::exception() ; }
   gm_vox=0;
   for(  vfIter2.GoToBegin(); !vfIter2.IsAtEnd(); ++vfIter2 )
     {
@@ -3017,7 +3017,7 @@ int TensorFunctions(int argc, char *argv[])
 	  {
 	    std::cout << " you should not be using this function if the input data is not a tensor. " << std::endl;
 	    std::cout << " there is no way for us to really check if your use of this function is correct right now except checking the size of the 4th dimension which should be 6 or 7 (the latter if you store b0 in the first component) --- you should really store tensors not as 4D images but as 3D images with tensor voxel types. " << std::endl;
-	    exit(0);
+	    throw std::exception() ;
 	  }
 	typename TensorImageType::SizeType size;
 	typename TensorImageType::RegionType tensorregion;
@@ -5739,7 +5739,7 @@ int PoissonDiffusion( int argc, char *argv[])
     {
     std::cerr << "Usage error---not enough arguments.   See help menu."
       << std::endl;
-    exit( 1 );
+    throw std::exception() ;
     }
 
   typedef float PixelType;
@@ -6990,7 +6990,7 @@ cortroimap[45]=std::string("White Matter");
     {
       std::cout<<" not enough parameters --- usage example 1 :"<<"" <<std::endl;
       std::cout<< argv[0] << " ImageMath  3 output.csv ROIStatistics roinames.txt LabelImage.nii.gz ValueImage.nii.gz  " << std::endl;
-      exit(1);
+      throw std::exception() ;
     }
   std::string outname=std::string(argv[argct]); argct++;
   std::string imagename=ANTSGetFilePrefix(outname.c_str())+std::string(".nii.gz");
@@ -7420,7 +7420,7 @@ int ConvertImageSetToMatrix(unsigned int argc, char *argv[])
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
 
   int argct=2;
-  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  exit(0); }
+  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  throw std::exception() ; }
   std::string outname=std::string(argv[argct]); argct++;
   std::string ext = itksys::SystemTools::GetFilenameExtension( outname );
   std::string operation = std::string(argv[argct]);  argct++;
@@ -7597,7 +7597,7 @@ int RandomlySampleImageSetToCSV(unsigned int argc, char *argv[])
   typedef itk::ImageRandomConstIteratorWithIndex<ImageType> Iterator;
 
   int argct=2;
-  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  exit(0); }
+  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  throw std::exception() ; }
   std::string outname=std::string(argv[argct]); argct++;
   std::string ext = itksys::SystemTools::GetFilenameExtension( outname );
   std::string operation = std::string(argv[argct]);  argct++;
@@ -7697,7 +7697,7 @@ int ConvertImageSetToEigenvectors(unsigned int argc, char *argv[])
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
 
   int argct=2;
-  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  exit(0); }
+  if (argc < 5 ) { std::cout <<" need more args -- see usage   " << std::endl;  throw std::exception() ; }
   std::string outname=std::string(argv[argct]); argct++;
   std::string ext = std::string(".csv"); // itksys::SystemTools::GetFilenameExtension( outname );
   std::string operation = std::string(argv[argct]);  argct++;
@@ -7714,7 +7714,7 @@ int ConvertImageSetToEigenvectors(unsigned int argc, char *argv[])
     if (mIter.Get() > maxval ) maxval=(unsigned long) mIter.Get();
   if ( maxval == 0 ) {
     std::cout <<" Max value in mask is <= 0, aborting. " << maxval << std::endl;
-    exit(1);
+    throw std::exception() ;
   }
 
   typedef itk::Array2D<double> MatrixType;

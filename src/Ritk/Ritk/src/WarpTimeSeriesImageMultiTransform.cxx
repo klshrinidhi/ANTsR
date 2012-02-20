@@ -419,7 +419,7 @@ void GetLaregstSizeAfterWarp(WarperPointerType &warper, ImagePointerType &img, S
             img->TransformIndexToPhysicalPoint(ind, pt_orig);
             if (warper->MultiInverseAffineOnlySinglePoint(pt_orig, pt_warped)==false){
                 std::cout << "ERROR: outside of numeric boundary with affine transform." << std::endl;
-                exit(-1);
+                throw std::exception() ;
             }
             pts_warped.push_back(pt_warped);
             std::cout << '[' << i << ']' << ind << ',' << pt_orig << "->" << pt_warped << std::endl;
@@ -438,7 +438,7 @@ void GetLaregstSizeAfterWarp(WarperPointerType &warper, ImagePointerType &img, S
             img->TransformIndexToPhysicalPoint(ind, pt_orig);
             if (warper->MultiInverseAffineOnlySinglePoint(pt_orig, pt_warped)==false){
                 std::cout << "ERROR: outside of numeric boundary with affine transform." << std::endl;
-                exit(-1);
+                throw std::exception() ;
             }
             pts_warped.push_back(pt_warped);
             std::cout << '[' << i << ']' << ind << ',' << pt_orig << "->" << pt_warped << std::endl;
@@ -447,7 +447,7 @@ void GetLaregstSizeAfterWarp(WarperPointerType &warper, ImagePointerType &img, S
     }
     else {
         std::cout << "could not determine the dimension after warping for non 2D/3D volumes" << std::endl;
-        exit(-1);
+        throw std::exception() ;
     }
 
     PointType pt_min, pt_max;

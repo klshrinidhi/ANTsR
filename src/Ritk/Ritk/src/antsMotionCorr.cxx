@@ -639,7 +639,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
       corrMetric->SetDoMovingImagePreWarp( false );
       //      metric = corrMetric;
       std::cout << " global corr Error " << std::endl;
-      exit(1);
+      throw std::exception() ;
       }
     else
       {

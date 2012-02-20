@@ -222,7 +222,7 @@ if ( ! ANTSFileExists(std::string(file)) ) { std::cout << " file " << std::strin
       std::cout << "Exception caught during reference file reading " << std::endl;
       std::cout << e << " file " << file << std::endl;
       target=NULL;
-      exit(1);
+      throw ;
       return;
     }
 
@@ -322,7 +322,7 @@ void WriteImage(itk::SmartPointer<TImageType> image, const char *file)
   if (!image) 
     {
       std::cout <<" file " << file << " does not exist " << std::endl;
-      exit(1);
+      throw std::exception() ;
     }
   //  typename TImageType::DirectionType dir; 
   //dir.SetIdentity();

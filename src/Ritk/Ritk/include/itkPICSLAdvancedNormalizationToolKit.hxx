@@ -94,7 +94,7 @@ PICSLAdvancedNormalizationToolKit<TDimension, TReal>
     if ( help_long )
       {
       this->m_Parser->PrintMenu( std::cout, 7, false );
-      exit( 0 );
+      throw std::exception() ;
       }
 
     std::string printhelp_short = this->m_Parser->GetOption( 'h' )->GetValue();
@@ -103,7 +103,7 @@ PICSLAdvancedNormalizationToolKit<TDimension, TReal>
     if ( help_short )
       {
       this->m_Parser->PrintMenu( std::cout, 7, true );
-      exit( 0 );
+      throw std::exception() ;
       }
 
 }
@@ -682,7 +682,7 @@ PICSLAdvancedNormalizationToolKit<TDimension, TReal>
                 else
                   {
                   std::cerr << "Badly formed radius specification" << std::endl;
-                  exit( 0 );
+                  throw std::exception() ;
                   }
                 parameterCount++;
                 }

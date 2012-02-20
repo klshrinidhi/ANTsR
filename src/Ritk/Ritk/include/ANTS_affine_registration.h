@@ -274,7 +274,7 @@ void compute_single_affine_transform_3d(ImagePointerType I_fixed, ImagePointerTy
         if (!is_ok){
             std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl
             <<"initial affine registeration falied" << std::endl;
-            exit(-1);
+            throw std::exception() ;
         }
         center[0] = para_cxy[3];
         center[1] = para_cxy[4];
@@ -1082,7 +1082,7 @@ void compute_single_affine_transform_2d(ImagePointerType I_fixed, ImagePointerTy
         if (!is_ok){
             std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl
             <<"initial affine registeration falied" << std::endl;
-            exit(-1);
+            throw std::exception() ;
         }
 
 

@@ -83,7 +83,7 @@ antsSCCANObject<TInputImage, TRealType>
 	    else {
                std::cout << "vecind too large " << vecind << " vs " << w_p.size() << std::endl;
 	       std::cout <<" this is likely a mask problem --- exiting! " << std::endl;
-	       exit(1);
+	       throw std::exception() ;
 	    }
 	    if ( threshold_at_zero && fabs(val) > 0  )  weights->SetPixel(mIter.GetIndex(),1);
 	    else weights->SetPixel(mIter.GetIndex(),val);
@@ -217,7 +217,7 @@ antsSCCANObject<TInputImage, TRealType>
     sd=sqrt( sd/(p.rows()-1) );
     if ( sd <= 0 && i== 0 ) {
       std::cout << " row " << i << " has zero variance --- exiting " <<std::endl;
-      exit(1);
+      throw std::exception() ;
     }
     if ( sd <= 0 && i > 0 ) {
       std::cout << " row " << i << " has zero variance --- copying the previous row " <<std::endl;
@@ -1265,7 +1265,7 @@ antsSCCANObject<TInputImage, TRealType>
     std::cout<< " Q rows " << this->m_MatrixQ.rows() << " cols " << this->m_MatrixQ.cols() << std::endl;
     std::cout<< " R rows " << this->m_MatrixR.rows() << " cols " << this->m_MatrixR.cols() << std::endl;
     std::cout<<" N-rows for MatrixP does not equal N-rows for MatrixQ " << nr1 << " vs " << nr2 << std::endl;
-    exit(1);
+    throw std::exception() ;
   }
   if  (  !this->m_AlreadyWhitened  ) {
     if ( this->m_Debug ) std::cout << " whiten " << std::endl;
@@ -1419,7 +1419,7 @@ TRealType antsSCCANObject<TInputImage, TRealType>
     std::cout<< " Q rows " << this->m_MatrixQ.rows() << " cols " << this->m_MatrixQ.cols() << std::endl;
     std::cout<< " R rows " << this->m_MatrixR.rows() << " cols " << this->m_MatrixR.cols() << std::endl;
     std::cout<<" N-rows for MatrixP does not equal N-rows for MatrixQ " << nr1 << " vs " << nr2 << std::endl;
-    exit(1);
+    throw std::exception() ;
   }
   else {
 //  std::cout << " P-positivity constraints? " <<  this->m_KeepPositiveP << " frac " << this->m_FractionNonZeroP << " Q-positivity constraints?  " << m_KeepPositiveQ << " frac " << this->m_FractionNonZeroQ << std::endl;
@@ -1475,7 +1475,7 @@ antsSCCANObject<TInputImage, TRealType>
     std::cout<< " Q rows " << this->m_MatrixQ.rows() << " cols " << this->m_MatrixQ.cols() << std::endl;
     std::cout<< " R rows " << this->m_MatrixR.rows() << " cols " << this->m_MatrixR.cols() << std::endl;
     std::cout<<" N-rows do not match "  << std::endl;
-    exit(1);
+    throw std::exception() ;
   }
 
   this->m_WeightsP=this->InitializeV(this->m_MatrixP);
