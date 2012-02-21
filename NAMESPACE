@@ -1,2 +1,2 @@
-useDynLib(Ritk)
+
 exportPattern("^[[:alpha:]]+")

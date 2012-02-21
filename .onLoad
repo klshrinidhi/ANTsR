@@ -1,0 +1,8 @@
+if( .Platform$OS.type == "unix" )
+{
+	library.dynam( "Ritk" , package = "Ritk" , file.ext = ".so" ) ;
+}
+else
+{
+	library.dynam( "Ritk" , package = "Ritk" , file.ext = ".dylib" ) ;
+}

@@ -2,6 +2,19 @@ cmake_minimum_required(VERSION 2.8)
 
 project(Ritk)
 
+if( NOT R_INCLUDE_DIR )
+  message( FATAL_ERROR "R_INCLUDE_DIR invalid. Perhaps R was not built as library." )
+endif( NOT R_INCLUDE_DIR )
+if( NOT RCPP_INCLUDE_DIR )
+  message( FATAL_ERROR "RCPP_INCLUDE_DIR invalid. Perhaps Rcpp has not been installed." )
+endif( NOT RCPP_INCLUDE_DIR )
+if( NOT R_LIB_DIR )
+  message( FATAL_ERROR "R_LIB_DIR invalid. Perhaps R was not built as library." )
+endif( NOT R_LIB_DIR )
+if( NOT RCPP_LIB_DIR )
+  message( FATAL_ERROR "RCPP_LIB_DIR invalid. Perhaps Rcpp has not been installed." )
+endif( NOT RCPP_LIB_DIR )
+
 # find and itk library; create shared object that interacts with it and link against it
 find_package(ITK REQUIRED)
 include( ${ITK_USE_FILE} )
@@ -23,12 +36,24 @@ foreach( loop_var IN LISTS R_INCLUDE_DIR_MATCHES )
   include_directories( ${R_INCLUDE_DIR} )
 endforeach( loop_var )
 
-if( APPLE )
-  # R looks for an 'so' library file on Mac; so build a module to produce it; 'SHARED' option produces a 'dylib' file
-  add_library( Ritk MODULE ${Ritk_SOURCE_DIR}/src/antsRegistration.cxx ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
-else( APPLE )
-  add_library( Ritk SHARED ${Ritk_SOURCE_DIR}/src/antsRegistration.cxx ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
-endif( APPLE )
+add_library( Ritk SHARED 
+# antsRegistration
+${Ritk_SOURCE_DIR}/src/antsRegistration.cxx 
+${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx 
+# ants_motion_estimation
+${Ritk_SOURCE_DIR}/src/antsMotionCorr.cxx 
+# ants_brain_extraction
+${Ritk_SOURCE_DIR}/src/N3BiasFieldCorrection.cxx
+${Ritk_SOURCE_DIR}/src/ThresholdImage.cxx 
+${Ritk_SOURCE_DIR}/src/ImageMath.cxx
+# ants_to_template 
+${Ritk_SOURCE_DIR}/src/ANTS.cxx
+${Ritk_SOURCE_DIR}/src/WarpTimeSeriesImageMultiTransform.cxx 
+# ants_compcorr
+${Ritk_SOURCE_DIR}/src/Atropos.cxx 
+${Ritk_SOURCE_DIR}/src/sccan.cxx )
+
 target_link_libraries( Ritk ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
 set_target_properties( Ritk PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
 install( TARGETS Ritk DESTINATION . )
