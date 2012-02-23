@@ -36,7 +36,13 @@ foreach( loop_var IN LISTS R_INCLUDE_DIR_MATCHES )
   include_directories( ${R_INCLUDE_DIR} )
 endforeach( loop_var )
 
-add_library( Ritk SHARED 
+if( APPLE )
+  set( ADD_LIBRARY_OPTION BUNDLE )
+else( APPLE )
+  set( ADD_LIBRARY_OPTION SHARED )
+endif( APPLE )
+
+add_library( Ritk ${ADD_LIBRARY_OPTION} 
 # antsRegistration
 ${Ritk_SOURCE_DIR}/src/antsRegistration.cxx 
 ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
