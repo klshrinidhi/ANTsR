@@ -36,7 +36,7 @@ foreach( loop_var IN LISTS R_INCLUDE_DIR_MATCHES )
   include_directories( ${R_INCLUDE_DIR} )
 endforeach( loop_var )
 
-add_library( Ritk SHARED 
+add_library( Ritk MODULE 
 # antsRegistration
 ${Ritk_SOURCE_DIR}/src/antsRegistration.cxx 
 ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
