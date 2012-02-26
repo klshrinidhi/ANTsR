@@ -438,7 +438,7 @@ CrossCorrelationRegistrationFunction<TFixedImage,TMovingImage,TDisplacementField
 
   //  if ( this->localCrossCorrelation*(-1.0) < this->m_RobustnessParameter) deriv.Fill(0);
 //  if ( this->localCrossCorrelation*(-1.0) < this->m_RobustnessParameter) {
-//  std::cout << " localC " << this->localCrossCorrelation << std::endl; }
+//  Rcpp::Rcout << " localC " << this->localCrossCorrelation << std::endl; }
   if ( this->localCrossCorrelation < 1 ) this->m_Energy-=this->localCrossCorrelation;
   return deriv;//localCrossCorrelation;
 

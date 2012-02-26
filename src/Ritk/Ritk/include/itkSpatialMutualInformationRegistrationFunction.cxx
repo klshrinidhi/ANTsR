@@ -154,12 +154,12 @@ SpatialMutualInformationRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
   pdfinterpolator3 = pdfintType2::New();
 
 //  this->ComputeMetricImage();
-//  std::cout << " A " << std::endl;
+//  Rcpp::Rcout << " A " << std::endl;
 //    bool makenewimage=false;
     typedef ImageRegionIteratorWithIndex<TFixedImage> ittype;
     TFixedImage* img =const_cast<TFixedImage *>(this->m_FixedImage.GetPointer());
     typename TFixedImage::SizeType imagesize=img->GetLargestPossibleRegion().GetSize();
-//  std::cout << " B " << std::endl;
+//  Rcpp::Rcout << " B " << std::endl;
 
     /*
     if (!this->m_MetricImage )makenewimage=true;
@@ -297,7 +297,7 @@ SpatialMutualInformationRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
   m_MovingImageMarginalPDF->SetRegions( mPDFRegion );
   m_MovingImageMarginalPDF->Allocate();
   m_MovingImageMarginalPDF->SetSpacing(mPDFspacing);
- // std::cout << " C " << std::endl;
+ // Rcpp::Rcout << " C " << std::endl;
 
   /**
    * Allocate memory for the joint PDF and joint PDF derivatives.
@@ -313,7 +313,7 @@ SpatialMutualInformationRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 	this->m_JointPDFXrYu = JointPDFType::New();
 	this->m_JointPDFXuYr = JointPDFType::New();
 
- // std::cout << " D " << std::endl;
+ // Rcpp::Rcout << " D " << std::endl;
 
   // Instantiate a region, index, size
   JointPDFRegionType            jointPDFRegion;
@@ -373,13 +373,13 @@ SpatialMutualInformationRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
   this->m_JointPDFXuYr->Allocate();
   this->m_JointPDFXuYr->SetSpacing(jspacing);
 
-//    std::cout << " E " << std::endl;
+//    Rcpp::Rcout << " E " << std::endl;
 
   m_NormalizeMetric=1.0;
   for (int i=0; i<ImageDimension; i++)
     m_NormalizeMetric*=this->m_FixedImage->GetLargestPossibleRegion().GetSize()[i];
 
-//  std::cout << " F " << std::endl;
+//  Rcpp::Rcout << " F " << std::endl;
   pdfinterpolator->SetInputImage(m_JointPDF);
   pdfinterpolator->SetSplineOrder(3);
   this->pdfinterpolatorXuY->SetInputImage(this->m_JointPDFXuY);
@@ -403,12 +403,12 @@ SpatialMutualInformationRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
   pdfinterpolator2->SetSplineOrder(3);
   pdfinterpolator3->SetSplineOrder(3);
 
-//  std::cout << " Ga " << std::endl;
+//  Rcpp::Rcout << " Ga " << std::endl;
 
   this->GetProbabilities();
-//  std::cout << " G " << std::endl;
+//  Rcpp::Rcout << " G " << std::endl;
  this->ComputeSpatialMutualInformation();
- // std::cout << " H " << std::endl;
+ // Rcpp::Rcout << " H " << std::endl;
 
 
 
@@ -473,7 +473,7 @@ SpatialMutualInformationRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 		      inimage=false;
 		  }
 
-//      	  std::cout << " Image size? " << imagesize << std::endl;
+//      	  Rcpp::Rcout << " Image size? " << imagesize << std::endl;
 
 		  if (inimage)
 		  {
@@ -575,7 +575,7 @@ SpatialMutualInformationRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 		  }
       }
   }
-//	std::cout << " Image Rotation Number " << nSamples << std::endl;
+//	Rcpp::Rcout << " Image Rotation Number " << nSamples << std::endl;
 
   /**
    * Normalize the PDFs, compute moving image marginal PDF
@@ -604,7 +604,7 @@ SpatialMutualInformationRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
       ++jointPDFIterator;
     }
 
-//	std::cout << " Joint PDF Summation? " << jointPDFSum << std::endl;
+//	Rcpp::Rcout << " Joint PDF Summation? " << jointPDFSum << std::endl;
 
   // of derivatives
   if ( jointPDFSum == 0.0 )

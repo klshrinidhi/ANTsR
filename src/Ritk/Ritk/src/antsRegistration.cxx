@@ -106,11 +106,11 @@ public:
       typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
       typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
-      std::cout << "  Current level = " << currentLevel << std::endl;
-      std::cout << "    number of iterations = " << this->m_NumberOfIterations[currentLevel] << std::endl;
-      std::cout << "    shrink factors = " << shrinkFactors[currentLevel] << std::endl;
-      std::cout << "    smoothing sigmas = " << smoothingSigmas[currentLevel] << std::endl;
-      std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
+      Rcpp::Rcout << "  Current level = " << currentLevel << std::endl;
+      Rcpp::Rcout << "    number of iterations = " << this->m_NumberOfIterations[currentLevel] << std::endl;
+      Rcpp::Rcout << "    shrink factors = " << shrinkFactors[currentLevel] << std::endl;
+      Rcpp::Rcout << "    smoothing sigmas = " << smoothingSigmas[currentLevel] << std::endl;
+      Rcpp::Rcout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
 
       typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerType;
       GradientDescentOptimizerType * optimizer = reinterpret_cast<GradientDescentOptimizerType *>(
@@ -231,44 +231,44 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
     }
   else
     {
-    std::cerr << "No transformations are specified." << std::endl;
+    Rcpp::Rcout << "No transformations are specified." << std::endl;
     return EXIT_FAILURE;
     }
 
-  std::cout << "Registration using " << numberOfStages << " total stages." << std::endl;
+  Rcpp::Rcout << "Registration using " << numberOfStages << " total stages." << std::endl;
 
   typename OptionType::Pointer metricOption = parser->GetOption( "metric" );
   if( !metricOption || metricOption->GetNumberOfValues() != numberOfStages  )
     {
-    std::cerr << "The number of metrics specified does not match the number of stages." << std::endl;
+    Rcpp::Rcout << "The number of metrics specified does not match the number of stages." << std::endl;
     return EXIT_FAILURE;
     }
 
   typename OptionType::Pointer iterationsOption = parser->GetOption( "iterations" );
   if( !iterationsOption || iterationsOption->GetNumberOfValues() != numberOfStages  )
     {
-    std::cerr << "The number of iteration sets specified does not match the number of stages." << std::endl;
+    Rcpp::Rcout << "The number of iteration sets specified does not match the number of stages." << std::endl;
     return EXIT_FAILURE;
     }
 
   typename OptionType::Pointer shrinkFactorsOption = parser->GetOption( "shrink-factors" );
   if( !shrinkFactorsOption || shrinkFactorsOption->GetNumberOfValues() != numberOfStages  )
     {
-    std::cerr << "The number of shrinkFactor sets specified does not match the number of stages." << std::endl;
+    Rcpp::Rcout << "The number of shrinkFactor sets specified does not match the number of stages." << std::endl;
     return EXIT_FAILURE;
     }
 
   typename OptionType::Pointer smoothingSigmasOption = parser->GetOption( "smoothing-sigmas" );
   if( !smoothingSigmasOption || smoothingSigmasOption->GetNumberOfValues() != numberOfStages  )
     {
-    std::cerr << "The number of smoothing sigma sets specified does not match the number of stages." << std::endl;
+    Rcpp::Rcout << "The number of smoothing sigma sets specified does not match the number of stages." << std::endl;
     return EXIT_FAILURE;
     }
 
   typename OptionType::Pointer outputOption = parser->GetOption( "output" );
   if( !outputOption )
     {
-    std::cerr << "Output option not specified." << std::endl;
+    Rcpp::Rcout << "Output option not specified." << std::endl;
     return EXIT_FAILURE;
     }
   std::string outputPrefix = outputOption->GetValue( 0 );
@@ -379,7 +379,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
                 initialTransform->GetInverseTransform().GetPointer() );
               if( !initialTransform )
                 {
-                std::cerr << "Inverse does not exist for " << initialTransformName
+                Rcpp::Rcout << "Inverse does not exist for " << initialTransformName
                   << std::endl;
                 return EXIT_FAILURE;
                 }
@@ -389,21 +389,21 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
           }
         catch( const itk::ExceptionObject & e )
           {
-          std::cerr << "Transform reader for " <<
+          Rcpp::Rcout << "Transform reader for " <<
             initialTransformName << " caught an ITK exception:\n";
-          e.Print( std::cerr );
+          e.Print( Rcpp::Rcout );
           return EXIT_FAILURE;
           }
         catch( const std::exception & e )
           {
-          std::cerr << "Transform reader for " <<
+          Rcpp::Rcout << "Transform reader for " <<
             initialTransformName << " caught an exception:\n";
-          std::cerr << e.what() << std::endl;
+          Rcpp::Rcout << e.what() << std::endl;
           return EXIT_FAILURE;
           }
         catch( ... )
           {
-          std::cerr << "Transform reader for " <<
+          Rcpp::Rcout << "Transform reader for " <<
             initialTransformName << " caught an unknown exception!!!\n";
           return EXIT_FAILURE;
           }
@@ -412,10 +412,10 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       initialTransformNames.push_back( initialTransformName );
       initialTransformTypes.push_back( initialTransform->GetNameOfClass() );
       }
-    std::cout << "Initializing with the following transforms " << "(in order): " << std::endl;
+    Rcpp::Rcout << "Initializing with the following transforms " << "(in order): " << std::endl;
     for( unsigned int n = 0; n < initialTransformNames.size(); n++ )
       {
-      std::cout << "  " << n+1 << ". " << initialTransformNames[n] << " (type = "
+      Rcpp::Rcout << "  " << n+1 << ". " << initialTransformNames[n] << " (type = "
         << initialTransformTypes[n] << ")" << std::endl;
       }
     }
@@ -429,7 +429,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
     typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> AffineRegistrationType;
 
-    std::cout << std::endl << "Stage " << ( numberOfInitialTransforms + numberOfStages - currentStage - 1 ) << std::endl;
+    Rcpp::Rcout << std::endl << "Stage " << ( numberOfInitialTransforms + numberOfStages - currentStage - 1 ) << std::endl;
     std::stringstream currentStageString;
     currentStageString << ( numberOfInitialTransforms + numberOfStages - currentStage - 1 );
 
@@ -438,8 +438,8 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
     std::string fixedImageFileName = metricOption->GetParameter( currentStage, 0 );
     std::string movingImageFileName = metricOption->GetParameter( currentStage, 1 );
 
-    std::cout << "  fixed image: " << fixedImageFileName << std::endl;
-    std::cout << "  moving image: " << movingImageFileName << std::endl;
+    Rcpp::Rcout << "  fixed image: " << fixedImageFileName << std::endl;
+    Rcpp::Rcout << "  moving image: " << movingImageFileName << std::endl;
 
     typedef itk::ImageFileReader<FixedImageType> ImageReaderType;
     typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
@@ -452,7 +452,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       }
     catch( itk::ExceptionObject &excp )
       {
-      std::cerr << excp << std::endl;
+      Rcpp::Rcout << excp << std::endl;
       return EXIT_FAILURE;
       }
     fixedImage->DisconnectPipeline();
@@ -467,7 +467,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       }
     catch( itk::ExceptionObject &excp )
       {
-      std::cerr << excp << std::endl;
+      Rcpp::Rcout << excp << std::endl;
       return EXIT_FAILURE;
       }
     movingImage->DisconnectPipeline();
@@ -481,7 +481,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       ConvertToLowerCase( histValue );
       if( histValue.compare( "1" ) == 0 || histValue.compare( "true" ) == 0 )
         {
-        std::cout << "  (histogram matching the images)" << std::endl;
+        Rcpp::Rcout << "  (histogram matching the images)" << std::endl;
 
         typedef itk::HistogramMatchingImageFilter<MovingImageType, MovingImageType> HistogramMatchingFilterType;
         typename HistogramMatchingFilterType::Pointer matchingFilter = HistogramMatchingFilterType::New();
@@ -500,9 +500,9 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
     // Get the number of iterations and use that information to specify the number of levels
 
     std::vector<unsigned int> iterations = parser->ConvertVector<unsigned int>( iterationsOption->GetValue( currentStage ) );
-    std::cout << "  iterations = " << iterationsOption->GetValue( currentStage ) << std::endl;
+    Rcpp::Rcout << "  iterations = " << iterationsOption->GetValue( currentStage ) << std::endl;
     unsigned int numberOfLevels = iterations.size();
-    std::cout << "  number of levels = " << numberOfLevels << std::endl;
+    Rcpp::Rcout << "  number of levels = " << numberOfLevels << std::endl;
 
     // Get shrink factors
 
@@ -512,7 +512,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
     if( factors.size() != numberOfLevels )
       {
-      std::cerr << "ERROR:  The number of shrink factors does not match the number of levels." << std::endl;
+      Rcpp::Rcout << "ERROR:  The number of shrink factors does not match the number of levels." << std::endl;
       return EXIT_FAILURE;
       }
     else
@@ -521,7 +521,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
         {
         shrinkFactorsPerLevel[n] = factors[n];
         }
-      std::cout << "  shrink factors per level: " << shrinkFactorsPerLevel << std::endl;
+      Rcpp::Rcout << "  shrink factors per level: " << shrinkFactorsPerLevel << std::endl;
       }
 
     // Get smoothing sigmas
@@ -532,7 +532,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
     if( sigmas.size() != numberOfLevels )
       {
-      std::cerr << "ERROR:  The number of smoothing sigmas does not match the number of levels." << std::endl;
+      Rcpp::Rcout << "ERROR:  The number of smoothing sigmas does not match the number of levels." << std::endl;
       return EXIT_FAILURE;
       }
     else
@@ -541,7 +541,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
         {
         smoothingSigmasPerLevel[n] = sigmas[n];
         }
-      std::cout << "  smoothing sigmas per level: " << smoothingSigmasPerLevel << std::endl;
+      Rcpp::Rcout << "  smoothing sigmas per level: " << smoothingSigmasPerLevel << std::endl;
       }
 
     // Set up the image metric and scales estimator
@@ -567,12 +567,12 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
     typename AffineRegistrationType::MetricSamplingStrategyType metricSamplingStrategy = AffineRegistrationType::NONE;
     if( std::strcmp( samplingStrategy.c_str(), "random" ) == 0 )
       {
-      std::cout << "  random sampling (percentage = " << samplingPercentage << ")" << std::endl;
+      Rcpp::Rcout << "  random sampling (percentage = " << samplingPercentage << ")" << std::endl;
       metricSamplingStrategy = AffineRegistrationType::RANDOM;
       }
     if( std::strcmp( samplingStrategy.c_str(), "regular" ) == 0 )
       {
-      std::cout << "  regular sampling (percentage = " << samplingPercentage << ")" << std::endl;
+      Rcpp::Rcout << "  regular sampling (percentage = " << samplingPercentage << ")" << std::endl;
       metricSamplingStrategy = AffineRegistrationType::REGULAR;
       }
 
@@ -580,7 +580,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       {
       unsigned int radiusOption = parser->Convert<unsigned int>( metricOption->GetParameter( currentStage, 3 ) );
 
-      std::cout << "  using the CC metric (radius = " << radiusOption << ")" << std::endl;
+      Rcpp::Rcout << "  using the CC metric (radius = " << radiusOption << ")" << std::endl;
       typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType> CorrelationMetricType;
       typename CorrelationMetricType::Pointer correlationMetric = CorrelationMetricType::New();
       typename CorrelationMetricType::RadiusType radius;
@@ -596,7 +596,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
     else if( std::strcmp( whichMetric.c_str(), "mi" ) == 0 )
       {
       unsigned int binOption = parser->Convert<unsigned int>( metricOption->GetParameter( currentStage, 3 ) );
-      std::cout << "  using the Mattes MI metric (number of bins = " << binOption << ")" << std::endl;
+      Rcpp::Rcout << "  using the Mattes MI metric (number of bins = " << binOption << ")" << std::endl;
       typedef itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MutualInformationMetricType;
       typename MutualInformationMetricType::Pointer mutualInformationMetric = MutualInformationMetricType::New();
       mutualInformationMetric = mutualInformationMetric;
@@ -612,7 +612,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       {
       unsigned int binOption = parser->Convert<unsigned int>( metricOption->GetParameter( currentStage, 3 ) );
 
-      std::cout << "  using the MI metric (number of bins = " << binOption << ")" << std::endl;
+      Rcpp::Rcout << "  using the MI metric (number of bins = " << binOption << ")" << std::endl;
       typedef itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MutualInformationMetricType;
       typename MutualInformationMetricType::Pointer mutualInformationMetric = MutualInformationMetricType::New();
       mutualInformationMetric = mutualInformationMetric;
@@ -627,7 +627,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       }
     else if( std::strcmp( whichMetric.c_str(), "demons" ) == 0 )
       {
-      std::cout << "  using the Demons metric." << std::endl;
+      Rcpp::Rcout << "  using the Demons metric." << std::endl;
 
       typedef itk::DemonsImageToImageMetricv4<FixedImageType, MovingImageType> DemonsMetricType;
       typename DemonsMetricType::Pointer demonsMetric = DemonsMetricType::New();
@@ -639,7 +639,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       }
     else if( std::strcmp( whichMetric.c_str(), "gc" ) == 0 )
       {
-      std::cout << "  using the global correlation metric." << std::endl;
+      Rcpp::Rcout << "  using the global correlation metric." << std::endl;
       typedef itk::CorrelationImageToImageMetricv4<FixedImageType, MovingImageType> corrMetricType;
       typename corrMetricType::Pointer corrMetric = corrMetricType::New();
       corrMetric->SetDoFixedImagePreWarp( false );
@@ -648,7 +648,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       }
     else
       {
-      std::cerr << "ERROR: Unrecognized image metric: " << whichMetric << std::endl;
+      Rcpp::Rcout << "ERROR: Unrecognized image metric: " << whichMetric << std::endl;
       }
     /** Can really impact performance */
     bool gaussian = false;
@@ -704,13 +704,13 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running affine registration ***" << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running affine registration ***" << std::endl << std::endl;
         affineObserver->Execute( affineRegistration, itk::StartEvent() );
         affineRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -753,13 +753,13 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running rigid registration ***" << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running rigid registration ***" << std::endl << std::endl;
         rigidObserver->Execute( rigidRegistration, itk::StartEvent() );
         rigidRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
       // Write out the affine transform
@@ -800,13 +800,13 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running composite affine registration ***" << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running composite affine registration ***" << std::endl << std::endl;
         affineObserver->Execute( affineRegistration, itk::StartEvent() );
         affineRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
       // Write out the affine transform
@@ -848,13 +848,13 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running similarity registration ***" << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running similarity registration ***" << std::endl << std::endl;
         similarityObserver->Execute( similarityRegistration, itk::StartEvent() );
         similarityRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
       // Write out the affine transform
@@ -896,13 +896,13 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running translation registration ***" << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running translation registration ***" << std::endl << std::endl;
         translationObserver->Execute( translationRegistration, itk::StartEvent() );
         translationRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
       // Write out the affine transform
@@ -999,14 +999,14 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running gaussian displacement field registration (sigmaForUpdateField = "
+        Rcpp::Rcout << std::endl << "*** Running gaussian displacement field registration (sigmaForUpdateField = "
           << sigmaForUpdateField << ", sigmaForTotalField = " << sigmaForTotalField << ") ***" << std::endl << std::endl;
         displacementFieldRegistrationObserver->Execute( displacementFieldRegistration, itk::StartEvent() );
         displacementFieldRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -1048,7 +1048,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       if( meshSizeForTheUpdateField.size() != ImageDimension || meshSizeForTheTotalField.size() != ImageDimension )
         {
-        std::cerr << "ERROR:  The mesh size(s) don't match the ImageDimension." << std::endl;
+        Rcpp::Rcout << "ERROR:  The mesh size(s) don't match the ImageDimension." << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -1131,14 +1131,14 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running bspline displacement field registration (updateMeshSizeAtBaseLevel = "
+        Rcpp::Rcout << std::endl << "*** Running bspline displacement field registration (updateMeshSizeAtBaseLevel = "
           << updateMeshSize << ", totalMeshSizeAtBaseLevel = " << totalMeshSize << ") ***" << std::endl << std::endl;
         displacementFieldRegistrationObserver->Execute( displacementFieldRegistration, itk::StartEvent() );
         displacementFieldRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -1229,13 +1229,13 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running bspline registration (meshSizeAtBaseLevel = " << meshSize << ") ***" << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running bspline registration (meshSizeAtBaseLevel = " << meshSize << ") ***" << std::endl << std::endl;
         bsplineObserver->Execute( bsplineRegistration, itk::StartEvent() );
         bsplineRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -1397,7 +1397,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running time-varying velocity field registration (sigmaForUpdateField = "
+        Rcpp::Rcout << std::endl << "*** Running time-varying velocity field registration (sigmaForUpdateField = "
           << sigmaForUpdateField << ", sigmaForTotalField = " << sigmaForTotalField << ", sigmaForUpdateFieldTime = "
           << sigmaForUpdateFieldTime << ", sigmaForTotalFieldTime = " << sigmaForTotalFieldTime << ") ***" << std::endl << std::endl;
         velocityFieldRegistrationObserver->Execute( velocityFieldRegistration, itk::StartEvent() );
@@ -1405,7 +1405,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -1439,7 +1439,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       std::vector<unsigned int> meshSize = parser->ConvertVector<unsigned int>( transformOption->GetParameter( 0, 1 ) );
       if( meshSize.size() != ImageDimension + 1 )
         {
-        std::cerr << "The transform domain mesh size does not have the correct number of elements."
+        Rcpp::Rcout << "The transform domain mesh size does not have the correct number of elements."
           << "For image dimension = " << ImageDimension << ", you need " << ImageDimension + 1
           << "elements. " << std::endl;
         return EXIT_FAILURE;
@@ -1589,13 +1589,13 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running time-varying velocity field registration (initial mesh size = " << initialTransformDomainMeshSize << ") ***" << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running time-varying velocity field registration (initial mesh size = " << initialTransformDomainMeshSize << ") ***" << std::endl << std::endl;
         velocityFieldRegistrationObserver->Execute( velocityFieldRegistration, itk::StartEvent() );
         velocityFieldRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -1712,14 +1712,14 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running SyN registration (sigmaForUpdateField = "
+        Rcpp::Rcout << std::endl << "*** Running SyN registration (sigmaForUpdateField = "
           << sigmaForUpdateField << ", sigmaForTotalField = " << sigmaForTotalField << ") ***" << std::endl << std::endl;
         displacementFieldRegistrationObserver->Execute( displacementFieldRegistration, itk::StartEvent() );
         displacementFieldRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -1742,11 +1742,11 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
       }
     else
       {
-      std::cerr << "ERROR:  Unrecognized transform option - " << whichTransform << std::endl;
+      Rcpp::Rcout << "ERROR:  Unrecognized transform option - " << whichTransform << std::endl;
       return EXIT_FAILURE;
       }
     timer.Stop();
-    std::cout << "  Elapsed time (stage " << ( numberOfStages - currentStage - 1 ) << "): " << timer.GetMeanTime() << std::endl << std::endl;
+    Rcpp::Rcout << "  Elapsed time (stage " << ( numberOfStages - currentStage - 1 ) << "): " << timer.GetMeanTime() << std::endl << std::endl;
     }
 
   // Write out warped image(s), if requested.
@@ -1756,7 +1756,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
     std::string fixedImageFileName = metricOption->GetParameter( 0, 0 );
     std::string movingImageFileName = metricOption->GetParameter( 0, 1 );
 
-    std::cout << "Warping " << movingImageFileName << " to " << fixedImageFileName << std::endl;
+    Rcpp::Rcout << "Warping " << movingImageFileName << " to " << fixedImageFileName << std::endl;
 
     typedef itk::ImageFileReader<FixedImageType> ImageReaderType;
     typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
@@ -1794,7 +1794,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
 
     if( outputOption->GetNumberOfParameters( 0 ) > 2 && compositeTransform->GetInverseTransform() )
       {
-      std::cout << "Warping " << fixedImageFileName << " to " << movingImageFileName << std::endl;
+      Rcpp::Rcout << "Warping " << fixedImageFileName << " to " << movingImageFileName << std::endl;
 
       typedef itk::ResampleImageFilter<FixedImageType, MovingImageType> InverseResampleFilterType;
       typename InverseResampleFilterType::Pointer inverseResampler = ResampleFilterType::New();
@@ -1818,7 +1818,7 @@ int antsRegistration( itk::ants::CommandLineParser *parser )
     }
 
   totalTimer.Stop();
-  std::cout << std::endl << "Total elapsed time: " << totalTimer.GetMeanTime() << std::endl;
+  Rcpp::Rcout << std::endl << "Total elapsed time: " << totalTimer.GetMeanTime() << std::endl;
 
   return EXIT_SUCCESS;
 }
@@ -2024,12 +2024,12 @@ try
 
   if( argc < 2 || parser->Convert<bool>( parser->GetOption( "help" )->GetValue() ) )
     {
-    parser->PrintMenu( std::cout, 5, false );
+    parser->PrintMenu( Rcpp::Rcout, 5, false );
     return Rcpp::wrap( EXIT_FAILURE );
     }
   else if( parser->Convert<bool>( parser->GetOption( 'h' )->GetValue() ) )
     {
-    parser->PrintMenu( std::cout, 5, true );
+    parser->PrintMenu( Rcpp::Rcout, 5, true );
     return Rcpp::wrap( EXIT_FAILURE );
     }
 
@@ -2043,11 +2043,11 @@ try
     }
   else
     {
-    std::cerr << "Image dimensionality not specified.  See command line option --dimensionality" << std::endl;
+    Rcpp::Rcout << "Image dimensionality not specified.  See command line option --dimensionality" << std::endl;
     return Rcpp::wrap( EXIT_FAILURE );
     }
 
-  std::cout << std::endl << "Running antsRegistration for " << dimension << "-dimensional images." << std::endl << std::endl;
+  Rcpp::Rcout << std::endl << "Running antsRegistration for " << dimension << "-dimensional images." << std::endl << std::endl;
 
   switch( dimension )
    {
@@ -2058,7 +2058,7 @@ try
      antsRegistration<3>( parser );
      break;
    default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      Rcpp::Rcout << "Unsupported dimension" << std::endl;
       return Rcpp::wrap( EXIT_FAILURE ) ;
    }
 
@@ -2073,6 +2073,6 @@ try
 }
  catch( const std::exception& exc )
    {
-     std::cerr<< exc.what() << std::endl ;
+     Rcpp::Rcout<< exc.what() << std::endl ;
      return Rcpp::wrap( EXIT_FAILURE ) ;
    }

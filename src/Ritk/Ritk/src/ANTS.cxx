@@ -30,14 +30,14 @@ int ANTSex(int argc, char *argv[])
     typedef itk::PICSLAdvancedNormalizationToolKit<ImageDimension> RegistrationType;
     typename RegistrationType::Pointer registration = RegistrationType::New();
     registration->ParseCommandLine( argc, argv );
-    std::cout << " Run Reg " << std::endl;
+    Rcpp::Rcout << " Run Reg " << std::endl;
     try
       {
       registration->RunRegistration();
       }
     catch(...)
       {
-      std::cerr << "Exception thrown: ANTS" << std::endl;
+      Rcpp::Rcout << "Exception thrown: ANTS" << std::endl;
       return EXIT_FAILURE;
       }
     registration->GetTransformationModel()->SetWriteComponentImages(true);
@@ -73,40 +73,40 @@ try
 //  while(argc--) printf("%s\n", *argv++);
   if ( argc < 2 || ((argc == 2) && strcmp(argv[1], "--help") == 0))
     {
-    std::cout <<  " \n " << std::endl;
-    std::cout <<  "Example usage: \n " << std::endl;
-    std::cout << argv[0] <<  " ImageDimension -m MI[fixedimage.nii.gz,movingimage.nii.gz,1,32] -o Outputfname.nii.gz -i 30x20x0 -r Gauss[3,1] -t Elast[3] \n \n " << std::endl;
-    std::cout << " Compulsory arguments:\n " << std::endl;
-    std::cout << " ImageDimension: 2 or 3 (for 2 or 3 Dimensional registration)\n " << std::endl;
-    std::cout << " -m:	Type of similarity model used for registration. \n " << std::endl;
-    std::cout << "	For intramodal image registration, use: " << std::endl;
-    std::cout << "		CC = cross-correlation " << std::endl;
-    std::cout << "		MI = mutual information " << std::endl;
-    std::cout << "		PR = probability mapping " << std::endl;
-    std::cout << "		MSQ = mean square difference " << std::endl;
-    std::cout << " \n " << std::endl;
-    std::cout << "	For intermodal image registration, use: " << std::endl;
-    std::cout << "		MI = mutual information " << std::endl;
-    std::cout << "		PR = probability mapping " << std::endl;
-    std::cout << " \n " << std::endl;
-    std::cout << " -o 	Outputfname.nii.gz: the name of the resulting image.\n " << std::endl;
-    std::cout << " -i 	Max-iterations in format: JxKxL, where: " << std::endl;
-    std::cout << "		J = max iterations at coarsest resolution (here, reduce by power of 2^2) " << std::endl;
-    std::cout << "		K = middle resolution iterations (here,reduce by power of 2) " << std::endl;
-    std::cout << "		L = fine resolution iterations (here, full resolution). This level takes much more time per iteration!\n " << std::endl;
-    std::cout << "    	Adding an extra value before JxKxL (i.e. resulting in IxJxKxL) would add another iteration level.\n " << std::endl;
-    std::cout << " -r 	Regularization \n" << std::endl;
-    std::cout << " -t 	Type of transformation model used for registration \n" << std::endl;
-    std::cout << "	For elastic image registration, use: " << std::endl;
-    std::cout << "		Elast = elastic transformation model (less deformation possible)\n " << std::endl;
-    std::cout << "	For diffeomorphic image registration, use: " << std::endl;
-    std::cout << "		Syn[GradStep,TimePoints,IntegrationStep] --geodesic 2 = SyN with time with arbitrary number of time points in time discretization  " << std::endl;
-    std::cout << "		SyN[GradStep,2,IntegrationStep] = SyN with time optimized specifically for 2 time points in the time discretization " << std::endl;
-    std::cout << "		SyN[GradStep] = Greedy SyN, typicall GradStep=0.25  " << std::endl;
-    std::cout << "		Exp[GradStep,TimePoints] = Exponential " << std::endl;
-    std::cout << "		GreedyExp = Diffeomorphic Demons style exponential mapping " << std::endl;
-    std::cout << " \n " << std::endl;
-    std::cout << " Please use the `ANTS -h ` call or refer to the ANTS.pdf manual or antsIntroduction.sh script for additional information and typical values for transformation models\n " << std::endl;
+    Rcpp::Rcout <<  " \n " << std::endl;
+    Rcpp::Rcout <<  "Example usage: \n " << std::endl;
+    Rcpp::Rcout << argv[0] <<  " ImageDimension -m MI[fixedimage.nii.gz,movingimage.nii.gz,1,32] -o Outputfname.nii.gz -i 30x20x0 -r Gauss[3,1] -t Elast[3] \n \n " << std::endl;
+    Rcpp::Rcout << " Compulsory arguments:\n " << std::endl;
+    Rcpp::Rcout << " ImageDimension: 2 or 3 (for 2 or 3 Dimensional registration)\n " << std::endl;
+    Rcpp::Rcout << " -m:	Type of similarity model used for registration. \n " << std::endl;
+    Rcpp::Rcout << "	For intramodal image registration, use: " << std::endl;
+    Rcpp::Rcout << "		CC = cross-correlation " << std::endl;
+    Rcpp::Rcout << "		MI = mutual information " << std::endl;
+    Rcpp::Rcout << "		PR = probability mapping " << std::endl;
+    Rcpp::Rcout << "		MSQ = mean square difference " << std::endl;
+    Rcpp::Rcout << " \n " << std::endl;
+    Rcpp::Rcout << "	For intermodal image registration, use: " << std::endl;
+    Rcpp::Rcout << "		MI = mutual information " << std::endl;
+    Rcpp::Rcout << "		PR = probability mapping " << std::endl;
+    Rcpp::Rcout << " \n " << std::endl;
+    Rcpp::Rcout << " -o 	Outputfname.nii.gz: the name of the resulting image.\n " << std::endl;
+    Rcpp::Rcout << " -i 	Max-iterations in format: JxKxL, where: " << std::endl;
+    Rcpp::Rcout << "		J = max iterations at coarsest resolution (here, reduce by power of 2^2) " << std::endl;
+    Rcpp::Rcout << "		K = middle resolution iterations (here,reduce by power of 2) " << std::endl;
+    Rcpp::Rcout << "		L = fine resolution iterations (here, full resolution). This level takes much more time per iteration!\n " << std::endl;
+    Rcpp::Rcout << "    	Adding an extra value before JxKxL (i.e. resulting in IxJxKxL) would add another iteration level.\n " << std::endl;
+    Rcpp::Rcout << " -r 	Regularization \n" << std::endl;
+    Rcpp::Rcout << " -t 	Type of transformation model used for registration \n" << std::endl;
+    Rcpp::Rcout << "	For elastic image registration, use: " << std::endl;
+    Rcpp::Rcout << "		Elast = elastic transformation model (less deformation possible)\n " << std::endl;
+    Rcpp::Rcout << "	For diffeomorphic image registration, use: " << std::endl;
+    Rcpp::Rcout << "		Syn[GradStep,TimePoints,IntegrationStep] --geodesic 2 = SyN with time with arbitrary number of time points in time discretization  " << std::endl;
+    Rcpp::Rcout << "		SyN[GradStep,2,IntegrationStep] = SyN with time optimized specifically for 2 time points in the time discretization " << std::endl;
+    Rcpp::Rcout << "		SyN[GradStep] = Greedy SyN, typicall GradStep=0.25  " << std::endl;
+    Rcpp::Rcout << "		Exp[GradStep,TimePoints] = Exponential " << std::endl;
+    Rcpp::Rcout << "		GreedyExp = Diffeomorphic Demons style exponential mapping " << std::endl;
+    Rcpp::Rcout << " \n " << std::endl;
+    Rcpp::Rcout << " Please use the `ANTS -h ` call or refer to the ANTS.pdf manual or antsIntroduction.sh script for additional information and typical values for transformation models\n " << std::endl;
     return Rcpp::wrap( EXIT_FAILURE );
     }
     else  dim = atoi( argv[1] );
@@ -114,7 +114,7 @@ try
       
     if ( dim <= 1 || dim > 3 ) 
       {
-      std::cout <<" You passed ImageDimension: " << dim << " . Please use only 2 or 3 (for 2 or 3 Dimensional registration)  " << std::endl;
+      Rcpp::Rcout <<" You passed ImageDimension: " << dim << " . Please use only 2 or 3 (for 2 or 3 Dimensional registration)  " << std::endl;
       argv[1]=(char*)("--help");
       ANTSex<2>( argc,argv );
       return Rcpp::wrap( EXIT_FAILURE );
@@ -129,7 +129,7 @@ try
           argv[1], itk::ImageIOFactory::ReadMode );
       if( fixedImageIO.IsNull() )
         {
-        std::cerr << "Invalid fixed image: " << argv[1] << std::endl;
+        Rcpp::Rcout << "Invalid fixed image: " << argv[1] << std::endl;
         return Rcpp::wrap( EXIT_FAILURE );
         }
       itk::ImageIOBase::Pointer movingImageIO
@@ -137,7 +137,7 @@ try
           argv[2], itk::ImageIOFactory::ReadMode );
       if( movingImageIO.IsNull() )
         {
-        std::cerr << "Invalid moving image: " << argv[2] << std::endl;
+        Rcpp::Rcout << "Invalid moving image: " << argv[2] << std::endl;
         return Rcpp::wrap( EXIT_FAILURE );
         }
       fixedImageIO->SetFileName( argv[1] );
@@ -150,14 +150,14 @@ try
 
       if( fdim != mdim )
         {
-        std::cerr << "Fixed image dimension does not equal "
+        Rcpp::Rcout << "Fixed image dimension does not equal "
           << "the moving image dimension (" << fdim << " != " << mdim << ")"
           << std::endl;
         return Rcpp::wrap( EXIT_FAILURE );
         }
       if( fdim != 2 && fdim != 3 )
         {
-        std::cerr << "Unsupported image dimension" << std::endl;
+        Rcpp::Rcout << "Unsupported image dimension" << std::endl;
         return Rcpp::wrap( EXIT_FAILURE );
         }
 
@@ -204,7 +204,7 @@ try
  
       dim = fdim;
 
-      std::cout << arguments << std::endl;
+      Rcpp::Rcout << arguments << std::endl;
       
       unsigned int my_argc = 0;
       std::string::size_type delimPos = 0;
@@ -299,6 +299,6 @@ try
 }
  catch( const std::exception& exc )
    {
-     std::cerr<< exc.what() << std::endl ;
+     Rcpp::Rcout<< exc.what() << std::endl ;
      return Rcpp::wrap( EXIT_FAILURE ) ;
    }

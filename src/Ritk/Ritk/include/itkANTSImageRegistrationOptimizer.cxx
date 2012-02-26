@@ -109,7 +109,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
     resampler->SetTransform( transform );
     if ( aff )
       {
-//      std::cout << " Setting Aff to " << this->m_AffineTransform << std::endl;
+//      Rcpp::Rcout << " Setting Aff to " << this->m_AffineTransform << std::endl;
       resampler->SetTransform( aff );
       }
     resampler->SetInput( image );
@@ -171,9 +171,9 @@ void
 ANTSImageRegistrationOptimizer<TDimension, TReal>
 ::SmoothDisplacementFieldGauss(DisplacementFieldPointer field, TReal sig, bool useparamimage, unsigned int lodim)
 {
-  if (this->m_Debug ) std::cout << " enter gauss smooth " <<  sig  << std::endl;
+  if (this->m_Debug ) Rcpp::Rcout << " enter gauss smooth " <<  sig  << std::endl;
   if (sig <= 0) return;
-  if (!field) { std::cout << " No Field in gauss Smoother " << std::endl; return; }
+  if (!field) { Rcpp::Rcout << " No Field in gauss Smoother " << std::endl; return; }
     DisplacementFieldPointer tempField=DisplacementFieldType::New();
     tempField->SetSpacing( field->GetSpacing() );
     tempField->SetOrigin( field->GetOrigin() );
@@ -263,7 +263,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 	}
     }
 
-  if (this->m_Debug ) std::cout << " done gauss smooth " << std::endl;
+  if (this->m_Debug ) Rcpp::Rcout << " done gauss smooth " << std::endl;
 
     delete oper;
 
@@ -277,7 +277,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 ::SmoothVelocityGauss(TimeVaryingVelocityFieldPointer field, TReal sig , unsigned int lodim)
 {
   if (sig <= 0) return;
-  if (!field) { std::cout << " No Field in gauss Smoother " << std::endl; return; }
+  if (!field) { Rcpp::Rcout << " No Field in gauss Smoother " << std::endl; return; }
     TimeVaryingVelocityFieldPointer tempField=TimeVaryingVelocityFieldType::New();
     tempField->SetSpacing( field->GetSpacing() );
     tempField->SetOrigin( field->GetOrigin() );
@@ -360,7 +360,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 	}
     }
 
-  if (this->m_Debug ) std::cout << " done gauss smooth " << std::endl;
+  if (this->m_Debug ) Rcpp::Rcout << " done gauss smooth " << std::endl;
 
     delete oper;
 
@@ -372,8 +372,8 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 ::SmoothDisplacementFieldBSpline( DisplacementFieldPointer field, ArrayType meshsize,
       unsigned int splineorder, unsigned int numberoflevels )
 {
-  if (this->m_Debug ) std::cout << " enter bspline smooth " << std::endl;
-  if (!field) { std::cout << " No Field in bspline Smoother " << std::endl; return; }
+  if (this->m_Debug ) Rcpp::Rcout << " enter bspline smooth " << std::endl;
+  if (!field) { Rcpp::Rcout << " No Field in bspline Smoother " << std::endl; return; }
 
   if ( splineorder <= 0 )
     {
@@ -443,7 +443,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 //      }
     }
 
-  if (this->m_Debug ) std::cout << " done bspline smooth " << std::endl;
+  if (this->m_Debug ) Rcpp::Rcout << " done bspline smooth " << std::endl;
 
 }
 
@@ -504,7 +504,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
     unsigned int ct=0;
     // iterate through fieldtowarpby finding the points that it maps to via field.
     // then take the difference from the original point and put it in the output field.
-    //      std::cout << " begin iteration " << std::endl;
+    //      Rcpp::Rcout << " begin iteration " << std::endl;
     FieldIterator m_FieldIter( fieldtowarpby, fieldtowarpby->GetLargestPossibleRegion());
     for(  m_FieldIter.GoToBegin(); !m_FieldIter.IsAtEnd(); ++m_FieldIter )
       {
@@ -573,10 +573,10 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
     mask= this->WarpMultiTransform( this->m_ReferenceSpaceImage, this->m_MaskImage, NULL, movingwarp, false , this->m_FixedImageAffineTransform );
   else if (this->m_MaskImage && !this->m_ComputeThickness  ) mask=this->SubsampleImage( this->m_MaskImage, this->m_ScaleFactor , this->m_MaskImage->GetOrigin() , this->m_MaskImage->GetDirection() ,  NULL);
 
-  if ( !fixedwarp) {std::cout<< " NO F WARP " << std::endl;  fixedwarp=this->m_DisplacementField; }
-  //if ( !movingwarp) std::cout<< " NO M WARP " << std::endl;
+  if ( !fixedwarp) {Rcpp::Rcout<< " NO F WARP " << std::endl;  fixedwarp=this->m_DisplacementField; }
+  //if ( !movingwarp) Rcpp::Rcout<< " NO M WARP " << std::endl;
 
-    ///     std::cout << " get upd field " << std::endl;
+    ///     Rcpp::Rcout << " get upd field " << std::endl;
     typename ImageType::SpacingType spacing=fixedwarp->GetSpacing();
     VectorType zero;
     zero.Fill(0);
@@ -640,7 +640,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 
 //        TimeStepType timeStep;
         void *globalData;
-//	std::cout << " B " << std::endl;
+//	Rcpp::Rcout << " B " << std::endl;
 
     AffineTransformPointer faffinverse=NULL;
     if (this->m_FixedImageAffineTransform ){
@@ -663,7 +663,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 	 wmimage= this->WarpMultiTransform(  this->m_ReferenceSpaceImage ,this->m_SmoothMovingImages[metricCount], this->m_AffineTransform, fixedwarp, false , NULL );
         else wmimage=this->SubsampleImage( this->m_SmoothMovingImages[metricCount] , this->m_ScaleFactor , this->m_SmoothMovingImages[metricCount]->GetOrigin() , this->m_SmoothMovingImages[metricCount]->GetDirection() ,  NULL);
 
-//	std::cout << " C " << std::endl;
+//	Rcpp::Rcout << " C " << std::endl;
         ImagePointer wfimage=NULL;
         if ( movingwarp)
 	          wfimage= this->WarpMultiTransform( this->m_ReferenceSpaceImage , this->m_SmoothFixedImages[metricCount], NULL, movingwarp, false , this->m_FixedImageAffineTransform );
@@ -690,8 +690,8 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
         df->SetFixedImage(wfimage);
         df->SetMovingImage(wmimage);
         if (df->ThisIsAPointSetMetric()) ispointsetmetric=true;
-        if (fpoints && ispointsetmetric )  df->SetFixedPointSet(fpoints); else if (ispointsetmetric ) std::cout << "NO POINTS!! " << std::endl;
-        if (wpoints && ispointsetmetric ) df->SetMovingPointSet(wpoints); else if (ispointsetmetric ) std::cout << "NO POINTS!! " << std::endl;
+        if (fpoints && ispointsetmetric )  df->SetFixedPointSet(fpoints); else if (ispointsetmetric ) Rcpp::Rcout << "NO POINTS!! " << std::endl;
+        if (wpoints && ispointsetmetric ) df->SetMovingPointSet(wpoints); else if (ispointsetmetric ) Rcpp::Rcout << "NO POINTS!! " << std::endl;
         typename ImageType::SizeType  radius = df->GetRadius();
         df->InitializeIteration();
         typename DisplacementFieldType::Pointer output = updateField;
@@ -833,7 +833,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 		   if ( f2mag > 0.05 ) updateFieldInv->SetPixel(index,F2);
 		   tmag+=umag;
 		 }
-	       //	       std::cout << " total mag " << tmag << std::endl;
+	       //	       Rcpp::Rcout << " total mag " << tmag << std::endl;
 	     }
 	   //smooth the total field
 	   this->SmoothDisplacementField(updateField,true);
@@ -855,13 +855,13 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             mag=0;
             for (unsigned int jj=0; jj<ImageDimension; jj++) mag+=vec[jj]/spacing[jj]*vec[jj]/spacing[jj];
             mag=sqrt(mag);
-//            if (mag > 0. ) std::cout << " mag " << mag << " max " << max << " vec " << vec << std::endl;
+//            if (mag > 0. ) Rcpp::Rcout << " mag " << mag << " max " << max << " vec " << vec << std::endl;
             if (mag > max) max=mag;
             ct++;
             total+=mag;
-	    //    std::cout << " mag " << mag << std::endl;
+	    //    Rcpp::Rcout << " mag " << mag << std::endl;
         }
-       if (this->m_Debug) std::cout << "PRE MAX " << max << std::endl;
+       if (this->m_Debug) Rcpp::Rcout << "PRE MAX " << max << std::endl;
        TReal max2=0;
        if (max <= 0) max=1;
        for( dIter.GoToBegin(); !dIter.IsAtEnd(); ++dIter )
@@ -873,7 +873,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             for (unsigned int jj=0; jj<ImageDimension; jj++) mag+=vec[jj]/spacing[jj]*vec[jj]/spacing[jj];
             mag=sqrt(mag);
             if (mag >  max2 ) max2=mag;
-//            if (mag > 0.95) std::cout << " mag " << mag << " max " << max << " vec " << vec << " ind " << index << std::endl;
+//            if (mag > 0.95) Rcpp::Rcout << " mag " << mag << " max " << max << " vec " << vec << " ind " << index << std::endl;
             /** FIXME need weights between metrics */
 
             RealType normalizedWeight
@@ -910,13 +910,13 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             mag=0;
             for (unsigned int jj=0; jj<ImageDimension; jj++) mag+=vec[jj]/spacing[jj]*vec[jj]/spacing[jj];
             mag=sqrt(mag);
-//            if (mag > 0. ) std::cout << " mag " << mag << " max " << max << " vec " << vec << std::endl;
+//            if (mag > 0. ) Rcpp::Rcout << " mag " << mag << " max " << max << " vec " << vec << std::endl;
             if (mag > max) max=mag;
             ct++;
             total+=mag;
-	    //    std::cout << " mag " << mag << std::endl;
+	    //    Rcpp::Rcout << " mag " << mag << std::endl;
         }
-       if (this->m_Debug) std::cout << "PRE MAX " << max << std::endl;
+       if (this->m_Debug) Rcpp::Rcout << "PRE MAX " << max << std::endl;
        TReal max2=0;
        if (max <= 0) max=1;
        for( dIter.GoToBegin(); !dIter.IsAtEnd(); ++dIter )
@@ -928,7 +928,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             for (unsigned int jj=0; jj<ImageDimension; jj++) mag+=vec[jj]/spacing[jj]*vec[jj]/spacing[jj];
             mag=sqrt(mag);
             if (mag >  max2 ) max2=mag;
-//            if (mag > 0.95) std::cout << " mag " << mag << " max " << max << " vec " << vec << " ind " << index << std::endl;
+//            if (mag > 0.95) Rcpp::Rcout << " mag " << mag << " max " << max << " vec " << vec << " ind " << index << std::endl;
             /** FIXME need weights between metrics */
 
             RealType normalizedWeight
@@ -953,7 +953,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             else dIter.Set(dIter.Get()+vec*normalizedWeight);
         }
         }
-       if (this->m_Debug) std::cout << "PO MAX " << max2 << " sz" << totalUpdateField->GetLargestPossibleRegion().GetSize() << std::endl;
+       if (this->m_Debug) Rcpp::Rcout << "PO MAX " << max2 << " sz" << totalUpdateField->GetLargestPossibleRegion().GetSize() << std::endl;
 
     }
 
@@ -977,10 +977,10 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
     mask= this->WarpMultiTransform( this->m_ReferenceSpaceImage, this->m_MaskImage, NULL, movingwarp, false , this->m_FixedImageAffineTransform );
   else if (this->m_MaskImage) mask=this->SubsampleImage( this->m_MaskImage, this->m_ScaleFactor , this->m_MaskImage->GetOrigin() , this->m_MaskImage->GetDirection() ,  NULL);
 
-  if ( !fixedwarp) {std::cout<< " NO F WARP " << std::endl;  fixedwarp=this->m_DisplacementField; }
-  //if ( !movingwarp) std::cout<< " NO M WARP " << std::endl;
+  if ( !fixedwarp) {Rcpp::Rcout<< " NO F WARP " << std::endl;  fixedwarp=this->m_DisplacementField; }
+  //if ( !movingwarp) Rcpp::Rcout<< " NO M WARP " << std::endl;
 
-    ///     std::cout << " get upd field " << std::endl;
+    ///     Rcpp::Rcout << " get upd field " << std::endl;
     typename ImageType::SpacingType spacing=fixedwarp->GetSpacing();
     VectorType zero;
     zero.Fill(0);
@@ -1051,7 +1051,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 
 //        TimeStepType timeStep;
         void *globalData;
-//	std::cout << " B " << std::endl;
+//	Rcpp::Rcout << " B " << std::endl;
 
 // for each metric, warp the assoc. Images
 /** We loop Over This To Do MultiVariate */
@@ -1063,14 +1063,14 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
         wmimage= this->WarpMultiTransform( this->m_ReferenceSpaceImage,this->m_SmoothMovingImages[metricCount], this->m_AffineTransform, fixedwarp, false , this->m_FixedImageAffineTransform );
         else wmimage=this->SubsampleImage( this->m_SmoothMovingImages[metricCount] , this->m_ScaleFactor , this->m_SmoothMovingImages[metricCount]->GetOrigin() , this->m_SmoothMovingImages[metricCount]->GetDirection() ,  NULL);
 
-//	std::cout << " C " << std::endl;
+//	Rcpp::Rcout << " C " << std::endl;
         ImagePointer wfimage=NULL;
         if ( movingwarp)
         wfimage= this->WarpMultiTransform( this->m_ReferenceSpaceImage, this->m_SmoothFixedImages[metricCount], NULL, movingwarp, false , this->m_FixedImageAffineTransform );
         else wfimage=this->SubsampleImage( this->m_SmoothFixedImages[metricCount] , this->m_ScaleFactor , this->m_SmoothFixedImages[metricCount]->GetOrigin() , this->m_SmoothFixedImages[metricCount]->GetDirection() ,  NULL);
 
 
-//	std::cout << " D " << std::endl;
+//	Rcpp::Rcout << " D " << std::endl;
 
 /** MV Loop END -- Would have to collect update fields then add them
 * together somehow -- Would also have to eliminate the similarity
@@ -1082,8 +1082,8 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
         df->SetFixedImage(wfimage);
         df->SetMovingImage(wmimage);
         if (df->ThisIsAPointSetMetric()) ispointsetmetric=true;
-        if (fpoints && ispointsetmetric )  df->SetFixedPointSet(fpoints); else if (ispointsetmetric ) std::cout << "NO POINTS!! " << std::endl;
-        if (wpoints && ispointsetmetric ) df->SetMovingPointSet(wpoints); else if (ispointsetmetric ) std::cout << "NO POINTS!! " << std::endl;
+        if (fpoints && ispointsetmetric )  df->SetFixedPointSet(fpoints); else if (ispointsetmetric ) Rcpp::Rcout << "NO POINTS!! " << std::endl;
+        if (wpoints && ispointsetmetric ) df->SetMovingPointSet(wpoints); else if (ispointsetmetric ) Rcpp::Rcout << "NO POINTS!! " << std::endl;
         typename ImageType::SizeType  radius = df->GetRadius();
         df->InitializeIteration();
         typename DisplacementFieldType::Pointer output = updateField;
@@ -1192,7 +1192,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 		   if ( f2mag > 0.05 ) updateFieldInv->SetPixel(index,F2);
 		   tmag+=umag;
 		 }
-	       //	       std::cout << " total mag " << tmag << std::endl;
+	       //	       Rcpp::Rcout << " total mag " << tmag << std::endl;
 	     }
 	   //smooth the total field
 	   this->SmoothDisplacementField(updateField,true);
@@ -1214,13 +1214,13 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             mag=0;
             for (unsigned int jj=0; jj<ImageDimension; jj++) mag+=vec[jj]/spacing[jj]*vec[jj]/spacing[jj];
             mag=sqrt(mag);
-//            if (mag > 0. ) std::cout << " mag " << mag << " max " << max << " vec " << vec << std::endl;
+//            if (mag > 0. ) Rcpp::Rcout << " mag " << mag << " max " << max << " vec " << vec << std::endl;
             if (mag > max) max=mag;
             ct++;
             total+=mag;
-	    //    std::cout << " mag " << mag << std::endl;
+	    //    Rcpp::Rcout << " mag " << mag << std::endl;
         }
-       if (this->m_Debug) std::cout << "PRE MAX " << max << std::endl;
+       if (this->m_Debug) Rcpp::Rcout << "PRE MAX " << max << std::endl;
        TReal max2=0;
        if (max <= 0) max=1;
        for( dIter.GoToBegin(); !dIter.IsAtEnd(); ++dIter )
@@ -1232,7 +1232,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             for (unsigned int jj=0; jj<ImageDimension; jj++) mag+=vec[jj]/spacing[jj]*vec[jj]/spacing[jj];
             mag=sqrt(mag);
             if (mag >  max2 ) max2=mag;
-//            if (mag > 0.95) std::cout << " mag " << mag << " max " << max << " vec " << vec << " ind " << index << std::endl;
+//            if (mag > 0.95) Rcpp::Rcout << " mag " << mag << " max " << max << " vec " << vec << " ind " << index << std::endl;
             /** FIXME need weights between metrics */
 
             RealType normalizedWeight
@@ -1270,13 +1270,13 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             mag=0;
             for (unsigned int jj=0; jj<ImageDimension; jj++) mag+=vec[jj]/spacing[jj]*vec[jj]/spacing[jj];
             mag=sqrt(mag);
-//            if (mag > 0. ) std::cout << " mag " << mag << " max " << max << " vec " << vec << std::endl;
+//            if (mag > 0. ) Rcpp::Rcout << " mag " << mag << " max " << max << " vec " << vec << std::endl;
             if (mag > max) max=mag;
             ct++;
             total+=mag;
-	    //    std::cout << " mag " << mag << std::endl;
+	    //    Rcpp::Rcout << " mag " << mag << std::endl;
         }
-       if (this->m_Debug) std::cout << "PRE MAX " << max << std::endl;
+       if (this->m_Debug) Rcpp::Rcout << "PRE MAX " << max << std::endl;
        TReal max2=0;
        if (max <= 0) max=1;
        for( dIter.GoToBegin(); !dIter.IsAtEnd(); ++dIter )
@@ -1288,7 +1288,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
             for (unsigned int jj=0; jj<ImageDimension; jj++) mag+=vec[jj]/spacing[jj]*vec[jj]/spacing[jj];
             mag=sqrt(mag);
             if (mag >  max2 ) max2=mag;
-//            if (mag > 0.95) std::cout << " mag " << mag << " max " << max << " vec " << vec << " ind " << index << std::endl;
+//            if (mag > 0.95) Rcpp::Rcout << " mag " << mag << " max " << max << " vec " << vec << " ind " << index << std::endl;
             /** FIXME need weights between metrics */
 
             RealType normalizedWeight
@@ -1314,7 +1314,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 	    dIter.Set(dIter.Get()+vec*normalizedWeight);
         }
        }
-       if (this->m_Debug) std::cout << "PO MAX " << max2 << " sz" << totalUpdateField->GetLargestPossibleRegion().GetSize() << std::endl;
+       if (this->m_Debug) Rcpp::Rcout << "PO MAX " << max2 << " sz" << totalUpdateField->GetLargestPossibleRegion().GetSize() << std::endl;
 
     }
 
@@ -1436,7 +1436,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
     for( dIter.GoToBegin(); !dIter.IsAtEnd(); ++dIter )  dIter.Set( dIter.Get()*this->m_GradstepAltered/maxl );
     this->ComposeDiffs(updateField,totalField,totalField,1);
     //    maxl= this->MeasureDeformation(totalField);
-    //    std::cout << " maxl " << maxl << " gsa " << this->m_GradstepAltered   << std::endl;
+    //    Rcpp::Rcout << " maxl " << maxl << " gsa " << this->m_GradstepAltered   << std::endl;
     //	totalField=this->CopyDisplacementField(totalUpdateField);
     this->SmoothDisplacementField(totalField,false);
 
@@ -1469,7 +1469,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>::AffineOptimization(OptAffineT
     AffineTransformPointer transform = AffineTransformType::New();
 
 
-    // std::cout << "In AffineOptimization: transform_init.IsNotNull()=" << transform_init.IsNotNull() << std::endl;
+    // Rcpp::Rcout << "In AffineOptimization: transform_init.IsNotNull()=" << transform_init.IsNotNull() << std::endl;
     // compute_single_affine_transform(fixedImage, movingImage, maskImage, transform, transform_init);
 
     // OptAffine<AffineTransformPointer, ImagePointer> opt;
@@ -1502,21 +1502,21 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
   totalUpdateInvField->FillBuffer(zero);
   if (!this->m_SyNF)
     {
-    std::cout <<" Allocating " << std::endl;
+    Rcpp::Rcout <<" Allocating " << std::endl;
     this->m_SyNF=this->CopyDisplacementField(totalUpdateInvField);
     this->m_SyNFInv=this->CopyDisplacementField(this->m_SyNF);
     this->m_SyNM=this->CopyDisplacementField(totalUpdateInvField);
     this->m_SyNMInv=this->CopyDisplacementField(this->m_SyNF);
     //this->m_Debug=true;
-        if (this->m_Debug)     std::cout << " SyNFInv" << this->m_SyNFInv->GetLargestPossibleRegion().GetSize() << std::endl;
-        if (this->m_Debug)     std::cout << " t updIf " << totalUpdateInvField->GetLargestPossibleRegion().GetSize() << std::endl;
-        if (this->m_Debug)     std::cout << " synf " << this->m_SyNF->GetLargestPossibleRegion().GetSize() << std::endl;
+        if (this->m_Debug)     Rcpp::Rcout << " SyNFInv" << this->m_SyNFInv->GetLargestPossibleRegion().GetSize() << std::endl;
+        if (this->m_Debug)     Rcpp::Rcout << " t updIf " << totalUpdateInvField->GetLargestPossibleRegion().GetSize() << std::endl;
+        if (this->m_Debug)     Rcpp::Rcout << " synf " << this->m_SyNF->GetLargestPossibleRegion().GetSize() << std::endl;
 	//this->m_Debug=false;
-    std::cout <<" Allocating Done " << std::endl;
+    Rcpp::Rcout <<" Allocating Done " << std::endl;
     }
 
 
-  if (!this->m_SyNF) { std::cout<<" F'D UP " << std::endl;}
+  if (!this->m_SyNF) { Rcpp::Rcout<<" F'D UP " << std::endl;}
 
     PointSetPointer wfpoints=NULL,wmpoints=NULL;
     AffineTransformPointer aff =this->m_AffineTransform;
@@ -1552,8 +1552,8 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
       this->InvertField(this->m_SyNFInv,this->m_SyNF);
       this->InvertField(this->m_SyNMInv,this->m_SyNM);
 
-//      std::cout <<  " F " << this->MeasureDeformation(this->m_SyNF) << " F1 " << this->MeasureDeformation(this->m_SyNFInv) << std::endl;
-//      std::cout <<  " M " << this->MeasureDeformation(this->m_SyNM) << " M1 " << this->MeasureDeformation(this->m_SyNMInv) << std::endl;
+//      Rcpp::Rcout <<  " F " << this->MeasureDeformation(this->m_SyNF) << " F1 " << this->MeasureDeformation(this->m_SyNFInv) << std::endl;
+//      Rcpp::Rcout <<  " M " << this->MeasureDeformation(this->m_SyNM) << " M1 " << this->MeasureDeformation(this->m_SyNMInv) << std::endl;
     return;
 
 }
@@ -1565,7 +1565,7 @@ void
 ANTSImageRegistrationOptimizer<TDimension, TReal>
 ::SyNExpRegistrationUpdate(ImagePointer fixedImage, ImagePointer movingImage, PointSetPointer fpoints, PointSetPointer mpoints)
 {
-  std::cout << " SyNEX" ;
+  Rcpp::Rcout << " SyNEX" ;
   typename ImageType::SpacingType spacing=fixedImage->GetSpacing();
   VectorType zero;
   zero.Fill(0);
@@ -1580,15 +1580,15 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
   totalUpdateInvField->FillBuffer(zero);
   if (!this->m_SyNF)
     {
-    std::cout <<" Allocating " << std::endl;
+    Rcpp::Rcout <<" Allocating " << std::endl;
     this->m_SyNF=this->CopyDisplacementField(totalUpdateInvField);
     this->m_SyNFInv=this->CopyDisplacementField(this->m_SyNF);
     this->m_SyNM=this->CopyDisplacementField(totalUpdateInvField);
     this->m_SyNMInv=this->CopyDisplacementField(this->m_SyNF);
-    std::cout <<" Allocating Done " << std::endl;
+    Rcpp::Rcout <<" Allocating Done " << std::endl;
     }
 
-  if (!this->m_SyNF) { std::cout<<" F'D UP " << std::endl;}
+  if (!this->m_SyNF) { Rcpp::Rcout<<" F'D UP " << std::endl;}
 
     ImagePointer wfimage,wmimage;
     PointSetPointer wfpoints=NULL,wmpoints=NULL;
@@ -1645,7 +1645,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
       this->SmoothDisplacementField( this->m_SyNF,false);
       this->SmoothDisplacementField( this->m_SyNM,false);
       }
-//      std::cout <<  " TUF " << this->MeasureDeformation(this->m_SyNF) << " TUM " << this->MeasureDeformation(this->m_SyNM) << std::endl;
+//      Rcpp::Rcout <<  " TUF " << this->MeasureDeformation(this->m_SyNF) << " TUM " << this->MeasureDeformation(this->m_SyNM) << std::endl;
 
     return;
 
@@ -1739,7 +1739,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
       }
     }
 
-//  std::cout <<" ALlocated TV F "<< std::endl;
+//  Rcpp::Rcout <<" ALlocated TV F "<< std::endl;
 }
 
 
@@ -1766,7 +1766,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
   typedef typename TimeVaryingVelocityFieldType::IndexType VIndexType;
   typedef typename TimeVaryingVelocityFieldType::PointType VPointType;
   int tpupdate=(unsigned int) (((TReal)this->m_NTimeSteps-1.0)*timept+0.5);
-  //std::cout <<"  add to " << tpupdate << std::endl;
+  //Rcpp::Rcout <<"  add to " << tpupdate << std::endl;
   TReal tmag=0;
   TVFieldIterator m_FieldIter(velocity, velocity->GetLargestPossibleRegion());
   for(  m_FieldIter.GoToBegin(); !m_FieldIter.IsAtEnd(); ++m_FieldIter )
@@ -1788,7 +1788,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
         m_FieldIter.Set(vel+m_FieldIter.Get() );
       }
     }
-  //  std::cout << " tmag " << tmag << std::endl;
+  //  Rcpp::Rcout << " tmag " << tmag << std::endl;
 }
 
 
@@ -1811,15 +1811,15 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
   totalUpdateInvField->FillBuffer(zero);
   if (!this->m_SyNF)
     {
-    std::cout <<" Allocating " << std::endl;
+    Rcpp::Rcout <<" Allocating " << std::endl;
     this->m_SyNF=this->CopyDisplacementField(totalUpdateInvField);
     this->m_SyNFInv=this->CopyDisplacementField(this->m_SyNF);
     this->m_SyNM=this->CopyDisplacementField(totalUpdateInvField);
     this->m_SyNMInv=this->CopyDisplacementField(this->m_SyNF);
-    std::cout <<" Allocating Done " << std::endl;
+    Rcpp::Rcout <<" Allocating Done " << std::endl;
     }
 
-  if (!this->m_SyNF) { std::cout<<" F'D UP " << std::endl;}
+  if (!this->m_SyNF) { Rcpp::Rcout<<" F'D UP " << std::endl;}
 
     ImagePointer wfimage,wmimage;
     PointSetPointer wfpoints=NULL,wmpoints=NULL;
@@ -1845,7 +1845,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
       {
 /**FIXME -- NEED INTEGRATION FOR POINTS ONLY  -- warp landmarks for
 * tv-field */
-//      std::cout <<" aff " << std::endl;
+//      Rcpp::Rcout <<" aff " << std::endl;
 /** NOte, totalUpdateInvField is filled with zeroes! -- we only want
       affine mapping */
       wmpoints = this->WarpMultiTransform(this->m_ReferenceSpaceImage,movingImage,  mpoints ,  aff , totalUpdateInvField , true, NULL );
@@ -2014,15 +2014,15 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
    }
   if (!this->m_SyNF)
     {
-    std::cout <<" Allocating " << std::endl;
+    Rcpp::Rcout <<" Allocating " << std::endl;
     this->m_SyNF=this->CopyDisplacementField(totalUpdateInvField);
     this->m_SyNFInv=this->CopyDisplacementField(this->m_SyNF);
     this->m_SyNM=this->CopyDisplacementField(totalUpdateInvField);
     this->m_SyNMInv=this->CopyDisplacementField(this->m_SyNF);
-    std::cout <<" Allocating Done " << std::endl;
+    Rcpp::Rcout <<" Allocating Done " << std::endl;
     }
 
-  if (!this->m_SyNF) { std::cout<<" F'D UP " << std::endl;}
+  if (!this->m_SyNF) { Rcpp::Rcout<<" F'D UP " << std::endl;}
 
     ImagePointer wfimage,wmimage;
     PointSetPointer wfpoints=NULL,wmpoints=NULL;
@@ -2053,7 +2053,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
     //  writer->SetUseAvantsNamingConvention( true );
     writer->SetInput( this->m_SyNFInv );
     writer->SetFileName( fnm.c_str() );
-    std::cout << " write " << fnm << std::endl;
+    Rcpp::Rcout << " write " << fnm << std::endl;
     writer->Update();
     // writer->SetInput( this->m_SyNMInv );
       // writer->SetFileName( fnm2.c_str() );
@@ -2069,7 +2069,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
       {
 /**FIXME -- NEED INTEGRATION FOR POINTS ONLY  -- warp landmarks for
 * tv-field */
-//      std::cout <<" aff " << std::endl;
+//      Rcpp::Rcout <<" aff " << std::endl;
 /** NOte, totalUpdateInvField is filled with zeroes! -- we only want
       affine mapping */
       wmpoints = this->WarpMultiTransform(this->m_ReferenceSpaceImage,movingImage,  mpoints ,  aff , totalUpdateInvField , true, NULL );
@@ -2110,7 +2110,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 	if (beta2 > 0 ) beta=beta1/(beta2+0.001);
 	if (beta > 1) beta=1;
 	if (alpha > 1) alpha=1;
-	//		std::cout <<" beta " << beta << " alpha " << alpha << " it " << this->m_CurrentIteration << std::endl;
+	//		Rcpp::Rcout <<" beta " << beta << " alpha " << alpha << " it " << this->m_CurrentIteration << std::endl;
 	VectorType newupd=(vec1);
 	if ( this->m_CurrentIteration  > 2) { newupd=(vec1+upd)*0.5; }
 	VectorType newsoln=m_FieldIter.Get()+ this->m_GradstepAltered*newupd;
@@ -2124,7 +2124,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
         tmag+=sqrt(mag);
       }
     tmag/=((TReal)this->m_NTimeSteps*(TReal)numpx);
-    std::cout << " DiffLength " << tmag << std::endl;
+    Rcpp::Rcout << " DiffLength " << tmag << std::endl;
     if (  this->m_TotalSmoothingparam > 0
       || this->m_TotalSmoothingMeshSize[0] > 0 )
       {
@@ -2152,7 +2152,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
     mask= this->WarpMultiTransform( this->m_ReferenceSpaceImage, this->m_MaskImage, NULL, this->m_SyNMInv, false , this->m_FixedImageAffineTransform );
   else if (this->m_MaskImage) mask=this->SubsampleImage( this->m_MaskImage, this->m_ScaleFactor , this->m_MaskImage->GetOrigin() , this->m_MaskImage->GetDirection() ,  NULL);
 
-//  std::cout << " st " << starttimein << " ft " << finishtimein << std::endl;
+//  Rcpp::Rcout << " st " << starttimein << " ft " << finishtimein << std::endl;
   typedef TReal  PixelType;
   typedef itk::Vector<TReal,TDimension>         VectorType;
   typedef itk::Image<VectorType,TDimension>     DisplacementFieldType;
@@ -2198,7 +2198,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
   zero.Fill(0);
   intfield->FillBuffer(zero);
   if (starttimein == finishtimein) return intfield;
-  if (!this->m_TimeVaryingVelocity) { std::cout << " No TV Field " << std::endl;  return intfield; }
+  if (!this->m_TimeVaryingVelocity) { Rcpp::Rcout << " No TV Field " << std::endl;  return intfield; }
   this->m_VelocityFieldInterpolator->SetInputImage(this->m_TimeVaryingVelocity);
 
   typedef  tvt TimeVaryingVelocityFieldType;
@@ -2217,7 +2217,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
   TReal timesign=1.0;
   if (starttimein  >  finishtimein ) timesign= -1.0;
   FieldIterator m_FieldIter(this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion());
-//  std::cout << " Start Int " << starttimein <<  std::endl;
+//  Rcpp::Rcout << " Start Int " << starttimein <<  std::endl;
   if ( mask  && !this->m_ComputeThickness )
     {
   for(  m_FieldIter.GoToBegin(); !m_FieldIter.IsAtEnd(); ++m_FieldIter )
@@ -2239,7 +2239,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
   }
   if (this->m_ThickImage && this->m_MaskImage ){
     std::string outname=this->localANTSGetFilePrefix(this->m_OutputNamingConvention.c_str())+std::string("thick.nii.gz");
-    std::cout << " write " << outname << std::endl;
+    Rcpp::Rcout << " write " << outname << std::endl;
     WriteImage<ImageType>(this->m_ThickImage,outname.c_str());
   }
 
@@ -2276,7 +2276,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
   zero.Fill(0);
   intfield->FillBuffer(zero);
   if (starttimein == finishtimein) return intfield;
-  if (!this->m_TimeVaryingVelocity) { std::cout << " No TV Field " << std::endl;  return intfield; }
+  if (!this->m_TimeVaryingVelocity) { Rcpp::Rcout << " No TV Field " << std::endl;  return intfield; }
   this->m_VelocityFieldInterpolator->SetInputImage(this->m_TimeVaryingVelocity);
 
   typedef  tvt TimeVaryingVelocityFieldType;
@@ -2299,20 +2299,20 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
       for (unsigned long ii=0; ii<sz1; ii++)
 	{
 	PointType point;
-	//std::cout <<" get point " << std::endl;
+	//Rcpp::Rcout <<" get point " << std::endl;
 	mypoints->GetPoint(ii,&point);
-	//std::cout <<" get point index " << point << std::endl;
+	//Rcpp::Rcout <<" get point index " << point << std::endl;
 
 	ImagePointType pt,wpt;
 	for (unsigned int jj=0;  jj<ImageDimension; jj++) pt[jj]=point[jj];
 	IndexType velind;
 	bool bisinside=intfield->TransformPhysicalPointToIndex( pt, velind );
-	//std::cout <<" inside? " << bisinside  << std::endl;
+	//Rcpp::Rcout <<" inside? " << bisinside  << std::endl;
 	if (bisinside)
 	  {
-//	  std::cout <<  "integrate " << std::endl;
+//	  Rcpp::Rcout <<  "integrate " << std::endl;
 	  VectorType disp=this->IntegratePointVelocity(starttimein, finishtimein , velind);
-//	  std::cout <<  "put inside " << std::endl;
+//	  Rcpp::Rcout <<  "put inside " << std::endl;
 	  intfield->SetPixel(velind,disp);
 	  }
 	}
@@ -2331,7 +2331,7 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 
   typedef Point<TReal,itkGetStaticConstMacro(ImageDimension+1)> xPointType;
   this->m_Debug=false;
-//  std::cout <<"Enter IP "<< std::endl;
+//  Rcpp::Rcout <<"Enter IP "<< std::endl;
   typedef typename VelocityFieldInterpolatorType::OutputType InterpPointType;
 
   typedef TReal  PixelType;
@@ -2429,14 +2429,14 @@ ANTSImageRegistrationOptimizer<TDimension, TReal>
 	  Y3x[jj]=pointIn2[jj];
 	  Y4x[jj]=pointIn2[jj];
 	}
-  if (this->m_Debug)     std::cout << " p2 " << pointIn2<< std::endl;
+  if (this->m_Debug)     Rcpp::Rcout << " p2 " << pointIn2<< std::endl;
 
       Y1x[TDimension]=itimetn1*(TReal)(m_NumberOfTimePoints-1);
       Y2x[TDimension]=itimetn1h*(TReal)(m_NumberOfTimePoints-1);
       Y3x[TDimension]=itimetn1h*(TReal)(m_NumberOfTimePoints-1);
       Y4x[TDimension]=itime*(TReal)(m_NumberOfTimePoints-1);
 
-if (this->m_Debug)       std::cout << " p2 " << pointIn2<< " y1 " <<  Y1x[TDimension] <<  " y4 " <<   Y4x[TDimension]  << std::endl;
+if (this->m_Debug)       Rcpp::Rcout << " p2 " << pointIn2<< " y1 " <<  Y1x[TDimension] <<  " y4 " <<   Y4x[TDimension]  << std::endl;
 
       if ( this->m_VelocityFieldInterpolator->IsInsideBuffer(Y1x) )
 	{
@@ -2470,7 +2470,7 @@ if (this->m_Debug)       std::cout << " p2 " << pointIn2<< " y1 " <<  Y1x[TDimen
       disp[jj]=out[jj];
       }
 
-//      std::cout << " p3 " << pointIn3 << std::endl;
+//      Rcpp::Rcout << " p3 " << pointIn3 << std::endl;
       dmag=sqrt(dmag);
       totalmag+=sqrt(mag);
       ct++;
@@ -2535,13 +2535,13 @@ if (this->m_Debug)       std::cout << " p2 " << pointIn2<< " y1 " <<  Y1x[TDimen
 	  Y3x[jj]=pointIn2[jj];
 	  Y4x[jj]=pointIn2[jj];
 	}
-  if (this->m_Debug)     std::cout << " p2 " << pointIn2<< std::endl;
+  if (this->m_Debug)     Rcpp::Rcout << " p2 " << pointIn2<< std::endl;
 
       Y1x[TDimension]=itimetn1*(TReal)(m_NumberOfTimePoints-1);
       Y2x[TDimension]=itimetn1h*(TReal)(m_NumberOfTimePoints-1);
       Y3x[TDimension]=itimetn1h*(TReal)(m_NumberOfTimePoints-1);
       Y4x[TDimension]=itime*(TReal)(m_NumberOfTimePoints-1);
-      if (this->m_Debug)       std::cout << " p2 " << pointIn2<< " y1 " <<  Y1x[TDimension] <<  " y4 " <<   Y4x[TDimension]  << std::endl;
+      if (this->m_Debug)       Rcpp::Rcout << " p2 " << pointIn2<< " y1 " <<  Y1x[TDimension] <<  " y4 " <<   Y4x[TDimension]  << std::endl;
 
       if ( this->m_VelocityFieldInterpolator->IsInsideBuffer(Y1x) )
 	{
@@ -2600,7 +2600,7 @@ if (this->m_Debug)       std::cout << " p2 " << pointIn2<< " y1 " <<  Y1x[TDimen
         this->m_HitImage->SetPixel( thind,  newct );
         this->m_ThickImage->SetPixel(thind, newthick );
 	}
-	else std::cout << " thind " << thind << " edist " << euclideandist << " p3 " << pointIn3 << " p1 " << pointIn1 << std::endl;
+	else Rcpp::Rcout << " thind " << thind << " edist " << euclideandist << " p3 " << pointIn3 << " p1 " << pointIn1 << std::endl;
 	//        this->m_ThickImage->SetPixel(thind, thislength );
       }
       }
@@ -2610,9 +2610,9 @@ if (this->m_Debug)       std::cout << " p2 " << pointIn2<< " y1 " <<  Y1x[TDimen
       }
 
 
-//  if (!isinside) { std::cout << " velind " << velind << " not inside " << Y1 << std::endl;   }
+//  if (!isinside) { Rcpp::Rcout << " velind " << velind << " not inside " << Y1 << std::endl;   }
 
- if (this->m_Debug)   std::cout << " Length " << thislength << std::endl;
+ if (this->m_Debug)   Rcpp::Rcout << " Length " << thislength << std::endl;
   this->m_Debug=false;
     return disp;
 

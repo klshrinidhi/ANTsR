@@ -47,7 +47,7 @@ template <class TImage>
 typename TImage::Pointer
 MultiplyImage(typename TImage::Pointer image1, typename TImage::Pointer image2)
 {
-std::cout << " Multiply " << std::endl;
+Rcpp::Rcout << " Multiply " << std::endl;
     // Begin Multiply Images
     typedef TImage tImageType;
     //  output will be the speed image for FMM
@@ -73,7 +73,7 @@ typename TImage::Pointer BinaryThreshold(
    typename TImage::PixelType insideval, typename TImage::PixelType outsideval,
    typename TImage::Pointer input )
 {
-std::cout << " Binary Thresh " << std::endl;
+Rcpp::Rcout << " Binary Thresh " << std::endl;
 
   typedef typename TImage::PixelType PixelType;
   // Begin Threshold Image
@@ -99,7 +99,7 @@ typename TImage::Pointer
   LabelSurface(typename TImage::PixelType foreground,
   typename TImage::PixelType newval, typename TImage::Pointer input)
 {
-std::cout << " Label Surf " << std::endl;
+Rcpp::Rcout << " Label Surf " << std::endl;
   typedef TImage ImageType;
   enum { ImageDimension = ImageType::ImageDimension };
   typename   ImageType::Pointer     Image = ImageType::New();
@@ -116,7 +116,7 @@ std::cout << " Label Surf " << std::endl;
 
   GHood.GoToBegin();
 
-//  std::cout << " foreg " << (int) foreground;
+//  Rcpp::Rcout << " foreg " << (int) foreground;
   while (!GHood.IsAtEnd())
   {
     typename TImage::PixelType p = GHood.GetCenterPixel();
@@ -153,7 +153,7 @@ typename TImage::PixelType pixlo,
 typename TImage::PixelType pixhi,
 typename TImage::Pointer input)
 {
-std::cout << " DDMap " << std::endl;
+Rcpp::Rcout << " DDMap " << std::endl;
 
   typedef TImage ImageType;
 
@@ -179,7 +179,7 @@ template <class TImage>
 typename TImage::Pointer OtsuThreshold(
    int NumberOfThresholds, typename TImage::Pointer input)
 {
-std::cout << " Otsu Thresh with " << NumberOfThresholds << " thresholds" << std::endl;
+Rcpp::Rcout << " Otsu Thresh with " << NumberOfThresholds << " thresholds" << std::endl;
 
   typedef typename TImage::PixelType PixelType;
   // Begin Threshold Image
@@ -225,8 +225,8 @@ int ThresholdImage( int argc, char * argv[] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
+    Rcpp::Rcout << "Exception thrown " << std::endl;
+    Rcpp::Rcout << excp << std::endl;
     return EXIT_FAILURE;
     }
   // Label the surface of the image
@@ -281,11 +281,11 @@ try
 
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << "   ImageDimension ImageIn.ext outImage.ext  threshlo threshhi <insideValue> <outsideValue>" << std::endl;
-    std::cerr << "   ImageDimension ImageIn.ext outImage.ext  Otsu NumberofThresholds " << std::endl;
+    Rcpp::Rcout << "Usage: " << argv[0];
+    Rcpp::Rcout << "   ImageDimension ImageIn.ext outImage.ext  threshlo threshhi <insideValue> <outsideValue>" << std::endl;
+    Rcpp::Rcout << "   ImageDimension ImageIn.ext outImage.ext  Otsu NumberofThresholds " << std::endl;
 
-    std::cout << " Inclusive thresholds " << std::endl;
+    Rcpp::Rcout << " Inclusive thresholds " << std::endl;
     return Rcpp::wrap( EXIT_FAILURE ) ;
     }
 
@@ -303,7 +303,7 @@ try
      ThresholdImage<4>(argc,argv);
       break;
    default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      Rcpp::Rcout << "Unsupported dimension" << std::endl;
       return Rcpp::wrap( EXIT_FAILURE );
    }
 
@@ -318,6 +318,6 @@ try
 }
  catch( const std::exception& exc )
    {
-     std::cerr<< exc.what() << std::endl ;
+     Rcpp::Rcout<< exc.what() << std::endl ;
      return Rcpp::wrap( EXIT_FAILURE ) ;
    }

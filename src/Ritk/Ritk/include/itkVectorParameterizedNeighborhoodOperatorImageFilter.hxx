@@ -133,7 +133,7 @@ VectorParameterizedNeighborhoodOperatorImageFilter<TInputImage, TOutputImage,TPa
 //      if (param < 1./max && param > 0 ) param = 1./max;
 //      if (param > max  && param > 0 ) param = max;
 //      if (param < 1.0  && param > 0) param=1.0/param;
-//      std::cout << " param " << param ;
+//      Rcpp::Rcout << " param " << param ;
 
       if (param <= 0) it.Value() = input->GetPixel(it.GetIndex());
       else

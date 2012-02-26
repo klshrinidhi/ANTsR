@@ -226,7 +226,7 @@ void  SurfaceImageCurvature<TSurface>::FindEuclideanNeighborhood
   //  for(int i = 0; i < this->m_PointList.size(); i++) {
   //    std:: cout << " point  " << this->m_PointList[i];  
   //  }
-    std::cout << std::endl;
+    Rcpp::Rcout << std::endl;
   }
 
 
@@ -282,7 +282,7 @@ void  SurfaceImageCurvature<TSurface>::FindGeodesicNeighborhood()
 //if ( this->m_Origin[1]==146 && this->m_Origin[0] > 167 )
 //if ( this->m_Origin[1]==146 && this->m_Origin[0] == 168 && this->m_Origin[2]==215)
 //{
-//std::cout << " origin " << this->m_Origin << std::endl;
+//Rcpp::Rcout << " origin " << this->m_Origin << std::endl;
 //}
 
   while( !nodeq.empty() && lastdist <= m_NeighborhoodRadius)
@@ -333,7 +333,7 @@ void  SurfaceImageCurvature<TSurface>::FindGeodesicNeighborhood()
       
 //if ( this->m_Origin[1]==146 && this->m_Origin[0] == 168 && this->m_Origin[2]==215)
 //{
-// std::cout << " testing point " << index << " longind " << longindex << " dist " << dist << 
+// Rcpp::Rcout << " testing point " << index << " longind " << longindex << " dist " << dist << 
 // " bool " << nodes[longindex].connected << std::endl;
 //}
 //          if (!nodes[longindex].connected ) //&& !nodes[g.neighborhoodindex].connected) 
@@ -345,7 +345,7 @@ void  SurfaceImageCurvature<TSurface>::FindGeodesicNeighborhood()
             nodeq.push(gnode);  
 //if ( this->m_Origin[1]==146 && this->m_Origin[0] == 168 && this->m_Origin[2]==215)
 ///{
-// std::cout << " inserting point " << index << std::endl;
+// Rcpp::Rcout << " inserting point " << index << std::endl;
 //}
             this->m_PointList.insert(this->m_PointList.begin(),q);
             this->m_AveragePoint=this->m_AveragePoint+q;
@@ -388,12 +388,12 @@ void  SurfaceImageCurvature<TSurface>::FindNeighborhood(unsigned int numMeanShif
 /*  if (this->m_Origin[0]==170 && this->m_Origin[1]==137 && this->m_Origin[2]==81)
   if ( this->m_Origin[1]==146 && this->m_Origin[0] > 167 )
   {
-    std::cout << " origin " << this->m_Origin << std::endl;
+    Rcpp::Rcout << " origin " << this->m_Origin << std::endl;
     for (unsigned int tt=0; tt<this->m_PointList.size()-1; tt++)
     {
       PointType p=this->m_Origin-this->m_PointList[tt];
       float dist = p.magnitude();
-      std::cout << " pt dist " << dist << " point " << this->m_PointList[tt] << std::endl;
+      Rcpp::Rcout << " pt dist " << dist << " point " << this->m_PointList[tt] << std::endl;
     }
 
   }
@@ -447,7 +447,7 @@ void  SurfaceImageCurvature<TSurface>
 
   typename ImageType::Pointer image=GetInput();
 
-  std::cout << " compute normals " << this->m_Sigma << " hood " << (this->m_NeighborhoodRadius) << 
+  Rcpp::Rcout << " compute normals " << this->m_Sigma << " hood " << (this->m_NeighborhoodRadius) << 
    " spacing " << image->GetSpacing() <<  std::endl;
   
   if (!image) return;
@@ -474,7 +474,7 @@ void  SurfaceImageCurvature<TSurface>
       ++Iterator; 
       }
   wmgmcurv=false;
-  std::cout << " Using Binary Segmentation curv? " << wmgmcurv << std::endl;
+  Rcpp::Rcout << " Using Binary Segmentation curv? " << wmgmcurv << std::endl;
 
   if (wmgmcurv)
     {
@@ -497,7 +497,7 @@ void  SurfaceImageCurvature<TSurface>
     unsigned int totit=50;
     for(unsigned int iterations=0; iterations<totit; iterations++)
       {
-      std::cout <<" % " << (float)iterations/(float)(totit) <<std::endl;
+      Rcpp::Rcout <<" % " << (float)iterations/(float)(totit) <<std::endl;
       while(  !Iterator.IsAtEnd()  )
 	{
 	IndexType ind=Iterator.GetIndex();
@@ -516,7 +516,7 @@ void  SurfaceImageCurvature<TSurface>
       Iterator.GoToBegin();	
       }
 //    WriteImage<TSurface>(laplacian,"lap.hdr");
-//    std::cout << "Laplacian Solved " << std::endl;
+//    Rcpp::Rcout << "Laplacian Solved " << std::endl;
     GradientImageFilterPointer filter=GradientImageFilterType::New();
     filter->SetInput( laplacian); 
     RealType sigma=this->m_Sigma;
@@ -547,7 +547,7 @@ void  SurfaceImageCurvature<TSurface>
     filter->Update();
     this->m_GradientImage=filter->GetOutput();
     }
-  std::cout << " compute normals done ";
+  Rcpp::Rcout << " compute normals done ";
 
 }
 
@@ -758,7 +758,7 @@ void  SurfaceImageCurvature<TSurface>
     this->m_Kappa1=vcl_real(eig.D(1,1));
     this->m_Kappa2=vcl_real(eig.D(0,0));
 
-// std::cout << " k1 " << this->m_Kappa1 << " k2 " << this->m_Kappa2 << " pt "<< this->m_Origin << std::endl;
+// Rcpp::Rcout << " k1 " << this->m_Kappa1 << " k2 " << this->m_Kappa2 << " pt "<< this->m_Origin << std::endl;
 
     this->m_MeanKappa=(this->m_Kappa1+this->m_Kappa2)*0.5;
     this->m_GaussianKappa=(this->m_Kappa1*this->m_Kappa2);
@@ -813,12 +813,12 @@ void  SurfaceImageCurvature<TSurface>
         this->m_FunctionImage->SetPixel(index,area);
         this->m_TotalArea+=area;
         this->m_PointList.clear();
-        if (ct % 1000 == 0) std::cout << " ind " << index << " area " << area << std::endl;
+        if (ct % 1000 == 0) Rcpp::Rcout << " ind " << index << " area " << area << std::endl;
       }
       ++ti;
     }
 
-    std::cout << " surface area " << this->m_TotalArea << std::endl;
+    Rcpp::Rcout << " surface area " << this->m_TotalArea << std::endl;
     return;
 }
 
@@ -855,15 +855,15 @@ SurfaceImageCurvature<TSurface>
 {
   typename OutputImageType::Pointer image=this->m_FunctionImage;
   
-  if (!image) { std::cout << " no image " << std::endl; return 0; }
+  if (!image) { Rcpp::Rcout << " no image " << std::endl; return 0; }
 
-std::cout << "  allocating temp image ";
+Rcpp::Rcout << "  allocating temp image ";
   typename OutputImageType::Pointer tempimage=OutputImageType::New();
   tempimage->SetLargestPossibleRegion( image->GetLargestPossibleRegion() );
   tempimage->SetBufferedRegion( image->GetLargestPossibleRegion() );
   tempimage->Allocate();
 
-std::cout << "  done allocating  ";
+Rcpp::Rcout << "  done allocating  ";
 
   typename ImageType::SizeType rad;
   typename ImageType::SizeType rad2;
@@ -884,11 +884,11 @@ std::cout << "  done allocating  ";
   typename ImageType::RegionType requestedRegion;
   ImageIteratorType ti( this->GetInput(), this->GetInput()->GetLargestPossibleRegion() );
     
-    std::cout << " begin integrate ";
+    Rcpp::Rcout << " begin integrate ";
 
     ti.GoToBegin(); 
     unsigned int ct =0;
-std::cout << " begin while " << std::endl;
+Rcpp::Rcout << " begin while " << std::endl;
     while(!ti.IsAtEnd()  )
     {
       index=ti.GetIndex();
@@ -906,15 +906,15 @@ std::cout << " begin while " << std::endl;
         ct++;
         for (unsigned int k=0; k<ImageDimension; k++) p[k]=(RealType) index[k];
 	      this->SetOrigin(p);
-//	      std::cout << " find nhood ";
+//	      Rcpp::Rcout << " find nhood ";
         this->FindNeighborhood();
-//        std::cout << " get area ";
+//        Rcpp::Rcout << " get area ";
         RealType area=this->IntegrateFunctionOverNeighborhood(norm);
         tempimage->SetPixel(index,area);
-        if (ct % 10000 == 0)       std::cout << " area is : " << area << " ct " << ct << " pix " << ti.Get() << std::endl;
-//        if ( area > 1) std::cout << " ind " << index << " area " << area  << std::endl;
+        if (ct % 10000 == 0)       Rcpp::Rcout << " area is : " << area << " ct " << ct << " pix " << ti.Get() << std::endl;
+//        if ( area > 1) Rcpp::Rcout << " ind " << index << " area " << area  << std::endl;
           // SD why sometimes a pixel is NaN ? 
-  //      if ( !(area > 0)) std::cout << " ind " << index << " area " << area << " pix " << ti.Get() << std::endl;
+  //      if ( !(area > 0)) Rcpp::Rcout << " ind " << index << " area " << area << " pix " << ti.Get() << std::endl;
       }
       ++ti;
     }
@@ -958,7 +958,7 @@ SurfaceImageCurvature<TSurface>
 
   unsigned int npts = this->m_PointList.size();
   double curvature=0.0,tw=0;
-  std::cout << " npts " << npts;
+  Rcpp::Rcout << " npts " << npts;
   for (unsigned int pp =0; pp<npts; pp++){
     IndexType localindex;
     for (unsigned int k=0; k<ImageDimension; k++) 
@@ -968,7 +968,7 @@ SurfaceImageCurvature<TSurface>
     if (wi!=0.0) wi=1./wi;
     tw+=wi;
     RealType func=this->m_FunctionImage->GetPixel( localindex );
-    std::cout << " pp " << pp << " func " << func << std::endl;
+    Rcpp::Rcout << " pp " << pp << " func " << func << std::endl;
     if (norm) curvature += wi*func;
     else curvature += func;
 //    curvature*=this->ComputeLocalArea(spacing);
@@ -1076,7 +1076,7 @@ void  SurfaceImageCurvature<TSurface>
     index=ti.GetIndex();
     if (ct2 % 200000 == 0 && ct2 > 0)
     {
-      std::cout << " ind " << index << " kp " << kpix << std::endl;
+      Rcpp::Rcout << " ind " << index << " kp " << kpix << std::endl;
     }
     kpix=0.0;
     if ( //ti.Get() == this->m_SurfaceLabel &&
@@ -1088,7 +1088,7 @@ void  SurfaceImageCurvature<TSurface>
      index[2] < this->m_ImageSize[2]-2*this->m_NeighborhoodRadius && 
      index[2] >  2*this->m_NeighborhoodRadius ) //
     {
-      // std::cout << " val " << (RealType) ti.Get() << std::endl;
+      // Rcpp::Rcout << " val " << (RealType) ti.Get() << std::endl;
       PointType p;
       for (unsigned int k=0; k<ImageDimension; k++) 
       {
@@ -1129,7 +1129,7 @@ void  SurfaceImageCurvature<TSurface>
 //         this->EstimateCurvature(this->m_A,this->m_B,this->m_B,this->m_C);
 //         this->EstimateCurvature();
         }
-        std::cout << " best error " << error << std::endl;
+        Rcpp::Rcout << " best error " << error << std::endl;
       }
 
 //    kpix=fabs(2.0/(3.1416)*atan((this->m_Kappa1+this->m_Kappa2)/(this->m_Kappa2-this->m_Kappa1)));
@@ -1144,7 +1144,7 @@ void  SurfaceImageCurvature<TSurface>
 //    else kpix = -1.0*(sqrt(this->m_Kappa1*this->m_Kappa1+this->m_Kappa2*this->m_Kappa2));
     
     
-//    std::cout << " kpix " << kpix << " thresh " << thresh << std::endl;
+//    Rcpp::Rcout << " kpix " << kpix << " thresh " << thresh << std::endl;
    
 //
 //    if ( fabs(kpix) >  100 ) kpix=0.0; 
@@ -1183,7 +1183,7 @@ void  SurfaceImageCurvature<TSurface>
     ++ti;
   }
 
-  std::cout << " average curvature " << thresh/(float)ct << " kSign " << this->m_kSign <<  std::endl;
+  Rcpp::Rcout << " average curvature " << thresh/(float)ct << " kSign " << this->m_kSign <<  std::endl;
 
 /* now get s.d.
   float sd=0.0;

@@ -199,7 +199,7 @@ WarpImageWAffineFilter<TInputImage,TOutputImage,TDisplacementField, TTransform>
 //    DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 //    TransformTypePointer aff = this->GetAffineTransform();
 //
-//    // std::cout << aff << std::endl;
+//    // Rcpp::Rcout << aff << std::endl;
 //
 //    // support progress methods/callbacks
 //    ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
@@ -363,7 +363,7 @@ WarpImageWAffineFilter<TInputImage,TOutputImage,TDisplacementField, TTransform>
             smoother->SetNormalizeAcrossScale( false );
 
 
-//            std::cout << "scale = " << scale << " => " << "sigma of dim " << d << ": " << sigma << " outsize " << outputSize <<  std::endl;
+//            Rcpp::Rcout << "scale = " << scale << " => " << "sigma of dim " << d << ": " << sigma << " outsize " << outputSize <<  std::endl;
 
             smoother->SetSigma( sigma );
             if ( smoother->GetSigma() > 0.0 )
@@ -400,7 +400,7 @@ WarpImageWAffineFilter<TInputImage,TOutputImage,TDisplacementField, TTransform>
     DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
     TransformTypePointer aff = this->GetAffineTransform();
 
-    // std::cout << aff << std::endl;
+    // Rcpp::Rcout << aff << std::endl;
 
     // support progress methods/callbacks
     ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
@@ -417,7 +417,7 @@ WarpImageWAffineFilter<TInputImage,TOutputImage,TDisplacementField, TTransform>
     PointType point1, point2, point3;
     DisplacementType displacement;
 
-    std::cout << "m_TransformOrder: " << m_TransformOrder << std::endl;
+    Rcpp::Rcout << "m_TransformOrder: " << m_TransformOrder << std::endl;
 
     int cnt = 0;
     while( !outputIt.IsAtEnd() )

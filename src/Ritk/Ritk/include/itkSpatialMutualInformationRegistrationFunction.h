@@ -346,7 +346,7 @@ public:
 
 	      mival += mi;
 	    }
-	//	  std::cout << " II " << ii << " JJ " << ii << " pxy " << pxy << " px " << px << std::endl;
+	//	  Rcpp::Rcout << " II " << ii << " JJ " << ii << " pxy " << pxy << " px " << px << std::endl;
 
 	}
 		this->m_Energy = (-1.0) * mival/log(2);
@@ -406,7 +406,7 @@ public:
 		SMI = (0.5) * (JointEntropyXuY + JointEntropyXYu + JointEntropyXlY + JointEntropyXYl)
 			- (0.25) * (4 * JointEntropy + JointEntropyXuYr + JointEntropyXrYu + JointEntropyXlYu + JointEntropyXuYl);
 
-	//	std::cout << " JE " << JointEntropy << " JEXuY " << JointEntropyXuY << " JEXYu " << JointEntropyXYu << " JEXuYr " << JointEntropyXuYr << std::endl;
+	//	Rcpp::Rcout << " JE " << JointEntropy << " JEXuY " << JointEntropyXuY << " JEXYu " << JointEntropyXYu << " JEXuYr " << JointEntropyXuYr << std::endl;
 
 		this->m_Energy = (-1.0) * fabs(SMI);
 		return this->m_Energy;

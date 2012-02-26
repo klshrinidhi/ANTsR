@@ -157,7 +157,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 
   unsigned long bestindex=0;
 
-  std::cout << " sz1 " << sz1 << " sz2 "<<sz2 <<std::endl;
+  Rcpp::Rcout << " sz1 " << sz1 << " sz2 "<<sz2 <<std::endl;
   // if whichdirection is true, then the fixed direction, else moving
   for (unsigned long ii=0; ii<sz1; ii++)
     {
@@ -175,7 +175,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
       for (int j=0; j<ImageDimension; j++) {  fpt[j]=fixedpoint[j];  fixedlms(ii,j)=fpt[j];  }
       bool convok=false;
       convok=this->GetFixedImage()->TransformPhysicalPointToIndex(fpt,oindex);
-      if (!convok) std::cout <<" fpt " << fpt << std::endl;
+      if (!convok) Rcpp::Rcout <<" fpt " << fpt << std::endl;
       // if whichdirection is true, then the fixed direction, else moving
       for (unsigned long jj=0; jj<sz2; jj++)
 	{
@@ -189,7 +189,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 	  ImagePointType mpt;
 	  for (int j=0; j<ImageDimension; j++) { mpt[j]=movingpoint[j]; movinglms(jj,j)=movingpoint[j]; }
 
-	  if (ii == sz1-2 && jj == sz2-2) std::cout << " fpt " << fpt << " mpt " << mpt << std::endl;
+	  if (ii == sz1-2 && jj == sz2-2) Rcpp::Rcout << " fpt " << fpt << " mpt " << mpt << std::endl;
 
 
 	  this->GetMovingImage()->TransformPhysicalPointToIndex(mpt,movingindex);
@@ -211,7 +211,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 	    PointDataType movinglabel=0;
 	    if (whichdirection) this->m_MovingPointSet->GetPointData(jj,&movinglabel);
 	    else this->m_FixedPointSet->GetPointData(jj,&movinglabel);
-//	    if (ii == 2 && jj==2) std::cout << "prob " << prob << " sigma " << sigma << "  " << mag << " fl " << fixedlabel << " ml " << movinglabel << std::endl;
+//	    if (ii == 2 && jj==2) Rcpp::Rcout << "prob " << prob << " sigma " << sigma << "  " << mag << " fl " << fixedlabel << " ml " << movinglabel << std::endl;
 	    if ( fixedlabel != movinglabel) prob=0;
 // || fixedlabel !=4) prob=0;
 	    mag=sqrt(mag);
@@ -301,19 +301,19 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 	{
 	float tot=0;
 	for (int k=0; k < sz2; k++) { tot+=sinkhorn(ii,k); }
-	std::cout << "TOT " << tot << std::endl;
+	Rcpp::Rcout << "TOT " << tot << std::endl;
 	force.Fill(0);
 	mag=0;
 	}
 */
       if (mag > maxerr) maxerr=mag;
       energy+=mag;
-      std::cout <<" ii " << ii << " force " << force << " mag " << sqrt(mag) << " mpt " << mpt << " fpt " << fixedpoint <<  " nrg " << energy /(float)ii << std::endl;
+      Rcpp::Rcout <<" ii " << ii << " force " << force << " mag " << sqrt(mag) << " mpt " << mpt << " fpt " << fixedpoint <<  " nrg " << energy /(float)ii << std::endl;
       lmField->SetPixel(fixedindex,force+lmField->GetPixel(fixedindex));
       }
 //    lmField->SetPixel(fixedindex,sforce);
     }
-//  std::cout <<  " max " << maxerr << std::endl;
+//  Rcpp::Rcout <<  " max " << maxerr << std::endl;
   this->m_LandmarkEnergy=energy/(float)sz1;
   this->m_Energy=this->m_LandmarkEnergy;
 }
@@ -330,7 +330,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 ::InitializeIteration()
 {
 
-  //  std::cout << " INIT ITER " << std::endl;
+  //  Rcpp::Rcout << " INIT ITER " << std::endl;
   if( !this->GetMovingImage() || !this->GetFixedImage()  )
     {
     itkExceptionMacro( << "MovingImage, FixedImage  not set" );
@@ -382,7 +382,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
     {
     this->m_LabelSet.clear();
     unsigned long sz1=this->m_FixedPointSet->GetNumberOfPoints();
-    std::cout << " NPTS " << sz1 << std::endl;
+    Rcpp::Rcout << " NPTS " << sz1 << std::endl;
     for (unsigned long ii=0; ii<sz1; ii++)
       {
       PointType fixedpoint;
@@ -398,7 +398,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
           }
         }
       }
-    } else { std::cout << " #of Label Values to match " << this->m_LabelSet.size() << std::endl; }
+    } else { Rcpp::Rcout << " #of Label Values to match " << this->m_LabelSet.size() << std::endl; }
 
 
 
@@ -414,7 +414,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
     {
     lct++;
     PointDataType label=(PointDataType)*it;
-//     std::cout << " doing label " << label << std::endl;
+//     Rcpp::Rcout << " doing label " << label << std::endl;
     this->SetUpKDTrees(label);
     bool dobsp=false;
 //    if (lct ==  this->m_LabelSet.size()  ) dobsp=true;
@@ -501,7 +501,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
   MeasurementVectorType mv;
   unsigned int bucketsize=4;
   unsigned int npts= this->m_FixedPointSet->GetNumberOfPoints();
-//  std::cout << " NP MOV " << npts << std::endl;
+//  Rcpp::Rcout << " NP MOV " << npts << std::endl;
   for ( unsigned int i = 0; i < npts; i++ )
     {
       PointType fixedpoint;
@@ -523,7 +523,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
   this->m_MovingSamplePoints = SampleType::New();
   this->m_MovingSamplePoints->SetMeasurementVectorSize( ImageDimension );
   npts= this->m_MovingPointSet->GetNumberOfPoints();
-//  std::cout << " NP MOV " << npts << std::endl;
+//  Rcpp::Rcout << " NP MOV " << npts << std::endl;
   for ( unsigned int i = 0; i < npts; i++ )
     {
       PointType movingpoint;
@@ -586,7 +586,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
   unsigned long sz1=fkdtree->GetOutput()->Size();
   unsigned long sz2=mkdtree->GetOutput()->Size();
 
-//  std::cout << " s1 " << sz1 << " s2 " << sz2 << std::endl;
+//  Rcpp::Rcout << " s1 " << sz1 << " s2 " << sz2 << std::endl;
 
   if ( sz1 <= 0  || sz2 <= 0 )
   {
@@ -623,7 +623,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
     bool convok=false;
     IndexType fixedindex;
     convok=this->GetFixedImage()->TransformPhysicalPointToIndex(fpt,fixedindex);
-//    std::cout << " Orig " << this->GetFixedImage()->GetOrigin() << " ind " << fixedindex << " pt " << fpt << std::endl;
+//    Rcpp::Rcout << " Orig " << this->GetFixedImage()->GetOrigin() << " ind " << fixedindex << " pt " << fpt << std::endl;
     if (convok)
       {
       float mag=0.0;
@@ -655,7 +655,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
 	double pp=probabilities(dd)/probtotal;
 	if (pp > 0)for (int j=0; j<ImageDimension; j++) mpt[j]+=pp*npt[j];
 	//
-//	if (ii % 245 && pp > 1.e-3) std::cout << " prob " << pp <<  " mpt " << mpt << " dd " << dd <<" wpt " << wpt << " movinpoint " << movingpoint << " ptot " << probtotal <<  std::endl;
+//	if (ii % 245 && pp > 1.e-3) Rcpp::Rcout << " prob " << pp <<  " mpt " << mpt << " dd " << dd <<" wpt " << wpt << " movinpoint " << movingpoint << " ptot " << probtotal <<  std::endl;
 	}
 
     typename BSplinePointSetType::PointType bpoint;
@@ -686,7 +686,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
       lmField->SetPixel(fixedindex,force+lmField->GetPixel(fixedindex));
       }
     }
-//  std::cout <<  " max " << maxerr << std::endl;
+//  Rcpp::Rcout <<  " max " << maxerr << std::endl;
   this->m_LandmarkEnergy=energy/(float)sz1;
   this->m_Energy=this->m_LandmarkEnergy;
 
@@ -699,7 +699,7 @@ ExpectationBasedPointSetRegistrationFunction<TFixedImage,TMovingImage,TDisplacem
    * Calculate derivative field with respect to the moving points
    */
   {
-//std::cout << " start bsp " << std::endl;
+//Rcpp::Rcout << " start bsp " << std::endl;
 
   typename BSplineFilterType::ArrayType nlevels;
   typename BSplineFilterType::ArrayType ncps;

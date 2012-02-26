@@ -135,10 +135,10 @@ ANTSCenteredAffine2DTransform<TScalarType>
     R = R * dq;
     Q = dq * Q;
 
-//    std::cout << "A=" << A << std::endl;
-//    std::cout << "Q=" << Q << std::endl;
-//    std::cout << "R=" << R << std::endl;
-//    std::cout << "dq=" << dq << std::endl;
+//    Rcpp::Rcout << "A=" << A << std::endl;
+//    Rcpp::Rcout << "Q=" << Q << std::endl;
+//    Rcpp::Rcout << "R=" << R << std::endl;
+//    Rcpp::Rcout << "dq=" << dq << std::endl;
 
     m_Angle = vcl_acos(R[0][0]);
 

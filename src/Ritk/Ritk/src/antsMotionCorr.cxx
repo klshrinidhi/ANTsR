@@ -107,11 +107,11 @@ public:
     typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
-    std::cout << "  Current level = " << currentLevel << std::endl;
-    std::cout << "    number of iterations = " << this->m_NumberOfIterations[currentLevel] << std::endl;
-    std::cout << "    shrink factor = " << shrinkFactors[currentLevel] << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
+    Rcpp::Rcout << "  Current level = " << currentLevel << std::endl;
+    Rcpp::Rcout << "    number of iterations = " << this->m_NumberOfIterations[currentLevel] << std::endl;
+    Rcpp::Rcout << "    shrink factor = " << shrinkFactors[currentLevel] << std::endl;
+    Rcpp::Rcout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
+    Rcpp::Rcout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
 
     typedef itk::GradientDescentOptimizerv4 OptimizerType;
     typedef itk::QuasiNewtonOptimizerv4 OptimizerType2;
@@ -230,7 +230,7 @@ AverageTimeImages( typename TImageIn::Pointer image_in ,  typename TImageOut::Po
   unsigned int timedims=image_in->GetLargestPossibleRegion().GetSize()[ImageDimension-1];
   if ( timelist.size() == 0 )
     for (unsigned int timedim=0; timedim<timedims; timedim++ )  timelist.push_back(timedim);
-  std::cout <<" averaging with " << timelist.size() << " images of " <<  timedims <<  " timedims " << std::endl;
+  Rcpp::Rcout <<" averaging with " << timelist.size() << " images of " <<  timedims <<  " timedims " << std::endl;
   Iterator vfIter2(  image_avg,image_avg->GetLargestPossibleRegion() );
   for(  vfIter2.GoToBegin(); !vfIter2.IsAtEnd(); ++vfIter2 )
     {
@@ -249,7 +249,7 @@ AverageTimeImages( typename TImageIn::Pointer image_in ,  typename TImageOut::Po
       fval/=(double)timelist.size();
       image_avg->SetPixel(spind,fval);
     }
-  std::cout <<" averaging images done " << std::endl;
+  Rcpp::Rcout <<" averaging images done " << std::endl;
   return;
 }
 
@@ -277,7 +277,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     typename OptionType::Pointer outputOption = parser->GetOption( "output" );
     if( !outputOption )
       {
-      std::cerr << "Output option not specified.  Should be the output average image name." << std::endl;
+      Rcpp::Rcout << "Output option not specified.  Should be the output average image name." << std::endl;
       return EXIT_FAILURE;
       }
     std::string outputPrefix = outputOption->GetParameter( 0, 0 );
@@ -312,7 +312,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     writer->SetFileName( outputPrefix.c_str() );
     writer->SetInput( avgImage );
     writer->Update();
-    std::cout <<" done writing avg image " << std::endl;
+    Rcpp::Rcout <<" done writing avg image " << std::endl;
     return EXIT_SUCCESS;
     }
 
@@ -324,44 +324,44 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     }
   else
     {
-    std::cerr << "No transformations are specified." << std::endl;
+    Rcpp::Rcout << "No transformations are specified." << std::endl;
     return EXIT_FAILURE;
     }
 
-  std::cout << "Registration using " << numberOfStages << " total stages." << std::endl;
+  Rcpp::Rcout << "Registration using " << numberOfStages << " total stages." << std::endl;
 
   typename OptionType::Pointer metricOption = parser->GetOption( "metric" );
   if( !metricOption || metricOption->GetNumberOfValues() != numberOfStages  )
     {
-    std::cerr << "The number of metrics specified does not match the number of stages." << std::endl;
+    Rcpp::Rcout << "The number of metrics specified does not match the number of stages." << std::endl;
     return EXIT_FAILURE;
     }
 
   typename OptionType::Pointer iterationsOption = parser->GetOption( "iterations" );
   if( !iterationsOption || iterationsOption->GetNumberOfValues() != numberOfStages  )
     {
-    std::cerr << "The number of iteration sets specified does not match the number of stages." << std::endl;
+    Rcpp::Rcout << "The number of iteration sets specified does not match the number of stages." << std::endl;
     return EXIT_FAILURE;
     }
 
   typename OptionType::Pointer shrinkFactorsOption = parser->GetOption( "shrinkFactors" );
   if( !shrinkFactorsOption || shrinkFactorsOption->GetNumberOfValues() != numberOfStages  )
     {
-    std::cerr << "The number of shrinkFactor sets specified does not match the number of stages." << std::endl;
+    Rcpp::Rcout << "The number of shrinkFactor sets specified does not match the number of stages." << std::endl;
     return EXIT_FAILURE;
     }
 
   typename OptionType::Pointer smoothingSigmasOption = parser->GetOption( "smoothingSigmas" );
   if( !smoothingSigmasOption || smoothingSigmasOption->GetNumberOfValues() != numberOfStages  )
     {
-    std::cerr << "The number of smoothing sigma sets specified does not match the number of stages." << std::endl;
+    Rcpp::Rcout << "The number of smoothing sigma sets specified does not match the number of stages." << std::endl;
     return EXIT_FAILURE;
     }
 
   typename OptionType::Pointer outputOption = parser->GetOption( "output" );
   if( !outputOption )
     {
-    std::cerr << "Output option not specified." << std::endl;
+    Rcpp::Rcout << "Output option not specified." << std::endl;
     return EXIT_FAILURE;
     }
   std::string outputPrefix = outputOption->GetParameter( 0, 0 );
@@ -375,7 +375,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
   if( navgOption && navgOption->GetNumberOfValues() > 0 )
     {
     nimagestoavg = parser->Convert<unsigned int>( navgOption->GetValue() );
-    std::cout << " nimagestoavg " << nimagestoavg << std::endl;
+    Rcpp::Rcout << " nimagestoavg " << nimagestoavg << std::endl;
     }
 
   unsigned int nparams=2;
@@ -386,7 +386,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     {
     typedef itk::ImageRegistrationMethodv4<FixedImageType, FixedImageType> AffineRegistrationType;
 
-    std::cout << std::endl << "Stage " << numberOfStages - currentStage << std::endl;
+    Rcpp::Rcout << std::endl << "Stage " << numberOfStages - currentStage << std::endl;
     std::stringstream currentStageString;
     currentStageString << currentStage;
 
@@ -394,8 +394,8 @@ int ants_motion( itk::ants::CommandLineParser *parser )
 
     std::string fixedImageFileName = metricOption->GetParameter( currentStage, 0 );
     std::string movingImageFileName = metricOption->GetParameter( currentStage, 1 );
-    std::cout << "  fixed image: " << fixedImageFileName << std::endl;
-    std::cout << "  moving image: " << movingImageFileName << std::endl;
+    Rcpp::Rcout << "  fixed image: " << fixedImageFileName << std::endl;
+    Rcpp::Rcout << "  moving image: " << movingImageFileName << std::endl;
     typename FixedImageType::Pointer fixed_time_slice=NULL;
     typename FixedImageType::Pointer moving_time_slice=NULL;
 
@@ -427,7 +427,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
 
     std::vector<unsigned int> iterations = parser->ConvertVector<unsigned int>( iterationsOption->GetValue( currentStage ) );
     unsigned int numberOfLevels = iterations.size();
-    std::cout << "  number of levels = " << numberOfLevels << std::endl;
+    Rcpp::Rcout << "  number of levels = " << numberOfLevels << std::endl;
 
     // Get shrink factors
 
@@ -437,7 +437,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
 
     if( factors.size() != numberOfLevels )
       {
-      std::cerr << "ERROR:  The number of shrink factors does not match the number of levels." << std::endl;
+      Rcpp::Rcout << "ERROR:  The number of shrink factors does not match the number of levels." << std::endl;
       return EXIT_FAILURE;
       }
     else
@@ -446,7 +446,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
         {
         shrinkFactorsPerLevel[n] = factors[n];
         }
-      std::cout << "  shrink factors per level: " << shrinkFactorsPerLevel << std::endl;
+      Rcpp::Rcout << "  shrink factors per level: " << shrinkFactorsPerLevel << std::endl;
       }
 
     // Get smoothing sigmas
@@ -457,7 +457,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
 
     if( sigmas.size() != numberOfLevels )
       {
-      std::cerr << "ERROR:  The number of smoothing sigmas does not match the number of levels." << std::endl;
+      Rcpp::Rcout << "ERROR:  The number of smoothing sigmas does not match the number of levels." << std::endl;
       return EXIT_FAILURE;
       }
     else
@@ -466,7 +466,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
         {
         smoothingSigmasPerLevel[n] = sigmas[n];
         }
-      std::cout << "  smoothing sigmas per level: " << smoothingSigmasPerLevel << std::endl;
+      Rcpp::Rcout << "  smoothing sigmas per level: " << smoothingSigmasPerLevel << std::endl;
       }
 
     // the fixed image is a reference image in 3D while the moving is a 4D image
@@ -490,7 +490,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     else if ( CompositeTransformVector.size() == timedims && !CompositeTransformVector[timedim].IsNull() )
       {
       compositeTransform=CompositeTransformVector[timedim];
-      std::cout <<" use existing transform " << compositeTransform->GetParameters() << std::endl;
+      Rcpp::Rcout <<" use existing transform " << compositeTransform->GetParameters() << std::endl;
       }
     typedef itk::IdentityTransform<RealType, ImageDimension> IdentityTransformType;
     typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
@@ -506,7 +506,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
       ConvertToLowerCase( fixedValue );
       if( fixedValue.compare( "1" ) == 0 || fixedValue.compare( "true" ) == 0 )
         {
-	  if (timedim==0) std::cout << "using fixed reference image for all frames " << std::endl;
+	  if (timedim==0) Rcpp::Rcout << "using fixed reference image for all frames " << std::endl;
           fixed_time_slice=fixedImage;
 	  extractRegion.SetIndex(ImageDimension, timedim );
 	  typename ExtractFilterType::Pointer extractFilter2 = ExtractFilterType::New();
@@ -559,12 +559,12 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     typename AffineRegistrationType::MetricSamplingStrategyType metricSamplingStrategy = AffineRegistrationType::NONE;
     if( std::strcmp( samplingStrategy.c_str(), "random" ) == 0 )
       {
-      std::cout << "  random sampling (percentage = " << samplingPercentage << ")" << std::endl;
+      Rcpp::Rcout << "  random sampling (percentage = " << samplingPercentage << ")" << std::endl;
       metricSamplingStrategy = AffineRegistrationType::RANDOM;
       }
     if( std::strcmp( samplingStrategy.c_str(), "regular" ) == 0 )
       {
-      std::cout << "  regular sampling (percentage = " << samplingPercentage << ")" << std::endl;
+      Rcpp::Rcout << "  regular sampling (percentage = " << samplingPercentage << ")" << std::endl;
       metricSamplingStrategy = AffineRegistrationType::REGULAR;
       }
 
@@ -574,7 +574,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
       {
       unsigned int radiusOption = parser->Convert<unsigned int>( metricOption->GetParameter( currentStage, 3 ) );
 
-      std::cout << "  using the CC metric (radius = " << radiusOption << ")." << std::endl;
+      Rcpp::Rcout << "  using the CC metric (radius = " << radiusOption << ")." << std::endl;
       typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, FixedImageType> CorrelationMetricType;
       typename CorrelationMetricType::Pointer correlationMetric = CorrelationMetricType::New();
       typename CorrelationMetricType::RadiusType radius;
@@ -622,7 +622,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
       }
     else if( std::strcmp( whichMetric.c_str(), "demons" ) == 0 )
       {
-      std::cout << "  using the Demons metric." << std::endl;
+      Rcpp::Rcout << "  using the Demons metric." << std::endl;
       typedef itk::DemonsImageToImageMetricv4<FixedImageType, FixedImageType> DemonsMetricType;
       typename DemonsMetricType::Pointer demonsMetric = DemonsMetricType::New();
       demonsMetric = demonsMetric;
@@ -632,18 +632,18 @@ int ants_motion( itk::ants::CommandLineParser *parser )
       }
     else if( std::strcmp( whichMetric.c_str(), "gc" ) == 0 )
       {
-      std::cout << "  using the global correlation metric." << std::endl;
+      Rcpp::Rcout << "  using the global correlation metric." << std::endl;
       typedef itk::CorrelationImageToImageMetricv4<FixedImageType, FixedImageType> corrMetricType;
       typename corrMetricType::Pointer corrMetric = corrMetricType::New();
       corrMetric->SetDoFixedImagePreWarp( false );
       corrMetric->SetDoMovingImagePreWarp( false );
       //      metric = corrMetric;
-      std::cout << " global corr Error " << std::endl;
+      Rcpp::Rcout << " global corr Error " << std::endl;
       throw std::exception() ;
       }
     else
       {
-      std::cerr << "ERROR: Unrecognized image metric: " << whichMetric << std::endl;
+      Rcpp::Rcout << "ERROR: Unrecognized image metric: " << whichMetric << std::endl;
       }
 
     // Set up the optimizer.  To change the iteration number for each level we rely
@@ -669,10 +669,10 @@ int ants_motion( itk::ants::CommandLineParser *parser )
       ConvertToLowerCase( scalesValue );
       if( scalesValue.compare( "1" ) == 0 || scalesValue.compare( "true" ) == 0 )
         {
-	  std::cout << " employing scales estimator " << std::endl;
+	  Rcpp::Rcout << " employing scales estimator " << std::endl;
 	  optimizer->SetScalesEstimator( scalesEstimator );
 	}
-      else std::cout << " not employing scales estimator " <<scalesValue<< std::endl;
+      else Rcpp::Rcout << " not employing scales estimator " <<scalesValue<< std::endl;
       }
     double small_step=0;
     for (unsigned int i=0;i<ImageDimension;i++) small_step+=fixed_time_slice->GetSpacing()[i]*fixed_time_slice->GetSpacing()[i];
@@ -717,12 +717,12 @@ int ants_motion( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running affine registration ***" << timedim << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running affine registration ***" << timedim << std::endl << std::endl;
         affineRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
 
@@ -765,12 +765,12 @@ int ants_motion( itk::ants::CommandLineParser *parser )
       rigidRegistration->AddObserver( itk::IterationEvent(), rigidObserver );
       try
         {
-        std::cout << std::endl << "*** Running rigid registration ***" << timedim  << std::endl << std::endl;
+        Rcpp::Rcout << std::endl << "*** Running rigid registration ***" << timedim  << std::endl << std::endl;
         rigidRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
       // Write out the rigid transform
@@ -856,13 +856,13 @@ int ants_motion( itk::ants::CommandLineParser *parser )
 
       try
         {
-        std::cout << std::endl << "*** Running gaussian displacement field registration (sigmaForUpdateField = "
+        Rcpp::Rcout << std::endl << "*** Running gaussian displacement field registration (sigmaForUpdateField = "
 		  << sigmaForUpdateField << ", sigmaForTotalField = " << sigmaForTotalField << ") ***" << " timedim " << timedim << std::endl << std::endl;
         displacementFieldRegistration->StartRegistration();
         }
       catch( itk::ExceptionObject &e )
         {
-        std::cerr << "Exception caught: " << e << std::endl;
+        Rcpp::Rcout << "Exception caught: " << e << std::endl;
         return EXIT_FAILURE;
         }
       if ( timedim==0 )
@@ -873,7 +873,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
       }
     else
       {
-      std::cerr << "ERROR:  Unrecognized transform option - " << whichTransform << std::endl;
+      Rcpp::Rcout << "ERROR:  Unrecognized transform option - " << whichTransform << std::endl;
       return EXIT_FAILURE;
       }
       if ( currentStage == (numberOfStages - 1) ) param_values(timedim,1)=metric->GetValue();
@@ -888,9 +888,9 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     resampler->SetOutputSpacing(  moving_time_slice->GetSpacing() );
     resampler->SetOutputDirection(  moving_time_slice->GetDirection() );
     resampler->SetDefaultPixelValue( 0 );
-    std::cout << " resampling " << std::endl;
+    Rcpp::Rcout << " resampling " << std::endl;
     resampler->Update();
-    std::cout << " done resampling " << std::endl;
+    Rcpp::Rcout << " done resampling " << std::endl;
     typedef itk::ImageRegionIteratorWithIndex<FixedImageType> Iterator;
     Iterator vfIter2(  resampler->GetOutput(), resampler->GetOutput()->GetLargestPossibleRegion() );
     for(  vfIter2.GoToBegin(); !vfIter2.IsAtEnd(); ++vfIter2 )
@@ -936,7 +936,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     for (unsigned int i=0; i<nimagestoavg; i++)
       {
 	timelistsort.push_back(timelist[i]);
-	std::cout <<" i^th value " << i << "  is " << metriclist[timelist[i]] <<std::endl;
+	Rcpp::Rcout <<" i^th value " << i << "  is " << metriclist[timelist[i]] <<std::endl;
       }
     AverageTimeImages<MovingImageType,FixedImageType>( outputImage, avgImage, timelistsort );
     typedef itk::ImageFileWriter<FixedImageType> WriterType;
@@ -944,11 +944,11 @@ int ants_motion( itk::ants::CommandLineParser *parser )
     writer->SetFileName( fileName.c_str() );
     writer->SetInput( avgImage );
     writer->Update();
-    std::cout <<" done writing avg image " << std::endl;
+    Rcpp::Rcout <<" done writing avg image " << std::endl;
     }
     }
   totalTimer.Stop();
-  std::cout << std::endl << "Total elapsed time: " << totalTimer.GetMeanTime() << std::endl;
+  Rcpp::Rcout << std::endl << "Total elapsed time: " << totalTimer.GetMeanTime() << std::endl;
   {
   std::vector<std::string> ColumnHeaders;
   std::string colname;
@@ -964,7 +964,7 @@ int ants_motion( itk::ants::CommandLineParser *parser )
   typedef itk::CSVNumericObjectFileWriter<double,1,1> WriterType;
   WriterType::Pointer writer = WriterType::New();
   std::string fnmp = outputPrefix + std::string("MOCOparams.csv");
-  std::cout << " write " << fnmp << std::endl;
+  Rcpp::Rcout << " write " << fnmp << std::endl;
   writer->SetFileName( fnmp.c_str() );
   writer->SetColumnHeaders(ColumnHeaders);
   writer->SetInput( &param_values );
@@ -1174,12 +1174,12 @@ try
 
   if( argc < 2 || parser->Convert<bool>( parser->GetOption( "help" )->GetValue() ) )
     {
-    parser->PrintMenu( std::cout, 5, false );
+    parser->PrintMenu( Rcpp::Rcout, 5, false );
     return Rcpp::wrap( EXIT_FAILURE );
     }
   else if( parser->Convert<bool>( parser->GetOption( 'h' )->GetValue() ) )
     {
-    parser->PrintMenu( std::cout, 5, true );
+    parser->PrintMenu( Rcpp::Rcout, 5, true );
     return Rcpp::wrap( EXIT_FAILURE );
     }
 
@@ -1193,11 +1193,11 @@ try
     }
   else
     {
-    std::cerr << "Image dimensionality not specified.  See command line option --dimensionality" << std::endl;
+    Rcpp::Rcout << "Image dimensionality not specified.  See command line option --dimensionality" << std::endl;
     return Rcpp::wrap( EXIT_FAILURE );
     }
 
-  std::cout << std::endl << "Running " << argv[0] << "  for " << dimension << "-dimensional images." << std::endl << std::endl;
+  Rcpp::Rcout << std::endl << "Running " << argv[0] << "  for " << dimension << "-dimensional images." << std::endl << std::endl;
 
   switch( dimension )
    {
@@ -1208,7 +1208,7 @@ try
      ants_motion<3>( parser );
      break;
    default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      Rcpp::Rcout << "Unsupported dimension" << std::endl;
       return Rcpp::wrap( EXIT_FAILURE );
    }
 
@@ -1223,6 +1223,6 @@ try
 }
  catch( const std::exception& exc )
    {
-     std::cerr<< exc.what() << std::endl ;
+     Rcpp::Rcout<< exc.what() << std::endl ;
      return Rcpp::wrap( EXIT_FAILURE ) ;
    }

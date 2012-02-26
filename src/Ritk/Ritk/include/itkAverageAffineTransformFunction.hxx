@@ -33,10 +33,10 @@ AverageAffineTransformFunction<TTransform>::AverageAffineTransformFunction() {
 
 template<class TTransform>
 void AverageAffineTransformFunction<TTransform>::PrintTransformList() {
-    std::cout << "transform list: " << std::endl;
+    Rcpp::Rcout << "transform list: " << std::endl;
     typename TransformListType::iterator it = (m_TransformList.begin());
     for (int ii = 0; it != m_TransformList.end(); it++, ii++) {
-        std::cout << '[' << ii << ":" << it->weight << "]:" << it->aff
+        Rcpp::Rcout << '[' << ii << ":" << it->weight << "]:" << it->aff
                 << std::endl;
     }
 }
@@ -68,7 +68,7 @@ template<class TTransform>
 void AverageAffineTransformFunction<TTransform>::AverageMultipleAffineTransform(
         const PointType &reference_center,
         GenericAffineTransformPointerType &affine_output) {
-//    std::cout << "test " ;
+//    Rcpp::Rcout << "test " ;
 //    TransformTypePointer affine_output = TransformType::New();
 
     affine_output->SetIdentity();
@@ -78,7 +78,7 @@ void AverageAffineTransformFunction<TTransform>::AverageMultipleAffineTransform(
 
     number_of_affine--;
 
-//    std::cout << affine_output;
+//    Rcpp::Rcout << affine_output;
 
     typename TransformListType::iterator it = m_TransformList.begin();
 
@@ -99,7 +99,7 @@ void AverageAffineTransformFunction<TTransform>::AverageMultipleAffineTransform(
         m_InternalTransformList.push_back(internal_item);
 
 
-        std::cout << "internal_transform: " << internal_item.aff << std::endl;
+        Rcpp::Rcout << "internal_transform: " << internal_item.aff << std::endl;
 
     }
 
@@ -117,12 +117,12 @@ void AverageAffineTransformFunction<TTransform>::AverageMultipleAffineTransform(
     average_iaff->SetCenter(reference_center);
 
 
-    std::cout << "average_iaff" << average_iaff << std::endl;
+    Rcpp::Rcout << "average_iaff" << average_iaff << std::endl;
 
     ConvertInternalAffineToGenericAffine(average_iaff, affine_output);
 
 
-    std::cout << "affine_output" << affine_output << std::endl;
+    Rcpp::Rcout << "affine_output" << affine_output << std::endl;
     return;
 }
 
@@ -172,41 +172,41 @@ void HelperCommonType<TAffine>::ComputeAveragePartialParameters(
         ParametersType current_parameters = it->aff->GetParameters();
         w += it->weight;
 
-        std::cout << "[" << cnt++ << "]:" << it->weight << "\t";
+        Rcpp::Rcout << "[" << cnt++ << "]:" << it->weight << "\t";
 
         for (unsigned int k = istart; k <= iend; k++) {
             average_parameters[k] += it->weight * current_parameters[k];
 
-            std::cout << current_parameters[k] << " ";
+            Rcpp::Rcout << current_parameters[k] << " ";
 
         }
 
-        std::cout << std::endl;
+        Rcpp::Rcout << std::endl;
 
     }
 
 
 
     if (w <= 0.0) {
-        std::cout << "Total weight smaller than 0!!!" << std::endl;
+        Rcpp::Rcout << "Total weight smaller than 0!!!" << std::endl;
 	throw std::exception() ;
     }
 
     // normalize by weight
-    std::cout << "sum:w=" << w <<  "\t";
+    Rcpp::Rcout << "sum:w=" << w <<  "\t";
     for (unsigned int k = istart; k <= iend; k++) {
-        std::cout << average_parameters[k] << " ";
+        Rcpp::Rcout << average_parameters[k] << " ";
     }
-    std::cout << std::endl;
+    Rcpp::Rcout << std::endl;
 
     // normalize by weight
-    std::cout << "average" << "\t";
+    Rcpp::Rcout << "average" << "\t";
     for (unsigned int k = istart; k <= iend; k++) {
         average_parameters[k] /= w;
-        std::cout << average_parameters[k] << " ";
+        Rcpp::Rcout << average_parameters[k] << " ";
     }
 
-    std::cout << std::endl;
+    Rcpp::Rcout << std::endl;
     return;
 
 }
@@ -218,7 +218,7 @@ void HelperType<Dispatcher<2> >::ComputeAverageScaleParameters(
     unsigned int istart = 1;
     unsigned int iend = 2;
 
-    std::cout << "average 2D scale parameter " << std::endl;
+    Rcpp::Rcout << "average 2D scale parameter " << std::endl;
 
     HelperCommonType<InternalAffineTransformType>::ComputeAveragePartialParameters(
             transform_list, average_parameters, istart, iend);
@@ -232,7 +232,7 @@ void HelperType<Dispatcher<2> >::ComputeAverageShearingParameters(
     unsigned int istart = 3;
     unsigned int iend = 3;
 
-    std::cout << "average 2D shearing parameter " << std::endl;
+    Rcpp::Rcout << "average 2D shearing parameter " << std::endl;
 
     HelperCommonType<InternalAffineTransformType>::ComputeAveragePartialParameters(
             transform_list, average_parameters, istart, iend);
@@ -246,7 +246,7 @@ void HelperType<Dispatcher<2> >::ComputeAverageRotationParameters(
     unsigned int istart = 0;
     unsigned int iend = 0;
 
-    std::cout << "average 2D rotation parameter " << std::endl;
+    Rcpp::Rcout << "average 2D rotation parameter " << std::endl;
 
     HelperCommonType<InternalAffineTransformType>::ComputeAveragePartialParameters(
             transform_list, average_parameters, istart, iend);
@@ -260,7 +260,7 @@ void HelperType<Dispatcher<2> >::ComputeAverageTranslationParameters(
     unsigned int istart = 6;
     unsigned int iend = 7;
 
-    std::cout << "average 2D translation parameter " << std::endl;
+    Rcpp::Rcout << "average 2D translation parameter " << std::endl;
 
     HelperCommonType<InternalAffineTransformType>::ComputeAveragePartialParameters(
             transform_list, average_parameters, istart, iend);
@@ -274,7 +274,7 @@ void HelperType<Dispatcher<3> >::ComputeAverageScaleParameters(
     unsigned int istart = 4;
     unsigned int iend = 6;
 
-    std::cout << "average 3D scale parameter " << std::endl;
+    Rcpp::Rcout << "average 3D scale parameter " << std::endl;
 
     HelperCommonType<InternalAffineTransformType>::ComputeAveragePartialParameters(
             transform_list, average_parameters, istart, iend);
@@ -288,7 +288,7 @@ void HelperType<Dispatcher<3> >::ComputeAverageShearingParameters(
     unsigned int istart = 7;
     unsigned int iend = 9;
 
-    std::cout << "average 3D shearing parameter " << std::endl;
+    Rcpp::Rcout << "average 3D shearing parameter " << std::endl;
 
     HelperCommonType<InternalAffineTransformType>::ComputeAveragePartialParameters(
             transform_list, average_parameters, istart, iend);
@@ -302,7 +302,7 @@ void HelperType<Dispatcher<3> >::ComputeAverageRotationParameters(
     unsigned int istart = 0;
     unsigned int iend = 3;
 
-    std::cout << "average 3D rotation parameter " << std::endl;
+    Rcpp::Rcout << "average 3D rotation parameter " << std::endl;
 
     HelperCommonType<InternalAffineTransformType>::ComputeAveragePartialParameters(
             transform_list, average_parameters, istart, iend);
@@ -324,7 +324,7 @@ void HelperType<Dispatcher<3> >::ComputeAverageTranslationParameters(
     unsigned int istart = 10;
     unsigned int iend = 12;
 
-    std::cout << "average 3D translation parameter " << std::endl;
+    Rcpp::Rcout << "average 3D translation parameter " << std::endl;
 
     HelperCommonType<InternalAffineTransformType>::ComputeAveragePartialParameters(
             transform_list, average_parameters, istart, iend);

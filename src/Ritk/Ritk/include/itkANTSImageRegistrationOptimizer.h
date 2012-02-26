@@ -301,7 +301,7 @@ public:
        {
              expandFactors[idim] = (TReal)this->m_CurrentDomainSize[idim]/(TReal) this->m_TimeVaryingVelocity->GetLargestPossibleRegion().GetSize()[idim];
              if( expandFactors[idim] < 1 ) expandFactors[idim] = 1;
-	     if (this->m_Debug)  std::cout << " ExpFac " << expandFactors[idim] << " curdsz " << this->m_CurrentDomainSize[idim] << std::endl;
+	     if (this->m_Debug)  Rcpp::Rcout << " ExpFac " << expandFactors[idim] << " curdsz " << this->m_CurrentDomainSize[idim] << std::endl;
        }
         VectorType pad;  pad.Fill(0);
         typedef VectorExpandImageFilter<TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType> ExpanderType;
@@ -322,7 +322,7 @@ public:
        {
              expandFactors[idim] = (TReal)this->m_CurrentDomainSize[idim]/(TReal)field->GetLargestPossibleRegion().GetSize()[idim];
              if( expandFactors[idim] < 1 ) expandFactors[idim] = 1;
-	     //             if (this->m_Debug)  std::cout << " ExpFac " << expandFactors[idim] << " curdsz " << this->m_CurrentDomainSize[idim] << std::endl;
+	     //             if (this->m_Debug)  Rcpp::Rcout << " ExpFac " << expandFactors[idim] << " curdsz " << this->m_CurrentDomainSize[idim] << std::endl;
        }
 
         VectorType pad;
@@ -338,7 +338,7 @@ public:
         typename DisplacementFieldType::Pointer fieldout=m_FieldExpander->GetOutput();
         fieldout->SetSpacing(targetSpacing);
         fieldout->SetOrigin(field->GetOrigin());
-        if (this->m_Debug)  std::cout << " Field size " << fieldout->GetLargestPossibleRegion().GetSize() << std::endl;
+        if (this->m_Debug)  Rcpp::Rcout << " Field size " << fieldout->GetLargestPossibleRegion().GetSize() << std::endl;
 	//this->m_Debug=false;
 
         return fieldout;
@@ -377,11 +377,11 @@ public:
     DisplacementFieldPointer SubsampleField( DisplacementFieldPointer field, typename ImageType::SizeType
             targetSize, typename ImageType::SpacingType targetSpacing )
     {
-        std::cout << "FIXME -- NOT DONE CORRECTLY " << std::endl;
-        std::cout << "FIXME -- NOT DONE CORRECTLY " << std::endl;
-        std::cout << "FIXME -- NOT DONE CORRECTLY " << std::endl;
-        std::cout << "FIXME -- NOT DONE CORRECTLY " << std::endl;
-        std::cout << " SUBSAM FIELD SUBSAM FIELD SUBSAM FIELD " << std::endl;
+        Rcpp::Rcout << "FIXME -- NOT DONE CORRECTLY " << std::endl;
+        Rcpp::Rcout << "FIXME -- NOT DONE CORRECTLY " << std::endl;
+        Rcpp::Rcout << "FIXME -- NOT DONE CORRECTLY " << std::endl;
+        Rcpp::Rcout << "FIXME -- NOT DONE CORRECTLY " << std::endl;
+        Rcpp::Rcout << " SUBSAM FIELD SUBSAM FIELD SUBSAM FIELD " << std::endl;
         typename DisplacementFieldType::Pointer sfield=DisplacementFieldType::New();
 
         for (unsigned int i=0; i < ImageDimension; i++)
@@ -420,7 +420,7 @@ public:
 
 PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer movingImage, PointSetPointer movingpoints,  AffineTransformPointer aff , DisplacementFieldPointer totalField, bool doinverse , AffineTransformPointer  fixedaff  )
   {
-    if (!movingpoints) { std::cout << " NULL POINTS " << std::endl;  return NULL; }
+    if (!movingpoints) { Rcpp::Rcout << " NULL POINTS " << std::endl;  return NULL; }
 
     AffineTransformPointer affinverse=NULL;
     if (aff)
@@ -465,11 +465,11 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
      totalField->SetDirection(referenceimage->GetDirection() );
 
      // warper->Update();
-//      std::cout << " updated in point warp " << std::endl;
+//      Rcpp::Rcout << " updated in point warp " << std::endl;
       PointSetPointer outputMesh = PointSetType::New();
       unsigned long count = 0;
       unsigned long sz1 = movingpoints->GetNumberOfPoints();
-      if (this->m_Debug) std::cout << " BEFORE # points " << sz1 << std::endl;
+      if (this->m_Debug) Rcpp::Rcout << " BEFORE # points " << sz1 << std::endl;
       for (unsigned long ii=0; ii<sz1; ii++)
 	{
 	PointType point,wpoint;
@@ -485,12 +485,12 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
 	  for (unsigned int jj=0;  jj<ImageDimension; jj++) wpoint[jj]=wpt[jj];
 	  outputMesh->SetPointData( count, label );
 	  outputMesh->SetPoint( count, wpoint );
-//	  if (ii % 100 == 0) std::cout << " pt " << pt << " wpt " << wpt << std::endl;
+//	  if (ii % 100 == 0) Rcpp::Rcout << " pt " << pt << " wpt " << wpt << std::endl;
 	  count++;
 	    }
 	}
-      if (this->m_Debug) std::cout << " AFTER # points " << count << std::endl;
-//      if (count != sz1 ) std::cout << " WARNING:  POINTS ARE MAPPING OUT OF IMAGE DOMAIN " << 1.0 - (TReal) count/(TReal)(sz1+1) << std::endl;
+      if (this->m_Debug) Rcpp::Rcout << " AFTER # points " << count << std::endl;
+//      if (count != sz1 ) Rcpp::Rcout << " WARNING:  POINTS ARE MAPPING OUT OF IMAGE DOMAIN " << 1.0 - (TReal) count/(TReal)(sz1+1) << std::endl;
       return outputMesh;
 }
 
@@ -558,7 +558,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
 
       warper->Update();
       if (this->m_Debug){
-      std::cout << " updated ok -- warped image output size " << warper->GetOutput()->GetLargestPossibleRegion().GetSize() << " requested size " <<  totalField->GetLargestPossibleRegion().GetSize() <<  std::endl;
+      Rcpp::Rcout << " updated ok -- warped image output size " << warper->GetOutput()->GetLargestPossibleRegion().GetSize() << " requested size " <<  totalField->GetLargestPossibleRegion().GetSize() <<  std::endl;
       }
 
    typename ImageType::Pointer outimg=warper->GetOutput();
@@ -638,23 +638,23 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
     std::string GetTransformationModel( ) { return this->m_TransformationModel; }
     void SetTransformationModel( std::string  s) {
       this->m_TransformationModel=s;
-      std::cout << " Requested Transformation Model:  " << this->m_TransformationModel << " : Using " << std::endl;
+      Rcpp::Rcout << " Requested Transformation Model:  " << this->m_TransformationModel << " : Using " << std::endl;
         if ( this->m_TransformationModel  == std::string("Elast") )
         {
-            std::cout << "Elastic model for transformation. " << std::endl;
+            Rcpp::Rcout << "Elastic model for transformation. " << std::endl;
         }
         else if ( this->m_TransformationModel  == std::string("SyN") )
         {
-            std::cout << "SyN diffeomorphic model for transformation. " << std::endl;
+            Rcpp::Rcout << "SyN diffeomorphic model for transformation. " << std::endl;
         }
         else if ( this->m_TransformationModel  == std::string("GreedyExp") )
         {
-            std::cout << "Greedy Exp Diff model for transformation.   Similar to Diffeomorphic Demons.  Params same as Exp model. " << std::endl;
+            Rcpp::Rcout << "Greedy Exp Diff model for transformation.   Similar to Diffeomorphic Demons.  Params same as Exp model. " << std::endl;
             this->m_TransformationModel=std::string("GreedyExp");
         }
         else
         {
-            std::cout << "Exp Diff model for transformation. " << std::endl;
+            Rcpp::Rcout << "Exp Diff model for transformation. " << std::endl;
             this->m_TransformationModel=std::string("Exp");
         }
 
@@ -668,7 +668,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
     std::string temp=this->m_Parser->GetOption( "Restrict-Deformation" )->GetValue();
     this->m_RestrictDeformation = this->m_Parser->template ConvertVector<TReal>(temp);
     if ( this->m_RestrictDeformation.size() != ImageDimension ) {
-      std::cout <<" You input a vector of size :  "  << this->m_RestrictDeformation.size() << " for --Restrict-Deformation.  The vector length does not match the image dimension.  Ignoring.  " << std::endl;
+      Rcpp::Rcout <<" You input a vector of size :  "  << this->m_RestrictDeformation.size() << " for --Restrict-Deformation.  The vector length does not match the image dimension.  Ignoring.  " << std::endl;
       for (unsigned int jj=0; jj<this->m_RestrictDeformation.size();  jj++ )
 	this->m_RestrictDeformation[jj]=0;
     }
@@ -721,7 +721,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
         = this->m_Parser->template Convert<TReal>( parameter );
       if (this->m_DeltaTime  > 1) this->m_DeltaTime=1;
       if (this->m_DeltaTime  <= 0) this->m_DeltaTime=0.001;
-      std::cout <<" set DT " << this->m_DeltaTime << std::endl;
+      Rcpp::Rcout <<" set DT " << this->m_DeltaTime << std::endl;
       this->m_SyNType=1;
       }
     else this->m_DeltaTime=0.1;
@@ -762,7 +762,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
         this->m_GaussianTruncation = this->m_Parser->template Convert<TReal>( parameter );
         }
       else  this->m_GaussianTruncation = 256;
-      std::cout <<"  Grad Step " << this->m_Gradstep << " total-smoothing " << this->m_TotalSmoothingparam << " gradient-smoothing " << this->m_GradSmoothingparam << std::endl;
+      Rcpp::Rcout <<"  Grad Step " << this->m_Gradstep << " total-smoothing " << this->m_TotalSmoothingparam << " gradient-smoothing " << this->m_GradSmoothingparam << std::endl;
       }
     else if( ( regularizationOption->GetValue() ).find( "DMFFD" )
              != std::string::npos )
@@ -818,7 +818,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
           = this->m_Parser->template Convert<unsigned int>( parameter );
         }
       else  this->m_BSplineFieldOrder = 3;
-      std::cout <<"  Grad Step " << this->m_Gradstep
+      Rcpp::Rcout <<"  Grad Step " << this->m_Gradstep
                 << " total-smoothing " << this->m_TotalSmoothingparam
                 << " gradient-smoothing " << this->m_GradSmoothingparam
                 << " bspline-field-order " << this->m_BSplineFieldOrder
@@ -828,7 +828,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
       {
       this->m_GradSmoothingparam=3;
       this->m_TotalSmoothingparam=0.5;
-      std::cout <<" Default Regularization is Gaussian smoothing with : " << this->m_GradSmoothingparam  << " & " << this->m_TotalSmoothingparam << std::endl;
+      Rcpp::Rcout <<" Default Regularization is Gaussian smoothing with : " << this->m_GradSmoothingparam  << " & " << this->m_TotalSmoothingparam << std::endl;
 //      itkExceptionMacro( "Invalid regularization: " << regularizationOption->GetValue() );
       }
   }
@@ -854,7 +854,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
                     this->m_FullDomainSize[ii]= (typename ImageType::SizeType::SizeValueType) this->m_RoiNumbers[ii+ImageDimension];
                     this->m_FullDomainOrigin[ii]=this->m_RoiNumbers[ii];
                 }
-                std::cout << " ROI #s : size " << this->m_FullDomainSize << " orig " <<   this->m_FullDomainOrigin  << std::endl;
+                Rcpp::Rcout << " ROI #s : size " << this->m_FullDomainSize << " orig " <<   this->m_FullDomainOrigin  << std::endl;
             }
 
             RealType minimumSpacing = this->m_FullDomainSpacing.GetVnlVector().min_value();
@@ -882,7 +882,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
               }
 
 //            this->m_Debug=true;
-            if (this->m_Debug) std::cout << " outsize " << this->m_CurrentDomainSize <<  " curspc " << this->m_CurrentDomainSpacing << " fullspc " << this->m_FullDomainSpacing << " fullsz " <<  this->m_FullDomainSize   << std::endl;
+            if (this->m_Debug) Rcpp::Rcout << " outsize " << this->m_CurrentDomainSize <<  " curspc " << this->m_CurrentDomainSpacing << " fullspc " << this->m_FullDomainSpacing << " fullsz " <<  this->m_FullDomainSize   << std::endl;
 //            this->m_Debug=false;
 
             if (!this->m_DisplacementField)
@@ -898,7 +898,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
                 this->m_DisplacementField->SetBufferedRegion(region);
                 this->m_DisplacementField->Allocate();
                 this->m_DisplacementField->FillBuffer(zero);
-                std::cout <<  " allocated def field " << this->m_DisplacementField->GetDirection() << std::endl;
+                Rcpp::Rcout <<  " allocated def field " << this->m_DisplacementField->GetDirection() << std::endl;
 		//exit(0);
             }
             else
@@ -943,7 +943,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
     typename ImageType::SpacingType spacing;
     VectorType zero;
     zero.Fill(0);
-    std::cout << " setting N-TimeSteps = "
+    Rcpp::Rcout << " setting N-TimeSteps = "
       << this->m_NTimeSteps << " trunc " << this->m_GaussianTruncation << std::endl;
 
     // Get subsample factors and gaussian smoothing sigmas if specified
@@ -1055,12 +1055,12 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
         {
         this->m_ScaleFactor = this->m_SubsamplingFactors[currentLevel];
         }
-      std::cout << " ScaleFactor " << this->m_ScaleFactor;
+      Rcpp::Rcout << " ScaleFactor " << this->m_ScaleFactor;
       if( this->m_GaussianSmoothingSigmas.size() > 0 )
         {
-        std::cout << " smoothing sigma " << this->m_GaussianSmoothingSigmas[currentLevel];
+        Rcpp::Rcout << " smoothing sigma " << this->m_GaussianSmoothingSigmas[currentLevel];
         }
-      std::cout << " nlev " << this->m_NumberOfLevels << " curl " << currentLevel << std::endl;
+      Rcpp::Rcout << " nlev " << this->m_NumberOfLevels << " curl " << currentLevel << std::endl;
 
 
       /** FIXME -- here we assume the metrics all have the same image */
@@ -1068,7 +1068,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
       movingImage = this->m_SimilarityMetrics[0]->GetMovingImage();
       if ( ! this->m_ReferenceSpaceImage ) this->m_ReferenceSpaceImage=fixedImage;
       this->ComputeMultiResolutionParameters(this->m_ReferenceSpaceImage);
-      std::cout << " Its at this level " << this->m_Iterations[currentLevel] << std::endl;
+      Rcpp::Rcout << " Its at this level " << this->m_Iterations[currentLevel] << std::endl;
 
       /*  generate smoothed images for all metrics */
       for ( unsigned int metricCount=0;  metricCount < numberOfMetrics;  metricCount++)
@@ -1232,7 +1232,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
             energyProfileWindow->SetPoint( qq-windowBegin, point );
             energyProfileWindow->SetPointData( qq-windowBegin, energy );
             }
-//	  std::cout <<" totale " << totale << std::endl;
+//	  Rcpp::Rcout <<" totale " << totale << std::endl;
           if (totale > 0) totale*=(-1.0);
           for( unsigned int qq = windowBegin; qq < this->m_CurrentIteration; qq++ )
             {
@@ -1283,14 +1283,14 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
 	    bspliner2->EvaluateGradientAtParametricPoint( endPoint );
 	  this->m_ESlope=gradient[0][0]  ;
 	  if (  this->m_ESlope < 0.0001 && this->m_CurrentIteration > domtar) converged=true;
-	  std::cout << " E-Slope " <<  this->m_ESlope;//<< std::endl;
+	  Rcpp::Rcout << " E-Slope " <<  this->m_ESlope;//<< std::endl;
 	  }
         for ( unsigned int qq=0; qq < this->m_Energy.size(); qq++ )
           {
           if ( qq==0 )
-            std::cout << " iteration " << this->m_CurrentIteration;
+            Rcpp::Rcout << " iteration " << this->m_CurrentIteration;
 
-          std::cout << " energy " << qq << " : " << this->m_Energy[qq];//  << " Last " << this->m_LastEnergy[qq];
+          Rcpp::Rcout << " energy " << qq << " : " << this->m_Energy[qq];//  << " Last " << this->m_LastEnergy[qq];
           if (this->m_LastEnergy[qq] < this->m_Energy[qq])
             {
             this->m_EnergyBad[qq]++;
@@ -1306,22 +1306,22 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
 	//if ( this->m_EnergyBad[0] > 2)
 		  //         {
 	//          this->m_GradstepAltered*=0.8;
-      		  //	    std::cout <<" reducing gradstep " <<  this->m_GradstepAltered;
+      		  //	    Rcpp::Rcout <<" reducing gradstep " <<  this->m_GradstepAltered;
       		  // this->m_EnergyBad[this->m_Energy.size()-1]=0;
 	// }
-        std::cout << std::endl;
+        Rcpp::Rcout << std::endl;
 
         if (this->m_CurrentIteration >= this->m_Iterations[currentLevel] )converged = true;
 	//        || this->m_EnergyBad[0] >= 6 )
 	//
         if ( converged && this->m_CurrentIteration >= this->m_Iterations[currentLevel] )
-          std::cout <<" tired convergence: reached max iterations " << std::endl;
+          Rcpp::Rcout <<" tired convergence: reached max iterations " << std::endl;
         else if (converged)
           {
-          std::cout << " Converged due to oscillation in optimization ";
+          Rcpp::Rcout << " Converged due to oscillation in optimization ";
           for (unsigned int qq=0; qq<this->m_Energy.size(); qq++)
-            std::cout<< " metric " << qq << " bad " << this->m_EnergyBad[qq] << "  " ;
-          std::cout <<std::endl;
+            Rcpp::Rcout<< " metric " << qq << " bad " << this->m_EnergyBad[qq] << "  " ;
+          Rcpp::Rcout <<std::endl;
           }
         }
       }
@@ -1366,8 +1366,8 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
       	 {
       	 invaff=AffineTransformType::New();
       	 this->m_AffineTransform->GetInverse(invaff);
-      	 if (this->m_Debug) std::cout << " ??????invaff " << this->m_AffineTransform << std::endl << std::endl;
-      	 if (this->m_Debug)  std::cout << " invaff?????? " << invaff << std::endl << std::endl;
+      	 if (this->m_Debug) Rcpp::Rcout << " ??????invaff " << this->m_AffineTransform << std::endl << std::endl;
+      	 if (this->m_Debug)  Rcpp::Rcout << " invaff?????? " << invaff << std::endl << std::endl;
       	 }
       }
     else if (this->GetTransformationModel() == std::string("GreedyExp"))
@@ -1380,8 +1380,8 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
       	 {
       	 invaff=AffineTransformType::New();
       	 this->m_AffineTransform->GetInverse(invaff);
-      	 if (this->m_Debug) std::cout << " ??????invaff " << this->m_AffineTransform << std::endl << std::endl;
-      	 if (this->m_Debug)  std::cout << " invaff?????? " << invaff << std::endl << std::endl;
+      	 if (this->m_Debug) Rcpp::Rcout << " ??????invaff " << this->m_AffineTransform << std::endl << std::endl;
+      	 if (this->m_Debug)  Rcpp::Rcout << " invaff?????? " << invaff << std::endl << std::endl;
       	 }
       }
 
@@ -1400,7 +1400,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
         writer->SetInput( this->m_TimeVaryingVelocity);
         writer->UpdateLargestPossibleRegion();
 	//	writer->Write();
-	std::cout << " write tv field " << outname << std::endl;
+	Rcpp::Rcout << " write tv field " << outname << std::endl;
 	//        WriteImage<TimeVaryingVelocityFieldType>( this->m_TimeVaryingVelocity , outname.c_str());
       }
 
@@ -1443,8 +1443,8 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
 
        if (this->m_Debug)
        {
-        std::cout << " updated elast " << " up-sz " << updateField->GetLargestPossibleRegion() <<  std::endl;
-        std::cout <<  " t-sz " << this->m_DisplacementField->GetLargestPossibleRegion() <<  std::endl;
+        Rcpp::Rcout << " updated elast " << " up-sz " << updateField->GetLargestPossibleRegion() <<  std::endl;
+        Rcpp::Rcout <<  " t-sz " << this->m_DisplacementField->GetLargestPossibleRegion() <<  std::endl;
         }
         this->SmoothDisplacementField(this->m_DisplacementField, false);
 
@@ -1621,7 +1621,7 @@ PointSetPointer  WarpMultiTransform(ImagePointer referenceimage, ImagePointer mo
     lastdifmag=difmag;
 
   }
- // std::cout <<" difmag " << difmag << ": its " << ct <<  std::endl;
+ // Rcpp::Rcout <<" difmag " << difmag << ": its " << ct <<  std::endl;
 
   return difmag;
 
@@ -1663,7 +1663,7 @@ protected:
             if (diff < 0) diff=0;
             cornerind[ii]=(unsigned long) diff;
         }
-        //  std::cout << " corner index " << cornerind << std::endl;
+        //  Rcpp::Rcout << " corner index " << cornerind << std::endl;
         Iterator vfIter2( bigimage,  bigimage->GetLargestPossibleRegion() );
         for(  vfIter2.GoToBegin(); !vfIter2.IsAtEnd(); ++vfIter2 )
         {
@@ -1678,10 +1678,10 @@ protected:
                 if ( fabs(centerbasedcoord) >  (this->m_CurrentDomainSize[ii]/2-1)) oktosample=false;
             }
             if (oktosample) {
-                //      std::cout << " index " << index <<  " origindex " << origindex << " ok? " << oktosample << std::endl;
+                //      Rcpp::Rcout << " index " << index <<  " origindex " << origindex << " ok? " << oktosample << std::endl;
                 varimage->SetPixel(index,bigimage->GetPixel(origindex)); }
         }
-        //std::cout << " sizes " << varimage->GetLargestPossibleRegion().GetSize() << " bigimage " << bigimage->GetLargestPossibleRegion().GetSize() << std::endl;
+        //Rcpp::Rcout << " sizes " << varimage->GetLargestPossibleRegion().GetSize() << " bigimage " << bigimage->GetLargestPossibleRegion().GetSize() << std::endl;
         return varimage;
     }
 
@@ -1736,7 +1736,7 @@ protected:
   //this->m_EuclideanNorm/=ct;
   //this->m_ElasticPathLength = totalmag/ct;
   //this->m_LinftyNorm = maxstep;
-//  std::cout << " Elast path length " << this->m_ElasticPathLength <<  " L inf norm " << this->m_LinftyNorm << std::endl;
+//  Rcpp::Rcout << " Elast path length " << this->m_ElasticPathLength <<  " L inf norm " << this->m_LinftyNorm << std::endl;
   //if (this->m_ElasticPathLength >= this->m_ArcLengthGoal)
 //  if (maxstep >= this->m_ArcLengthGoal)
   {

@@ -158,7 +158,7 @@ void WriteAffineTransformFile(TransformPointerType &transform, StringType filena
     transform_writer->Update();
   }
   catch( itk::ExceptionObject &err){
-    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << err << std::endl
+    Rcpp::Rcout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << err << std::endl
         <<"Exception in writing tranform file: " << std::endl
         << filename << std::endl;
     return;
@@ -186,8 +186,8 @@ void ReadAffineTransformFile(StringType filename, CastTransformPointerType &tran
     tran_reader->Update();
   }
   catch( itk::ExceptionObject &err) {
-    std::cerr << err << std::endl;
-    std::cerr << "Exception caught in reading tran para file: "
+    Rcpp::Rcout << err << std::endl;
+    Rcpp::Rcout << "Exception caught in reading tran para file: "
         << filename << std::endl;
     return;
   }
@@ -241,7 +241,7 @@ void InitializeAffineOptmizationParameters(OptAffine &opt, double translationSca
   break;
   }
 
-  std::cout << opt;
+  Rcpp::Rcout << opt;
 }
 
 template<class TMaskObjectPointerType, class TImagePyramid, class TMetricPointerType, class TInterpolatorPointerType>
@@ -288,7 +288,7 @@ inline void PreConversionInAffine(ImagePointerType &fixedImage, RunningImagePoin
   typedef typename RunningOptAffineType::AffineTransformPointerType::ObjectType RunningAffineTransformType;
 
   if (opt.use_rotation_header){
-    std::cout << "===================>initialize from rotation header ... " << std::endl;
+    Rcpp::Rcout << "===================>initialize from rotation header ... " << std::endl;
     // use the rotation header to initialize the affine: inv(Tm) * Tf
     typename AffineTransformType::Pointer aff_Im = AffineTransformType::New();
     GetAffineTransformFromImage(movingImage, aff_Im);
@@ -302,13 +302,13 @@ inline void PreConversionInAffine(ImagePointerType &fixedImage, RunningImagePoin
     aff_combined->Compose(aff_Im_inv, 0);
     opt.transform_initial = aff_combined;
 
-    //            std::cout << "aff_If: " << aff_If << std::endl;
-    //            std::cout << "aff_Im: " << aff_Im << std::endl;
-    //            std::cout << "aff_combined: " << aff_combined << std::endl;
+    //            Rcpp::Rcout << "aff_If: " << aff_If << std::endl;
+    //            Rcpp::Rcout << "aff_Im: " << aff_Im << std::endl;
+    //            Rcpp::Rcout << "aff_combined: " << aff_combined << std::endl;
   }
 
   if (!opt.use_rotation_header && opt.ignore_void_orgin){
-    std::cout << "===================> ignore void origins which are too far away to be possible alignments: use 0 instead." << std::endl;
+    Rcpp::Rcout << "===================> ignore void origins which are too far away to be possible alignments: use 0 instead." << std::endl;
     typename AffineTransformType::Pointer aff_Im = AffineTransformType::New();
     GetAffineTransformFromImage(movingImage, aff_Im);
     typename AffineTransformType::Pointer aff_If = AffineTransformType::New();
@@ -343,7 +343,7 @@ inline void PreConversionInAffine(ImagePointerType &fixedImage, RunningImagePoin
     (const_cast<typename AffineTransformType::OutputVectorType*> (&(opt.transform_initial->GetTranslation())))));
   }
 
-  // std::cout << "R_opt.transform_initial" << R_opt.transform_initial << std::endl;
+  // Rcpp::Rcout << "R_opt.transform_initial" << R_opt.transform_initial << std::endl;
 
   if (opt.mask_fixed.IsNotNull()){
     R_opt.mask_fixed = RunningOptAffineType::MaskImagePointerType::ObjectType::New();
@@ -393,8 +393,8 @@ inline void PostConversionInAffine(RunningAffineTransformPointerType& transform_
   (const_cast<typename RunningAffineTransformType::MatrixType*> (&(transform_running->GetMatrix())))));
 
 
-  // std::cout << "transform_running" << transform_running << std::endl;
-  // std::cout << "transform" << transform << std::endl;
+  // Rcpp::Rcout << "transform_running" << transform_running << std::endl;
+  // Rcpp::Rcout << "transform" << transform << std::endl;
 }
 
 
@@ -407,7 +407,7 @@ void ComputeSingleAffineTransform(ImagePointerType fixedImage, ImagePointerType 
   const int ImageDimension = ImageType::ImageDimension;
   typedef typename ImageType::IOPixelType PixelType;
 
-  std::cout << "transform_initial: IsNotNull():" << opt.transform_initial.IsNotNull() << std::endl;
+  Rcpp::Rcout << "transform_initial: IsNotNull():" << opt.transform_initial.IsNotNull() << std::endl;
 
   if (ImageDimension==2) {
     typedef itk::ANTSCenteredAffine2DTransform<double>::Pointer RunningAffineTransformPointerType;
@@ -445,7 +445,7 @@ void ComputeSingleAffineTransform(ImagePointerType fixedImage, ImagePointerType 
 
   }
   else {
-    std::cout << "Unsupported, not 2D/ 3D" << std::endl;
+    Rcpp::Rcout << "Unsupported, not 2D/ 3D" << std::endl;
     return;
   }
 
@@ -532,7 +532,7 @@ void ComputeInitialPosition(ImagePointerType &I_fixed, ImagePointerType &I_movin
   }
   catch (...) {
       // try to add a small amount of noise to avoid exception from computing moments
-      std::cout << "try to add a small amount of noise to avoid exception"
+      Rcpp::Rcout << "try to add a small amount of noise to avoid exception"
           " from computing moments" << std::endl;
       ImagePointerType If1 = AddRandomNoise(I_fixed);
       ImagePointerType Im1 = AddRandomNoise(I_moving);
@@ -660,7 +660,7 @@ double TestCostValueMMI(ImagePointerType fixedImage, ImagePointerType movingImag
     rval = mattesMutualInfo->GetValue(para);
   }
   catch (itk::ExceptionObject &err){
-    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << err << std::endl
+    Rcpp::Rcout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << err << std::endl
         << "Exception caught in computing mattesMutualInfo after registration" << std::endl
         << "Maybe: Too many samples map outside moving image buffer" << std::endl
         << "Set the cost value = 0 (max for MutualInfo) " << std::endl;
@@ -719,9 +719,9 @@ void  InitializeAffineTransform(ImagePointerType &fixed_image, ImagePointerType 
   typedef typename TransformType::InputPointType   PointType;
   typedef typename TransformType::OutputVectorType  VectorType;
 
-  std::cout << "opt.transform_initial.IsNull(): " << opt.transform_initial.IsNull() << std::endl;
-  std::cout << " opt.use_rotation_header: " << opt.use_rotation_header << std::endl;
-  std::cout << " opt.ignore_void_orgin: " << opt.ignore_void_orgin << std::endl;
+  Rcpp::Rcout << "opt.transform_initial.IsNull(): " << opt.transform_initial.IsNull() << std::endl;
+  Rcpp::Rcout << " opt.use_rotation_header: " << opt.use_rotation_header << std::endl;
+  Rcpp::Rcout << " opt.ignore_void_orgin: " << opt.ignore_void_orgin << std::endl;
 
 
 
@@ -729,7 +729,7 @@ void  InitializeAffineTransform(ImagePointerType &fixed_image, ImagePointerType 
 
     PointType    center;
     VectorType  translation_vec;
-    // std::cout << "GS: debug: fake a all zero translation_vec" << std::endl;
+    // Rcpp::Rcout << "GS: debug: fake a all zero translation_vec" << std::endl;
     // ComputeInitialPosition_tmp(fixed_image, moving_image, center, translation_vec);
     ComputeInitialPosition(fixed_image, moving_image, center, translation_vec);
     opt.transform_initial = TransformType::New();
@@ -792,7 +792,7 @@ ImagePointer  ShrinkImageToScale(ImagePointer image ,  float scalingFactor )
 
   image = resampler->GetOutput();
 
-  // std::cout << "DEBUG: " << outputSize << std::endl;
+  // Rcpp::Rcout << "DEBUG: " << outputSize << std::endl;
 
   return image;
 
@@ -811,7 +811,7 @@ void BuildImagePyramid(const ImagePointerType &image, int number_of_levels, Imag
   }
 
   //    for(int i=0; i < number_of_levels; i++)
-  //    	std::cout << "level " << i << ": size: " << image_pyramid[i]->GetLargestPossibleRegion().GetSize() << std::endl;
+  //    	Rcpp::Rcout << "level " << i << ": size: " << image_pyramid[i]->GetLargestPossibleRegion().GetSize() << std::endl;
 }
 
 template<class ParaType>
@@ -933,8 +933,8 @@ bool SymmRegisterImageAffineMutualInformationMultiResolution(RunningAffineCacheT
         invmetric->GetValueAndDerivative( invtransform->GetParameters() , invvalue, invoriginal_gradient);
       }
       catch(itk::ExceptionObject & err){
-        std::cerr << "ExceptionObject caught !" << std::endl;
-        std::cerr << err << std::endl;
+        Rcpp::Rcout << "ExceptionObject caught !" << std::endl;
+        Rcpp::Rcout << err << std::endl;
         return false;
         break;
       }
@@ -996,16 +996,16 @@ bool SymmRegisterImageAffineMutualInformationMultiResolution(RunningAffineCacheT
 
     }
 
-    std::cout << "level " << i << ", iter " << used_iterations
+    Rcpp::Rcout << "level " << i << ", iter " << used_iterations
         << ", size: fix" << fixed_image->GetRequestedRegion().GetSize()
         << "-mov" << moving_image->GetRequestedRegion().GetSize();
 
-    std::cout << ", affine para: " << current_para << std::endl;
+    Rcpp::Rcout << ", affine para: " << current_para << std::endl;
 
     if (is_converged)
-      std::cout << "    reach oscillation, current step: " << current_step_length << "<" << minimum_step_length << std::endl;
+      Rcpp::Rcout << "    reach oscillation, current step: " << current_step_length << "<" << minimum_step_length << std::endl;
     else
-      std::cout << "    does not reach oscillation, current step: " << current_step_length << ">" << minimum_step_length << std::endl;
+      Rcpp::Rcout << "    does not reach oscillation, current step: " << current_step_length << ">" << minimum_step_length << std::endl;
 
 
 
@@ -1103,8 +1103,8 @@ bool RegisterImageAffineMutualInformationMultiResolution(RunningAffineCacheType 
         metric->GetValueAndDerivative(current_para, value, original_gradient);
       }
       catch(itk::ExceptionObject & err){
-        std::cerr << "ExceptionObject caught !" << std::endl;
-        std::cerr << err << std::endl;
+        Rcpp::Rcout << "ExceptionObject caught !" << std::endl;
+        Rcpp::Rcout << err << std::endl;
         return false;
         break;
       }
@@ -1154,16 +1154,16 @@ bool RegisterImageAffineMutualInformationMultiResolution(RunningAffineCacheType 
 
 
 
-    std::cout << "level " << i << ", iter " << used_iterations
+    Rcpp::Rcout << "level " << i << ", iter " << used_iterations
         << ", size: fix" << fixed_image->GetRequestedRegion().GetSize()
         << "-mov" << moving_image->GetRequestedRegion().GetSize();
 
-    std::cout << ", affine para: " << current_para << std::endl;
+    Rcpp::Rcout << ", affine para: " << current_para << std::endl;
 
     if (is_converged)
-      std::cout << "    reach oscillation, current step: " << current_step_length << "<" << minimum_step_length << std::endl;
+      Rcpp::Rcout << "    reach oscillation, current step: " << current_step_length << "<" << minimum_step_length << std::endl;
     else
-      std::cout << "    does not reach oscillation, current step: " << current_step_length << ">" << minimum_step_length << std::endl;
+      Rcpp::Rcout << "    does not reach oscillation, current step: " << current_step_length << ">" << minimum_step_length << std::endl;
 
 
 
@@ -1229,8 +1229,8 @@ bool RegisterImageAffineMutualInformationMultiResolution(RunningAffineCacheType 
           metric->GetValueAndDerivative(current_para2, value, original_gradient);
         }
         catch(itk::ExceptionObject & err){
-          std::cerr << "ExceptionObject caught !" << std::endl;
-          std::cerr << err << std::endl;
+          Rcpp::Rcout << "ExceptionObject caught !" << std::endl;
+          Rcpp::Rcout << err << std::endl;
           // don't have to return here if got anything from the previous forward direction
 //          return false;
           break;
@@ -1281,28 +1281,28 @@ bool RegisterImageAffineMutualInformationMultiResolution(RunningAffineCacheType 
 
 
 
-      std::cout << "level " << i << ", iter " << used_iterations
+      Rcpp::Rcout << "level " << i << ", iter " << used_iterations
           << ", size: fix" << fixed_image->GetRequestedRegion().GetSize()
           << "-mov" << moving_image->GetRequestedRegion().GetSize();
 
-      std::cout << ", affine para: " << current_para2 << std::endl;
+      Rcpp::Rcout << ", affine para: " << current_para2 << std::endl;
 
       if (is_converged)
-        std::cout << "    reach oscillation, current step: " << current_step_length << "<" << minimum_step_length << std::endl;
+        Rcpp::Rcout << "    reach oscillation, current step: " << current_step_length << "<" << minimum_step_length << std::endl;
       else
-        std::cout << "    does not reach oscillation, current step: " << current_step_length << ">" << minimum_step_length << std::endl;
+        Rcpp::Rcout << "    does not reach oscillation, current step: " << current_step_length << ">" << minimum_step_length << std::endl;
 
 
 
 
     }
-    std::cout << " v1 " << value1 << " v2 " << value << std::endl;
+    Rcpp::Rcout << " v1 " << value1 << " v2 " << value << std::endl;
     if ( value < value1 )
     {
-      std::cout << " last params " << transform->GetParameters() << std::endl;
-      std::cout << " my params " << transform2->GetParameters() << std::endl;
+      Rcpp::Rcout << " last params " << transform->GetParameters() << std::endl;
+      Rcpp::Rcout << " my params " << transform2->GetParameters() << std::endl;
       transform2->GetInverse(transform);
-      std::cout << " new params " << transform->GetParameters() << std::endl;
+      Rcpp::Rcout << " new params " << transform->GetParameters() << std::endl;
       para_final = transform->GetParameters();
       return true;
     }
@@ -1310,7 +1310,7 @@ bool RegisterImageAffineMutualInformationMultiResolution(RunningAffineCacheType 
   }
 
   para_final = current_para;
-  std::cout << "final " << para_final << std::endl;
+  Rcpp::Rcout << "final " << para_final << std::endl;
   return true;
 }
 
@@ -1333,12 +1333,12 @@ void ComputeSingleAffineTransform2D3D(ImagePointerType fixed_image, ImagePointer
 
   InitializeAffineOptmizationParameters(opt, opt.translation_scales);
 
-  // std::cout << "DEBUG: opt.gradient_scales.size() = " << opt.gradient_scales.size() << std::endl;
+  // Rcpp::Rcout << "DEBUG: opt.gradient_scales.size() = " << opt.gradient_scales.size() << std::endl;
 
   InitializeAffineTransform(fixed_image, moving_image, opt);
 
-  std::cout << "input affine center: " << opt.transform_initial->GetCenter() << std::endl;
-  std::cout << "input affine para: " << opt.transform_initial->GetParameters() << std::endl;
+  Rcpp::Rcout << "input affine center: " << opt.transform_initial->GetCenter() << std::endl;
+  Rcpp::Rcout << "input affine para: " << opt.transform_initial->GetParameters() << std::endl;
 
 
   transform = TransformType::New();
@@ -1425,15 +1425,15 @@ void ComputeSingleAffineTransform2D3D(ImagePointerType fixed_image, ImagePointer
 
   double rval_init = TestCostValueMMI(fixed_image, moving_image, opt.transform_initial->GetParameters(), opt.transform_initial->GetCenter(), transform);
 
-  // std::cerr << "ABCDABCD: " << transform << std::endl;
+  // Rcpp::Rcout << "ABCDABCD: " << transform << std::endl;
 
   double rval_final = TestCostValueMMI(fixed_image, moving_image, para_final, opt.transform_initial->GetCenter(), transform);
 
-  std::cout << "outputput affine center: " << transform->GetCenter() << std::endl;
-  std::cout << "output affine para: " << transform->GetParameters() << std::endl;
-  std::cout << "initial measure value (MMI): rval = " << rval_init << std::endl;
-  std::cout << "final measure value (MMI): rval = " << rval_final << std::endl;
-  std::cout << "finish affine registeration..."  <<  std::endl;
+  Rcpp::Rcout << "outputput affine center: " << transform->GetCenter() << std::endl;
+  Rcpp::Rcout << "output affine para: " << transform->GetParameters() << std::endl;
+  Rcpp::Rcout << "initial measure value (MMI): rval = " << rval_init << std::endl;
+  Rcpp::Rcout << "final measure value (MMI): rval = " << rval_final << std::endl;
+  Rcpp::Rcout << "finish affine registeration..."  <<  std::endl;
 
 };
 

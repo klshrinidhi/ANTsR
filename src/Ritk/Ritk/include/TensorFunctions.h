@@ -127,7 +127,7 @@ TensorType TensorLogAndExp( TensorType dtv, bool takelog , bool success=true)
   double e3 = D(2,2);
   // float peigeps=1.e-12;
 
-  if ( fabs(e3) < eps ) { success=false; std::cout << "-4" << std::flush; return dtv; }
+  if ( fabs(e3) < eps ) { success=false; Rcpp::Rcout << "-4" << std::flush; return dtv; }
 
   MatrixType eigmat(3,3);
   eigmat.Fill(0);
@@ -407,8 +407,8 @@ float  GetTensorADC( TTensorType dtv,  unsigned int opt = 0)
   DT(1,0)=DT(0,1)=dtv[1];
   DT(2,0)=DT(0,2)=dtv[2];
   DT(2,1)=DT(1,2)=dtv[4];
-  //  if (takelog ) std::cout << " TAKING LOG " << std::endl;  else std::cout << "TAKING EXP " << std::endl;
-  //  std::cout << " dtv " << dtv << std::endl;
+  //  if (takelog ) Rcpp::Rcout << " TAKING LOG " << std::endl;  else Rcpp::Rcout << "TAKING EXP " << std::endl;
+  //  Rcpp::Rcout << " dtv " << dtv << std::endl;
   vnl_symmetric_eigensystem< double > eig(DT);
   double e1 = (eig.D(0,0));
   double e2 = (eig.D(1,1));
@@ -513,8 +513,8 @@ itk::RGBPixel< float >   GetTensorPrincipalEigenvector( TTensorType dtv )
   DT(1,0)=DT(0,1)=dtv[1];
   DT(2,0)=DT(0,2)=dtv[2];
   DT(2,1)=DT(1,2)=dtv[4];
-  //  if (takelog ) std::cout << " TAKING LOG " << std::endl;  else std::cout << "TAKING EXP " << std::endl;
-  //  std::cout << " dtv " << dtv << std::endl;
+  //  if (takelog ) Rcpp::Rcout << " TAKING LOG " << std::endl;  else Rcpp::Rcout << "TAKING EXP " << std::endl;
+  //  Rcpp::Rcout << " dtv " << dtv << std::endl;
   vnl_symmetric_eigensystem< double > eig(DT);
 
 
@@ -616,8 +616,8 @@ itk::Vector< float >   GetTensorPrincipalEigenvector( TTensorType dtv , unsigned
   DT(1,0)=DT(0,1)=dtv[1];
   DT(2,0)=DT(0,2)=dtv[2];
   DT(2,1)=DT(1,2)=dtv[4];
-  //  if (takelog ) std::cout << " TAKING LOG " << std::endl;  else std::cout << "TAKING EXP " << std::endl;
-  //  std::cout << " dtv " << dtv << std::endl;
+  //  if (takelog ) Rcpp::Rcout << " TAKING LOG " << std::endl;  else Rcpp::Rcout << "TAKING EXP " << std::endl;
+  //  Rcpp::Rcout << " dtv " << dtv << std::endl;
   vnl_symmetric_eigensystem< double > eig(DT);
 
 

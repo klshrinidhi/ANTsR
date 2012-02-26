@@ -595,7 +595,7 @@ void ANTSAffine3DTransform<TScalarType>::ComputeMatrixParameters() {
 //   VnlQuaternionType quat(this->GetMatrix().GetVnlMatrix());
 //   m_Rotation = quat;
 
-//     std::cout << "compute para: to be done!" << std::endl;
+//     Rcpp::Rcout << "compute para: to be done!" << std::endl;
 
 //     InternalMatrixType A, Q, R;
 
@@ -695,15 +695,15 @@ void ANTSAffine3DTransform<TScalarType>::ComputeMatrixParameters() {
         r = (Q(0, 1) - Q(1, 0)) / s;
     }
 
-    std::cout << "A=" << A << std::endl;
-    std::cout << "rotation R" << Q << std::endl;
-    std::cout << "upper R" << R << std::endl;
-    std::cout << "s=" << s << " u=" << u << " v=" << v << " w" << w << " r="
+    Rcpp::Rcout << "A=" << A << std::endl;
+    Rcpp::Rcout << "rotation R" << Q << std::endl;
+    Rcpp::Rcout << "upper R" << R << std::endl;
+    Rcpp::Rcout << "s=" << s << " u=" << u << " v=" << v << " w" << w << " r="
             << r << std::endl;
 
     m_Rotation = VnlQuaternionType(u, v, w, r);
 
-    std::cout << "m_Rotation from vnl" << VnlQuaternionType(u, v, w, r)
+    Rcpp::Rcout << "m_Rotation from vnl" << VnlQuaternionType(u, v, w, r)
             << std::endl;
 
     m_S1 = R(0, 0);
@@ -715,16 +715,16 @@ void ANTSAffine3DTransform<TScalarType>::ComputeMatrixParameters() {
     m_K2 = R(0, 2) / R(0, 0);
     m_K3 = R(1, 2) / R(1, 1);
 
-    // std::cout << "before: this->GetMatrix(): " << this->GetMatrix();
+    // Rcpp::Rcout << "before: this->GetMatrix(): " << this->GetMatrix();
 
     this->ComputeMatrix();
 
-    // std::cout << "after: this->GetMatrix(): " << this->GetMatrix();
+    // Rcpp::Rcout << "after: this->GetMatrix(): " << this->GetMatrix();
 
-//     std::cout << "A=" << A << std::endl;
-//     std::cout << "R=" << R << std::endl;
-//     std::cout << "R=" << R << std::endl;
-//     std::cout << "dq=" << dq << std::endl;
+//     Rcpp::Rcout << "A=" << A << std::endl;
+//     Rcpp::Rcout << "R=" << R << std::endl;
+//     Rcpp::Rcout << "R=" << R << std::endl;
+//     Rcpp::Rcout << "dq=" << dq << std::endl;
 
 }
 

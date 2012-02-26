@@ -839,7 +839,7 @@ ProbabilisticRegistrationFunction<TFixedImage,TMovingImage,TDisplacementField>
   if ( localProbabilistic*(-1.0) < this->m_RobustnessParameter) deriv.Fill(0);
 
 //  if ( localProbabilistic*(-1.0) < this->m_RobustnessParameter) {
-//  std::cout << " localC " << localProbabilistic << std::endl; }
+//  Rcpp::Rcout << " localC " << localProbabilistic << std::endl; }
 
   this->m_Energy-=localProbabilistic;
   return deriv;//localProbabilistic;

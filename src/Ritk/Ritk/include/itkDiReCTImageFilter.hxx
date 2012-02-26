@@ -783,23 +783,23 @@ DiReCTImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf( os, indent );
 
-  std::cout << indent << "Gray matter label = "
+  Rcpp::Rcout << indent << "Gray matter label = "
     << this->m_GrayMatterLabel << std::endl;
-  std::cout << indent << "White matter label = "
+  Rcpp::Rcout << indent << "White matter label = "
     << this->m_WhiteMatterLabel << std::endl;
-  std::cout << indent << "Maximum number of iterations = "
+  Rcpp::Rcout << indent << "Maximum number of iterations = "
     << this->m_MaximumNumberOfIterations << std::endl;
-  std::cout << indent << "Thickness prior estimate = "
+  Rcpp::Rcout << indent << "Thickness prior estimate = "
     << this->m_ThicknessPriorEstimate << std::endl;
-  std::cout << indent << "Smoothing sigma = "
+  Rcpp::Rcout << indent << "Smoothing sigma = "
     << this->m_SmoothingSigma << std::endl;
-  std::cout << indent << "Initial gradient step = "
+  Rcpp::Rcout << indent << "Initial gradient step = "
     << this->m_InitialGradientStep << std::endl;
-  std::cout << indent << "Current gradient step = "
+  Rcpp::Rcout << indent << "Current gradient step = "
     << this->m_CurrentGradientStep << std::endl;
-  std::cout << indent << "Convergence threshold = "
+  Rcpp::Rcout << indent << "Convergence threshold = "
     << this->m_ConvergenceThreshold << std::endl;
-  std::cout << indent << "Convergence window size = "
+  Rcpp::Rcout << indent << "Convergence window size = "
     << this->m_ConvergenceWindowSize << std::endl;
 }
 

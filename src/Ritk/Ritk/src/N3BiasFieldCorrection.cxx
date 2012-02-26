@@ -33,9 +33,9 @@ public:
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       { return; }
 
-    std::cout << "Iteration " << filter->GetElapsedIterations()
+    Rcpp::Rcout << "Iteration " << filter->GetElapsedIterations()
       << " (of " << filter->GetMaximumNumberOfIterations() << ").  ";
-    std::cout << " Current convergence value = "
+    Rcpp::Rcout << " Current convergence value = "
       << filter->GetCurrentConvergenceMeasurement()
       << " (threshold = " << filter->GetConvergenceThreshold()
       << ")" << std::endl;
@@ -76,7 +76,7 @@ int N3BiasFieldCorrection( int argc, char *argv[] )
       }
     catch(...)
       {
-      std::cout << "Mask file not read.  Generating mask file using otsu"
+      Rcpp::Rcout << "Mask file not read.  Generating mask file using otsu"
         << " thresholding." << std::endl;
       }
     }
@@ -132,11 +132,11 @@ int N3BiasFieldCorrection( int argc, char *argv[] )
     }
   catch(...)
     {
-    std::cerr << "Exception caught." << std::endl;
+    Rcpp::Rcout << "Exception caught." << std::endl;
     return EXIT_FAILURE;
     }
 
-//  correcter->Print( std::cout, 3 );
+//  correcter->Print( Rcpp::Rcout, 3 );
 
   /**
    * Reconstruct the bias field at full image resolution.  Divide
@@ -227,7 +227,7 @@ try
 
   if ( argc < 4 )
     {
-    std::cerr << "Usage: " << argv[0] << " imageDimension inputImage "
+    Rcpp::Rcout << "Usage: " << argv[0] << " imageDimension inputImage "
      << "outputImage [shrinkFactor] [maskImage] [numberOfIterations] "
      << "[numberOfFittingLevels] [outputBiasField] " << std::endl;
     return Rcpp::wrap( EXIT_FAILURE );
@@ -242,7 +242,7 @@ try
      N3BiasFieldCorrection<3>( argc, argv );
      break;
    default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      Rcpp::Rcout << "Unsupported dimension" << std::endl;
       return Rcpp::wrap( EXIT_FAILURE );
    }
 
@@ -257,7 +257,7 @@ try
 }
  catch( const std::exception& exc )
    {
-     std::cerr<< exc.what() << std::endl ;
+     Rcpp::Rcout<< exc.what() << std::endl ;
      return Rcpp::wrap( EXIT_FAILURE ) ;
    }
 

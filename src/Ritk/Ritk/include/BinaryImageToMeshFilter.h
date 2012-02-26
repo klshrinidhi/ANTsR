@@ -389,7 +389,7 @@ protected:
       fltSmoothMesh->Update();
       //m_Result = 
       fltSmoothMesh->GetOutput();
-      std::cout << " Done " << std::endl;
+      Rcpp::Rcout << " Done " << std::endl;
       }
     }
 

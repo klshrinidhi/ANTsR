@@ -138,7 +138,7 @@ SyNDemonsRegistrationFunction<TFixedImage,TMovingImage,TDisplacementField>
 ::InitializeIteration()
 {
 
-  //  std::cout << " INIT ITER " << std::endl;
+  //  Rcpp::Rcout << " INIT ITER " << std::endl;
   if( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
@@ -201,7 +201,7 @@ SyNDemonsRegistrationFunction<TFixedImage,TMovingImage,TDisplacementField>
   fixedValue = (double) this->GetFixedImage()->GetPixel( index );
   double movingValue = (double)this->GetMovingImage()->GetPixel( index );
 
-  //  if (fixedValue > 0)std::cout << " fxv  " << fixedValue << " movingValue " << movingValue << std::endl;
+  //  if (fixedValue > 0)Rcpp::Rcout << " fxv  " << fixedValue << " movingValue " << movingValue << std::endl;
 
     gradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
 
@@ -291,7 +291,7 @@ SyNDemonsRegistrationFunction<TFixedImage,TMovingImage,TDisplacementField>
   fixedValue = (double) this->GetFixedImage()->GetPixel( index );
   double movingValue = (double)this->GetMovingImage()->GetPixel( index );
 
-  //  if (fixedValue > 0)std::cout << " fxv  " << fixedValue << " movingValue " << movingValue << std::endl;
+  //  if (fixedValue > 0)Rcpp::Rcout << " fxv  " << fixedValue << " movingValue " << movingValue << std::endl;
 
   //    gradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
 

@@ -68,7 +68,7 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
 //::SetInterpolator1(InterpolatorPointer interp)
 //{
 //    m_Interpolator = static_cast<InterpolatorType*> (interp.GetPointer());
-//    std::cout << "set interpolator in WarpImage:" << interp << std::endl;
+//    Rcpp::Rcout << "set interpolator in WarpImage:" << interp << std::endl;
 //}
 
 
@@ -77,16 +77,16 @@ void
 WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField, TTransform>
 ::PrintTransformList()
 {
-    std::cout << "transform list: " << std::endl;
+    Rcpp::Rcout << "transform list: " << std::endl;
     typename TransformListType::iterator it = (m_TransformList.begin());
     for(int ii=0; it != m_TransformList.end(); it++, ii++){
         switch(it->first){
         case EnumAffineType:
-            std::cout << '[' << ii << "]: EnumAffineType" << std::endl;
-            std::cout << it->second.aex.aff << std::endl;
+            Rcpp::Rcout << '[' << ii << "]: EnumAffineType" << std::endl;
+            Rcpp::Rcout << it->second.aex.aff << std::endl;
             break;
         case EnumDisplacementFieldType:
-            std::cout << '[' << ii << "]: EnumDisplacementFieldType: size"
+            Rcpp::Rcout << '[' << ii << "]: EnumDisplacementFieldType: size"
             << it->second.dex.field->GetLargestPossibleRegion().GetSize() << std::endl;
         }
     }
@@ -246,7 +246,7 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
     if (m_SmoothScale != scale){
         // compute the new cached
 
-//        std::cout << "change smooth scale: " << m_SmoothScale << " ---> " << scale << std::endl;
+//        Rcpp::Rcout << "change smooth scale: " << m_SmoothScale << " ---> " << scale << std::endl;
 
         m_SmoothScale = scale;
 
@@ -281,7 +281,7 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
             smoother->SetDirection( d );
             smoother->SetNormalizeAcrossScale( false );
 
-//            std::cout << "scale = " << scale << " => " << "sigma of dim " << d << ": " << sigma << " out size " << outputSize <<  " spc1 " << outputSpacing << " in " << inputSpacing << std::endl;
+//            Rcpp::Rcout << "scale = " << scale << " => " << "sigma of dim " << d << ": " << sigma << " out size " << outputSize <<  " spc1 " << outputSpacing << " in " << inputSpacing << std::endl;
 
             smoother->SetSigma( sigma );
             if ( smoother->GetSigma() > 0.0 )
@@ -319,8 +319,8 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
     InputImageConstPointer inputPtr = this->GetInput();
     OutputImagePointer outputPtr = this->GetOutput();
 
-    //std::cout << "inputPtr->GetOrigin():" << inputPtr->GetOrigin() << std::endl;
-    //std::cout << "outputPtr->GetOrigin():" << outputPtr->GetOrigin() << std::endl;
+    //Rcpp::Rcout << "inputPtr->GetOrigin():" << inputPtr->GetOrigin() << std::endl;
+    //Rcpp::Rcout << "outputPtr->GetOrigin():" << outputPtr->GetOrigin() << std::endl;
 
     // exit(-1);
 
@@ -346,7 +346,7 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
 
         bool isinside = MultiTransformPoint(point1, point2, m_bFirstDeformNoInterp, index);
 
-        // std::cout << "point1:" << point1 << "  point2:" << point2 << " index:" << index << std::endl;
+        // Rcpp::Rcout << "point1:" << point1 << "  point2:" << point2 << " index:" << index << std::endl;
         // exit(-1);
 
         // warp the image
@@ -356,7 +356,7 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
             outputIt.Set( value );
         }
         else {
-           // std::cout << "OUTSIDE" << " isinside:" << isinside << " m_Interpolator->IsInsideBuffer( point2 ):" << m_Interpolator->IsInsideBuffer( point2 ) <<  std::endl;
+           // Rcpp::Rcout << "OUTSIDE" << " isinside:" << isinside << " m_Interpolator->IsInsideBuffer( point2 ):" << m_Interpolator->IsInsideBuffer( point2 ) <<  std::endl;
             outputIt.Set( m_EdgePaddingValue );
         }
 
@@ -449,12 +449,12 @@ void
 WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField, TTransform>
 ::ComposeAffineOnlySequence(const PointType &center_output, TransformTypePointer &affine_output)
 {
-//    std::cout << "test " ;
+//    Rcpp::Rcout << "test " ;
 //    TransformTypePointer affine_output = TransformType::New();
     affine_output->SetIdentity();
     affine_output->SetCenter(center_output);
 
-//    std::cout << affine_output;
+//    Rcpp::Rcout << affine_output;
 
     typename TransformListType::iterator it = m_TransformList.begin();
     for(;it!=m_TransformList.end(); it++){
@@ -466,13 +466,13 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
 
             affine_output->Compose(aff, 0);
 
-//            std::cout << affine_output;
+//            Rcpp::Rcout << affine_output;
 
             break;
         }
 
         case EnumDisplacementFieldType:
-            std::cout << " Ignore deformation type ... " << std::endl;
+            Rcpp::Rcout << " Ignore deformation type ... " << std::endl;
             break;
         default:
             itkExceptionMacro(<< "Single Transform Not Supported!");
@@ -500,12 +500,12 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
             TransformTypePointer aff = it->second.aex.aff;
             TransformTypePointer aff_inv = TransformTypePointer::ObjectType::New();
 
-            // std::cout << "aff before:" << aff << std::endl;
+            // Rcpp::Rcout << "aff before:" << aff << std::endl;
 
             aff->GetInverse(aff_inv);
             // aff->GetInverse(aff);
-            // std::cout << "aff after:" << aff << std::endl;
-            // std::cout << "aff_inv after:" << aff_inv << std::endl;
+            // Rcpp::Rcout << "aff after:" << aff << std::endl;
+            // Rcpp::Rcout << "aff_inv after:" << aff_inv << std::endl;
 
             point2 = aff_inv->TransformPoint(point1);
             point1 = point2;
@@ -608,10 +608,10 @@ WarpTensorImageMultiTransformFilter<TInputImage,TOutputImage,TDisplacementField,
             & (this->GetOutputSpacing() ==field->GetSpacing())
             & (this->GetOutputOrigin() == field->GetOrigin());
 
-//            std::cout << "in set: field size: " << field->GetLargestPossibleRegion().GetSize()
+//            Rcpp::Rcout << "in set: field size: " << field->GetLargestPossibleRegion().GetSize()
 //            << "output spacing: " << this->GetOutputSize() << std::endl;
-//            std::cout << field->GetSpacing() << " | " << this->GetOutputSpacing() << std::endl;
-//            std::cout << field->GetOrigin() << " | " << this->GetOutputOrigin() << std::endl;
+//            Rcpp::Rcout << field->GetSpacing() << " | " << this->GetOutputSpacing() << std::endl;
+//            Rcpp::Rcout << field->GetOrigin() << " | " << this->GetOutputOrigin() << std::endl;
 
         }
     }

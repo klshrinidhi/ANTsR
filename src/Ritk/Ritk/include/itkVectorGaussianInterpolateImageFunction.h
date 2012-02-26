@@ -89,7 +89,7 @@ public:
       gx[d].set_size(nt[d]);
       this->sigma[d]=1;
       sf[d] = 1.0 / (sqrt(2.0) * this->sigma[d] / img->GetSpacing()[d]);
-      //      std::cout << " sigma " << this->sigma[d] << " spc " << img->GetSpacing()[d] << " sf " << sf[d] << std::endl;
+      //      Rcpp::Rcout << " sigma " << this->sigma[d] << " spc " << img->GetSpacing()[d] << " sf " << sf[d] << std::endl;
       cut[d] = this->sigma[d] * alpha / img->GetSpacing()[d];
       }
 
@@ -139,7 +139,7 @@ public:
       // The bound variables for x, y, z
       int i0[VDim], i1[VDim];
       // Compute the ERF difference arrays
-      //      std::cout << " index " << index << " VD " << VDim << std::endl;
+      //      Rcpp::Rcout << " index " << index << " VD " << VDim << std::endl;
 
       for(size_t d = 0; d < VDim; d++)
         {
@@ -213,7 +213,7 @@ public:
       Vout[qq]=rc;
 
 	}
-      //      std::cout << " gaussian " << std::endl;
+      //      Rcpp::Rcout << " gaussian " << std::endl;
 	
       // return sum_me / sum_m;
       return Vout;
@@ -257,13 +257,13 @@ private:
 
       // Start at the first voxel
       double t = (b - p + k0) * sfac;
-      //      std::cout << " t " << t  << " b " << b  << " p " << p  << " k0 " << k0  << " sfat " << sfac << std::endl;
+      //      Rcpp::Rcout << " t " << t  << " b " << b  << " p " << p  << " k0 " << k0  << " sfat " << sfac << std::endl;
       double e_last = vnl_erf(t);
       double g_last = gx_erf ? 1.128379167095513 * exp(- t * t) : 0.0;
       for(int i = k0; i < k1; i++)
         {
         t += sfac;
-	//	std::cout << " t2 " << t << std::endl;
+	//	Rcpp::Rcout << " t2 " << t << std::endl;
         double e_now = vnl_erf(t);
         dx_erf[i] = e_now - e_last;
         if(gx_erf)

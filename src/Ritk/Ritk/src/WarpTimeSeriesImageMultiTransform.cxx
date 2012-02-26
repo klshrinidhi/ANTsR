@@ -97,7 +97,7 @@ void FilePartsWithgz(const std::string &filename, std::string &path, std::string
 
     }
 
-//    std::cout << "filename: " << filename << std::endl
+//    Rcpp::Rcout << "filename: " << filename << std::endl
 //    << "path: " << path << std::endl
 //    << "name: " << name << std::endl
 //    << "ext: " << ext << std::endl;
@@ -174,7 +174,7 @@ bool ParseInput(int argc, char **argv, char *&moving_image_filename,
         }
         else if (strcmp(argv[ind], "--reference-image-header")==0 || strcmp(argv[ind], "-rh") ==0){
             if (misc_opt.reference_image_filename==NULL){
-                std::cout << "reference image filename is not given yet. Specify it with -R before --reference-image-header / -rh." << std::endl;
+                Rcpp::Rcout << "reference image filename is not given yet. Specify it with -R before --reference-image-header / -rh." << std::endl;
                 return false;
             }
 
@@ -205,7 +205,7 @@ bool ParseInput(int argc, char **argv, char *&moving_image_filename,
                 opt.file_type = CheckFileType(opt.filename.c_str());
                 opt.do_affine_inv = false;
                 opt_queue.push_back(opt);
-                std::cout << "found deformation file: " << opt.filename << std::endl;
+                Rcpp::Rcout << "found deformation file: " << opt.filename << std::endl;
                 DisplayOpt(opt);
             }
 
@@ -217,7 +217,7 @@ bool ParseInput(int argc, char **argv, char *&moving_image_filename,
                 opt.file_type = CheckFileType(opt.filename.c_str());
                 opt.do_affine_inv = false;
                 opt_queue.push_back(opt);
-                std::cout << "found affine file: " << opt.filename << std::endl;
+                Rcpp::Rcout << "found affine file: " << opt.filename << std::endl;
                 DisplayOpt(opt);
             }
 
@@ -237,7 +237,7 @@ bool ParseInput(int argc, char **argv, char *&moving_image_filename,
                 opt.file_type = CheckFileType(opt.filename.c_str());
                 opt.do_affine_inv = true;
                 opt_queue.push_back(opt);
-                std::cout << "found affine file: " << opt.filename << std::endl;
+                Rcpp::Rcout << "found affine file: " << opt.filename << std::endl;
                 DisplayOpt(opt);
             }
 
@@ -252,7 +252,7 @@ bool ParseInput(int argc, char **argv, char *&moving_image_filename,
                 opt.file_type = CheckFileType(opt.filename.c_str());
                 opt.do_affine_inv = false;
                 opt_queue.push_back(opt);
-                std::cout << "found deformation file: " << opt.filename << std::endl;
+                Rcpp::Rcout << "found deformation file: " << opt.filename << std::endl;
                 DisplayOpt(opt);
             }
         }
@@ -264,8 +264,8 @@ bool ParseInput(int argc, char **argv, char *&moving_image_filename,
             if (opt.file_type == AFFINE_FILE)
                 SetAffineInvFlag(opt, set_current_affine_inv);
             else if (opt.file_type == DEFORMATION_FILE && set_current_affine_inv){
-                std::cout << "Ignore inversion of non-affine file type! " << std::endl;
-                std::cout << "opt.do_affine_inv:" << opt.do_affine_inv << std::endl;
+                Rcpp::Rcout << "Ignore inversion of non-affine file type! " << std::endl;
+                Rcpp::Rcout << "opt.do_affine_inv:" << opt.do_affine_inv << std::endl;
             }
 
             opt_queue.push_back(opt);
@@ -290,7 +290,7 @@ bool ParseInput(int argc, char **argv, char *&moving_image_filename,
         //               opt.do_affine_inv = true;
         //               opt_queue.push_back(opt);
         //
-        //               std::cout << "Use Rotation Header!" << std::endl;
+        //               Rcpp::Rcout << "Use Rotation Header!" << std::endl;
 
     }
 
@@ -300,26 +300,26 @@ bool ParseInput(int argc, char **argv, char *&moving_image_filename,
 void DisplayOptQueue(const TRAN_OPT_QUEUE &opt_queue){
     const int kQueueSize = opt_queue.size();
     for(int i=0; i<kQueueSize; i++){
-        std::cout << "[" << i << "/" << kQueueSize << "]: ";
+        Rcpp::Rcout << "[" << i << "/" << kQueueSize << "]: ";
         switch(opt_queue[i].file_type){
         case AFFINE_FILE:
-            std::cout << "AFFINE";
+            Rcpp::Rcout << "AFFINE";
             break;
         case DEFORMATION_FILE:
-            std::cout << "FIELD";
+            Rcpp::Rcout << "FIELD";
             break;
         case IDENTITY_TRANSFORM:
-            std::cout << "IDENTITY";
+            Rcpp::Rcout << "IDENTITY";
             break;
         case IMAGE_AFFINE_HEADER:
-            std::cout << "HEADER";
+            Rcpp::Rcout << "HEADER";
             break;
         default:
-            std::cout << "Invalid Format!!!";
+            Rcpp::Rcout << "Invalid Format!!!";
             break;
         }
-        if (opt_queue[i].do_affine_inv) std::cout << "-INV";
-        std::cout << ": " << opt_queue[i].filename << std::endl;
+        if (opt_queue[i].do_affine_inv) Rcpp::Rcout << "-INV";
+        Rcpp::Rcout << ": " << opt_queue[i].filename << std::endl;
     }
 
 }
@@ -327,23 +327,23 @@ void DisplayOptQueue(const TRAN_OPT_QUEUE &opt_queue){
 void DisplayOpt(const TRAN_OPT &opt){
     switch(opt.file_type){
     case AFFINE_FILE:
-        std::cout << "AFFINE";
+        Rcpp::Rcout << "AFFINE";
         break;
     case DEFORMATION_FILE:
-        std::cout << "FIELD";
+        Rcpp::Rcout << "FIELD";
         break;
     case IDENTITY_TRANSFORM:
-        std::cout << "IDENTITY";
+        Rcpp::Rcout << "IDENTITY";
         break;
     case IMAGE_AFFINE_HEADER:
-        std::cout << "HEADER";
+        Rcpp::Rcout << "HEADER";
         break;
     default:
-        std::cout << "Invalid Format!!!";
+        Rcpp::Rcout << "Invalid Format!!!";
         break;
     }
-    if (opt.do_affine_inv) std::cout << "-INV";
-    std::cout << ": " << opt.filename << std::endl;
+    if (opt.do_affine_inv) Rcpp::Rcout << "-INV";
+    Rcpp::Rcout << ": " << opt.filename << std::endl;
 }
 
 template<class AffineTransformPointer>
@@ -376,7 +376,7 @@ void GetAffineTransformFromImage(const ImageTypePointer& img, AffineTransformPoi
     aff->SetCenter(pt);
 
 
-    std::cout << "aff from image:" << aff << std::endl;
+    Rcpp::Rcout << "aff from image:" << aff << std::endl;
 
 }
 
@@ -418,11 +418,11 @@ void GetLaregstSizeAfterWarp(WarperPointerType &warper, ImagePointerType &img, S
             PointType pt_orig, pt_warped;
             img->TransformIndexToPhysicalPoint(ind, pt_orig);
             if (warper->MultiInverseAffineOnlySinglePoint(pt_orig, pt_warped)==false){
-                std::cout << "ERROR: outside of numeric boundary with affine transform." << std::endl;
+                Rcpp::Rcout << "ERROR: outside of numeric boundary with affine transform." << std::endl;
                 throw std::exception() ;
             }
             pts_warped.push_back(pt_warped);
-            std::cout << '[' << i << ']' << ind << ',' << pt_orig << "->" << pt_warped << std::endl;
+            Rcpp::Rcout << '[' << i << ']' << ind << ',' << pt_orig << "->" << pt_warped << std::endl;
         }
     }
     else if (ImageDimension == 2) {
@@ -437,16 +437,16 @@ void GetLaregstSizeAfterWarp(WarperPointerType &warper, ImagePointerType &img, S
             PointType pt_orig, pt_warped;
             img->TransformIndexToPhysicalPoint(ind, pt_orig);
             if (warper->MultiInverseAffineOnlySinglePoint(pt_orig, pt_warped)==false){
-                std::cout << "ERROR: outside of numeric boundary with affine transform." << std::endl;
+                Rcpp::Rcout << "ERROR: outside of numeric boundary with affine transform." << std::endl;
                 throw std::exception() ;
             }
             pts_warped.push_back(pt_warped);
-            std::cout << '[' << i << ']' << ind << ',' << pt_orig << "->" << pt_warped << std::endl;
+            Rcpp::Rcout << '[' << i << ']' << ind << ',' << pt_orig << "->" << pt_warped << std::endl;
         }
 
     }
     else {
-        std::cout << "could not determine the dimension after warping for non 2D/3D volumes" << std::endl;
+        Rcpp::Rcout << "could not determine the dimension after warping for non 2D/3D volumes" << std::endl;
         throw std::exception() ;
     }
 
@@ -465,8 +465,8 @@ void GetLaregstSizeAfterWarp(WarperPointerType &warper, ImagePointerType &img, S
     }
 
     origin_warped = pt_min;
-    std::cout << "origin_warped: " << origin_warped << std::endl;
-    std::cout << "pt_min: " << pt_min << " pt_max:" << pt_max << " largest_size:" << largest_size << std::endl;
+    Rcpp::Rcout << "origin_warped: " << origin_warped << std::endl;
+    Rcpp::Rcout << "pt_min: " << pt_min << " pt_max:" << pt_max << " largest_size:" << largest_size << std::endl;
 
 
 }
@@ -495,7 +495,7 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
   typename VectorImageType::Pointer img_mov;
 
     ReadImage<VectorImageType>(img_mov,moving_image_filename);
-    std::cout << " Four-D image size: " << img_mov->GetLargestPossibleRegion().GetSize() << std::endl;
+    Rcpp::Rcout << " Four-D image size: " << img_mov->GetLargestPossibleRegion().GetSize() << std::endl;
     typename ImageType::Pointer img_ref; // = ImageType::New();
     typename ImageFileReaderType::Pointer reader_img_ref = ImageFileReaderType::New();
     if (misc_opt.reference_image_filename){
@@ -536,15 +536,15 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
   transformedvecimage->SetSpacing(spc);
   transformedvecimage->SetOrigin(origin);
 
-  std::cout << " 4D-In-Spc " << img_mov->GetSpacing() << std::endl;
-  std::cout << " 4D-In-Org " << img_mov->GetOrigin() << std::endl;
-  std::cout << " 4D-In-Size " <<  img_mov->GetLargestPossibleRegion().GetSize() << std::endl;
-  std::cout << " 4D-In-Dir " << img_mov->GetDirection() << std::endl;
-  std::cout << " ...... " << std::endl;
-  std::cout << " 4D-Out-Spc " << transformedvecimage->GetSpacing() << std::endl;
-  std::cout << " 4D-Out-Org " << transformedvecimage->GetOrigin() << std::endl;
-  std::cout << " 4D-Out-Size " <<  transformedvecimage->GetLargestPossibleRegion().GetSize() << std::endl;
-  std::cout << " 4D-Out-Dir " << transformedvecimage->GetDirection() << std::endl;
+  Rcpp::Rcout << " 4D-In-Spc " << img_mov->GetSpacing() << std::endl;
+  Rcpp::Rcout << " 4D-In-Org " << img_mov->GetOrigin() << std::endl;
+  Rcpp::Rcout << " 4D-In-Size " <<  img_mov->GetLargestPossibleRegion().GetSize() << std::endl;
+  Rcpp::Rcout << " 4D-In-Dir " << img_mov->GetDirection() << std::endl;
+  Rcpp::Rcout << " ...... " << std::endl;
+  Rcpp::Rcout << " 4D-Out-Spc " << transformedvecimage->GetSpacing() << std::endl;
+  Rcpp::Rcout << " 4D-Out-Org " << transformedvecimage->GetOrigin() << std::endl;
+  Rcpp::Rcout << " 4D-Out-Size " <<  transformedvecimage->GetLargestPossibleRegion().GetSize() << std::endl;
+  Rcpp::Rcout << " 4D-Out-Dir " << transformedvecimage->GetDirection() << std::endl;
 
   unsigned int timedims=img_mov->GetLargestPossibleRegion().GetSize()[ImageDimension-1];
   for (unsigned int timedim=0;  timedim < timedims ;  timedim++ ) {
@@ -555,7 +555,7 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
     if (misc_opt.use_NN_interpolator){
         typedef typename itk::NearestNeighborInterpolateImageFunction<ImageType, typename WarperType::CoordRepType> NNInterpolateType;
         typename NNInterpolateType::Pointer interpolator_NN = NNInterpolateType::New();
-        std::cout <<  " Use Nearest Neighbor interpolation " << std::endl;
+        Rcpp::Rcout <<  " Use Nearest Neighbor interpolation " << std::endl;
         warper->SetInterpolator(interpolator_NN);
     }
 
@@ -579,7 +579,7 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
                 aff->GetInverse(aff_inv);
                 aff = aff_inv;
             }
-            // std::cout <<" aff " << transcount <<  std::endl;
+            // Rcpp::Rcout <<" aff " << transcount <<  std::endl;
             warper->PushBackAffineTransform(aff);
             if (transcount==0){
                 warper->SetOutputSize(img_ref->GetLargestPossibleRegion().GetSize());
@@ -594,7 +594,7 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
         case IDENTITY_TRANSFORM:{
             typename AffineTransformType::Pointer aff;
             GetIdentityTransform(aff);
-            // std::cout << " aff id" << transcount << std::endl;
+            // Rcpp::Rcout << " aff id" << transcount << std::endl;
             warper->PushBackAffineTransform(aff);
             transcount++;
             break;
@@ -617,7 +617,7 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
                 aff = aff_inv;
             }
 
-            // std::cout <<" aff from image header " << transcount <<  std::endl;
+            // Rcpp::Rcout <<" aff from image header " << transcount <<  std::endl;
             warper->PushBackAffineTransform(aff);
 
             //            if (transcount==0){
@@ -647,7 +647,7 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
             break;
         }
         default:
-            std::cout << "Unknown file type!" << std::endl;
+            Rcpp::Rcout << "Unknown file type!" << std::endl;
         }
     }
 
@@ -664,7 +664,7 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
     else {
         if (misc_opt.use_TightestBoundingBox == true){
             // compute the desired spacking after inputting all the transform files using the
-          std::cout << " not implemented " << std::endl;
+          Rcpp::Rcout << " not implemented " << std::endl;
           /*
             typename ImageType::SizeType largest_size;
             typename ImageType::PointType origin_warped;
@@ -683,7 +683,7 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
 
 
 
-    if ( timedim % vnl_math_max(timedims / 10, static_cast<unsigned int>(1)) == 0 ) std::cout << (float) timedim/(float)timedims*100 << " % done ... " << std::flush; // << std::endl;
+    if ( timedim % vnl_math_max(timedims / 10, static_cast<unsigned int>(1)) == 0 ) Rcpp::Rcout << (float) timedim/(float)timedims*100 << " % done ... " << std::flush; // << std::endl;
     typename VectorImageType::RegionType extractRegion = img_mov->GetLargestPossibleRegion();
     extractRegion.SetSize(ImageDimension-1, 0);
     extractRegion.SetIndex(ImageDimension-1, timedim );
@@ -721,13 +721,13 @@ void WarpImageMultiTransformFourD(char *moving_image_filename, char *output_imag
         for (unsigned int xx=0; xx<ImageDimension-1; xx++) ind[xx]=vfIter2.GetIndex()[xx];
         ind[ImageDimension-1]=timedim;
         transformedvecimage->SetPixel(ind,fval);
-	//	if ( ind[0] == 53 && ind[1] == 19 && ind[2] == 30 ) std::cout << " fval " << fval << " td " << timedim << std::endl;
+	//	if ( ind[0] == 53 && ind[1] == 19 && ind[2] == 30 ) Rcpp::Rcout << " fval " << fval << " td " << timedim << std::endl;
       }
 
-    if (timedim == 0) std::cout << warper->GetOutput()->GetDirection() << std::endl;
+    if (timedim == 0) Rcpp::Rcout << warper->GetOutput()->GetDirection() << std::endl;
 
    }
-  std::cout << " 100 % complete " << std::endl;
+  Rcpp::Rcout << " 100 % complete " << std::endl;
   WriteImage<VectorImageType>( transformedvecimage , output_image_filename);
 
 
@@ -761,9 +761,9 @@ void WarpImageMultiTransform(char *moving_image_filename, char *output_image_fil
       itk::ImageIOFactory::CreateImageIO(moving_image_filename, itk::ImageIOFactory::ReadMode);
     imageIO->SetFileName(moving_image_filename);
     imageIO->ReadImageInformation();
-    //    std::cout << " Dimension " << imageIO->GetNumberOfDimensions()  << " Components " <<imageIO->GetNumberOfComponents() << std::endl;
+    //    Rcpp::Rcout << " Dimension " << imageIO->GetNumberOfDimensions()  << " Components " <<imageIO->GetNumberOfComponents() << std::endl;
     unsigned int veclength=imageIO->GetNumberOfComponents();
-    std::cout <<" read veclength as:: " << veclength << std::endl;
+    Rcpp::Rcout <<" read veclength as:: " << veclength << std::endl;
     ReadImage<VectorImageType>(img_mov,moving_image_filename);
     typename ImageType::Pointer img_ref; // = ImageType::New();
 
@@ -812,7 +812,7 @@ void WarpImageMultiTransform(char *moving_image_filename, char *output_image_fil
     if (misc_opt.use_NN_interpolator){
         typedef typename itk::NearestNeighborInterpolateImageFunction<ImageType, typename WarperType::CoordRepType> NNInterpolateType;
         typename NNInterpolateType::Pointer interpolator_NN = NNInterpolateType::New();
-        std::cout << "Haha" << std::endl;
+        Rcpp::Rcout << "Haha" << std::endl;
         warper->SetInterpolator(interpolator_NN);
     }
 
@@ -838,7 +838,7 @@ void WarpImageMultiTransform(char *moving_image_filename, char *output_image_fil
                 aff->GetInverse(aff_inv);
                 aff = aff_inv;
             }
-            // std::cout <<" aff " << transcount <<  std::endl;
+            // Rcpp::Rcout <<" aff " << transcount <<  std::endl;
             warper->PushBackAffineTransform(aff);
             if (transcount==0){
                 warper->SetOutputSize(img_mov->GetLargestPossibleRegion().GetSize());
@@ -853,7 +853,7 @@ void WarpImageMultiTransform(char *moving_image_filename, char *output_image_fil
         case IDENTITY_TRANSFORM:{
             typename AffineTransformType::Pointer aff;
             GetIdentityTransform(aff);
-            // std::cout << " aff id" << transcount << std::endl;
+            // Rcpp::Rcout << " aff id" << transcount << std::endl;
             warper->PushBackAffineTransform(aff);
             transcount++;
             break;
@@ -876,7 +876,7 @@ void WarpImageMultiTransform(char *moving_image_filename, char *output_image_fil
                 aff = aff_inv;
             }
 
-            // std::cout <<" aff from image header " << transcount <<  std::endl;
+            // Rcpp::Rcout <<" aff from image header " << transcount <<  std::endl;
             warper->PushBackAffineTransform(aff);
 
             //            if (transcount==0){
@@ -906,7 +906,7 @@ void WarpImageMultiTransform(char *moving_image_filename, char *output_image_fil
             break;
         }
         default:
-            std::cout << "Unknown file type!" << std::endl;
+            Rcpp::Rcout << "Unknown file type!" << std::endl;
         }
     }
 
@@ -986,28 +986,28 @@ try
 
     if (argc<=3){
 
-      std::cout << "\nUsage 1 (Forward warp): " << argv[0] << " ImageDimension <moving_image.ext> <output_image.ext> -R <fixed_image.ext> <MyWarp.ext> <MyAffine.txt> [interpolation]" << std::endl;
+      Rcpp::Rcout << "\nUsage 1 (Forward warp): " << argv[0] << " ImageDimension <moving_image.ext> <output_image.ext> -R <fixed_image.ext> <MyWarp.ext> <MyAffine.txt> [interpolation]" << std::endl;
 
-      std::cout << "\nUsage 2 (Inverse warp): " << argv[0] << " ImageDimension <fixed_image.ext> <output_image.ext> -R <moving_image.ext> -i <MyAffine.txt> <MyInverseWarp.ext> [interpolation]" << std::endl;
+      Rcpp::Rcout << "\nUsage 2 (Inverse warp): " << argv[0] << " ImageDimension <fixed_image.ext> <output_image.ext> -R <moving_image.ext> -i <MyAffine.txt> <MyInverseWarp.ext> [interpolation]" << std::endl;
 
-      std::cout << "\nUsage Information " << std::endl;
-      std::cout << " ImageDimension			: 3 or 4 (required argument)." << std::endl;
-      std::cout << " <moving_image.ext>		: The image to apply the transformation to. The moving_image will be either a 3-D image with vector voxels or a 4D image with scalar voxels." << std::endl;
-      std::cout << " <output_image.ext>		: The resulting image. Output will be of the same type as input, but will be resampled to the domain size defined by the -R image." << std::endl;
-      std::cout << " <MyWarp.ext> <MyAffine.txt>	: Mappings can be stringed together, e.g.: MyAffine.txt MySecondAffine.txt MyWarp.nii.gz MySecondWarp.nii.gz -i MyInverseAffine.txt" << std::endl;
+      Rcpp::Rcout << "\nUsage Information " << std::endl;
+      Rcpp::Rcout << " ImageDimension			: 3 or 4 (required argument)." << std::endl;
+      Rcpp::Rcout << " <moving_image.ext>		: The image to apply the transformation to. The moving_image will be either a 3-D image with vector voxels or a 4D image with scalar voxels." << std::endl;
+      Rcpp::Rcout << " <output_image.ext>		: The resulting image. Output will be of the same type as input, but will be resampled to the domain size defined by the -R image." << std::endl;
+      Rcpp::Rcout << " <MyWarp.ext> <MyAffine.txt>	: Mappings can be stringed together, e.g.: MyAffine.txt MySecondAffine.txt MyWarp.nii.gz MySecondWarp.nii.gz -i MyInverseAffine.txt" << std::endl;
 
-      std::cout << "\nOptions:" << std::endl;
-      std::cout << " -i				: Will use the inversion of the following affine transform." << std::endl;
-      std::cout << " \n -R				: Reference image space that you wish to warp into." << std::endl;
-      std::cout << " --reslice-by-header		: Equivalient to -i -mh, or -fh -i -mh if used together with -R. It uses the orientation matrix and origin encoded in the image file header. " << std::endl;
-      std::cout << " --tightest-bounding-box	: Computes the tightest bounding box using all the affine transformations. It will be overrided by -R <reference_image.ext> if given." << std::endl;
-      std::cout << " These options can be used together with -R and are typically not used together with any other transforms." << std::endl;
+      Rcpp::Rcout << "\nOptions:" << std::endl;
+      Rcpp::Rcout << " -i				: Will use the inversion of the following affine transform." << std::endl;
+      Rcpp::Rcout << " \n -R				: Reference image space that you wish to warp into." << std::endl;
+      Rcpp::Rcout << " --reslice-by-header		: Equivalient to -i -mh, or -fh -i -mh if used together with -R. It uses the orientation matrix and origin encoded in the image file header. " << std::endl;
+      Rcpp::Rcout << " --tightest-bounding-box	: Computes the tightest bounding box using all the affine transformations. It will be overrided by -R <reference_image.ext> if given." << std::endl;
+      Rcpp::Rcout << " These options can be used together with -R and are typically not used together with any other transforms." << std::endl;
 
-      std::cout << "\nInterpolation:" << std::endl;
-      std::cout << " --use-NN			: Use Nearest Neighbor Interpolator" << std::endl;
-      std::cout << " --use-BSpline			: Use 3rd order B-Spline Interpolation." << std::endl;
+      Rcpp::Rcout << "\nInterpolation:" << std::endl;
+      Rcpp::Rcout << " --use-NN			: Use Nearest Neighbor Interpolator" << std::endl;
+      Rcpp::Rcout << " --use-BSpline			: Use 3rd order B-Spline Interpolation." << std::endl;
 
-      std::cout <<"\n " << std::endl;
+      Rcpp::Rcout <<"\n " << std::endl;
       return Rcpp::wrap( EXIT_FAILURE );
     }
 
@@ -1026,11 +1026,11 @@ try
 
     if (is_parsing_ok){
 
-        std::cout << "moving_image_filename: " << moving_image_filename << std::endl;
-        std::cout << "output_image_filename: " << output_image_filename << std::endl;
-        std::cout << "reference_image_filename: ";
-        if (misc_opt.reference_image_filename) std::cout << misc_opt.reference_image_filename << std::endl;
-        else std::cout << "NULL" << std::endl;
+        Rcpp::Rcout << "moving_image_filename: " << moving_image_filename << std::endl;
+        Rcpp::Rcout << "output_image_filename: " << output_image_filename << std::endl;
+        Rcpp::Rcout << "reference_image_filename: ";
+        if (misc_opt.reference_image_filename) Rcpp::Rcout << misc_opt.reference_image_filename << std::endl;
+        else Rcpp::Rcout << "NULL" << std::endl;
         DisplayOptQueue(opt_queue);
 
         switch (kImageDim){
@@ -1052,7 +1052,7 @@ try
 
     }
     else{
-        std::cout << "Input error!" << std::endl;
+        Rcpp::Rcout << "Input error!" << std::endl;
     }
 
   // cleanup of argv
@@ -1066,6 +1066,6 @@ try
 }
  catch( const std::exception& exc )
    {
-     std::cerr<< exc.what() << std::endl ;
+     Rcpp::Rcout<< exc.what() << std::endl ;
      return Rcpp::wrap( EXIT_FAILURE ) ;
    }

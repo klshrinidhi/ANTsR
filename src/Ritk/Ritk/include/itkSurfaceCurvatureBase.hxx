@@ -426,7 +426,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
       wt=exp(-1.*wts[tt]/sigma);
       dists[tt]*=wt;
       totwt+=wt;
-//      std::cout << " wt " << wt << std::endl;
+//      Rcpp::Rcout << " wt " << wt << std::endl;
     }
     if (totwt > 0) dists/=totwt;
   }
@@ -434,7 +434,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
   vnl_svd<double> svd(D);
   vnl_vector<double> a = svd.solve(dists);
 
-//  std::cout << " a vec " << a << std::endl;
+//  Rcpp::Rcout << " a vec " << a << std::endl;
 
 //  for (int tt=0; tt<6; tt++) 
 //    if (a[tt] < 1.e-6) a[tt]=0.0;
@@ -462,13 +462,13 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
 
   if (origin[0]==20 && origin[1]==65 && origin[2]==39)
   {
-    std::cout << " surf params " << a << std::endl;
-    std::cout << " k1 " << m_Kappa1 << " k2 " << m_Kappa2 << std::endl;
+    Rcpp::Rcout << " surf params " << a << std::endl;
+    Rcpp::Rcout << " k1 " << m_Kappa1 << " k2 " << m_Kappa2 << std::endl;
     this->PrintFrame();
     for (unsigned int jj=0; jj < npts; jj++)
     {
-      std::cout << " point " << m_PointList[jj];
-      std::cout << " dist " << dists[jj] << std::endl;
+      Rcpp::Rcout << " point " << m_PointList[jj];
+      Rcpp::Rcout << " dist " << dists[jj] << std::endl;
     }
   }
 
@@ -484,7 +484,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
 //  m_MeanKappa=0.5*(m_Kappa1+m_Kappa2);
 //  m_GaussianKappa = m_Kappa1*m_Kappa2;
 //
-//  std::cout << " eval 0 " << m_Kappa1 << " eval 1 " << m_Kappa2 << std::endl;
+//  Rcpp::Rcout << " eval 0 " << m_Kappa1 << " eval 1 " << m_Kappa2 << std::endl;
 
   return;
 
@@ -585,7 +585,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
 
   m_MeanKappa=0.5*(m_Kappa1+m_Kappa2);
   m_GaussianKappa = m_Kappa1*m_Kappa2;
-//  std::cout << " eval 0 " << m_Kappa1 << " eval 1 " << m_Kappa2 << std::endl;
+//  Rcpp::Rcout << " eval 0 " << m_Kappa1 << " eval 1 " << m_Kappa2 << std::endl;
 
 }
 
@@ -683,7 +683,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>::TestEstimateTangentPlane(PointT
 {
  // Read points from stdin
   MatrixType pts;
-  std::cout << " input points " << std::endl;
+  Rcpp::Rcout << " input points " << std::endl;
   vcl_cin >> pts;
 
   // Build cov matrix D
@@ -703,7 +703,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>::TestEstimateTangentPlane(PointT
   }
 
   avgpt/=count;
-  if (m_Debug) std::cout << " avg " << avgpt << std::endl;
+  if (m_Debug) Rcpp::Rcout << " avg " << avgpt << std::endl;
 
   origin=avgpt;
 
@@ -744,7 +744,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>::FindNeighborhood(unsigned int t
  // Read points from stdin
   MatrixType pts;
   
-  std::cout << " input points " << std::endl;
+  Rcpp::Rcout << " input points " << std::endl;
   vcl_cin >> pts;
   
 
@@ -772,7 +772,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>::FindNeighborhood(unsigned int t
   for(unsigned int i = 0; i < m_PointList.size(); i++) {
     std:: cout << " point  " << m_PointList[i];  
   }
-  std::cout << std::endl;
+  Rcpp::Rcout << std::endl;
   }
 
 }
@@ -791,7 +791,7 @@ void   SurfaceCurvatureBase<TSurface,TDimension>::ChooseReferenceTangent()
   //m_ArbitraryTangent[0]=w;  m_ArbitraryTangent[1]=1.-w;  m_ArbitraryTangent[2]=0.;
   m_ArbitraryTangent=w*m_Tangent2+(w2*m_Tangent1);
   m_ArbitraryTangent/=m_ArbitraryTangent.magnitude();
-  if (m_Debug)  std::cout << " arb tan " << m_ArbitraryTangent << std::endl;
+  if (m_Debug)  Rcpp::Rcout << " arb tan " << m_ArbitraryTangent << std::endl;
 }
 
 
@@ -870,7 +870,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
 
  if (m_Origin[0] == 95 && m_Origin[1] == 94 && m_Origin[2] == 63 )
 {
-   std::cout << " tdk " << m_TotalDKap << " nor " << m_Normal << " dk " << 
+   Rcpp::Rcout << " tdk " << m_TotalDKap << " nor " << m_Normal << " dk " << 
     m_DirectionalKappa << " dif " << Dif << " mpv " << m_PlaneVector << std::endl;
    //m_Debug=true;
 }
@@ -886,7 +886,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
 
  if (m_Origin[0] == 54 && m_Origin[1] == 54 && m_Origin[2] == 63 )
 {
-   std::cout << m_Origin << " tdk " << m_TotalDKap << " nor " << m_Normal << std::endl;
+   Rcpp::Rcout << m_Origin << " tdk " << m_TotalDKap << " nor " << m_Normal << std::endl;
    //m_Debug=true;
 }
  // Now compute A, B, C 
@@ -896,10 +896,10 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
  m_WeightVector/=totalWeight;
 
 if (m_Debug){
-std::cout << " weight " <<m_WeightVector << std::endl;
-std::cout << " theta " << m_ThetaVector << std::endl;
-std::cout << " dkap  " << m_DirectionalKappaVector << std::endl;
-std::cout << " A " << m_A << " B " << m_B << " C " << m_C << std::endl;
+Rcpp::Rcout << " weight " <<m_WeightVector << std::endl;
+Rcpp::Rcout << " theta " << m_ThetaVector << std::endl;
+Rcpp::Rcout << " dkap  " << m_DirectionalKappaVector << std::endl;
+Rcpp::Rcout << " A " << m_A << " B " << m_B << " C " << m_C << std::endl;
 }
 
 }
@@ -951,9 +951,9 @@ typename SurfaceCurvatureBase<TSurface,TDimension>::RealType   SurfaceCurvatureB
    RealType tot = 1;//fabs(u1)+fabs(u2);
 //   if (tot ==0)
    {
-//    std::cout << " tan1 " << m_Tangent1 << " tan2 " << m_Tangent2 << std::endl;
-//    std::cout << " norm " << m_Normal << " u1 " << u1 << " u2 " << u2 << std::endl;
-//    std::cout << " Origin " << m_Origin << " Q " << Q << std::endl;
+//    Rcpp::Rcout << " tan1 " << m_Tangent1 << " tan2 " << m_Tangent2 << std::endl;
+//    Rcpp::Rcout << " norm " << m_Normal << " u1 " << u1 << " u2 " << u2 << std::endl;
+//    Rcpp::Rcout << " Origin " << m_Origin << " Q " << Q << std::endl;
 //    tot=1.;
    }
    RealType pvMag=0;
@@ -972,7 +972,7 @@ typename SurfaceCurvatureBase<TSurface,TDimension>::RealType   SurfaceCurvatureB
 //   if (pvMag!=0)m_PlaneVector/=sqrt(pvMag);
 
    
-if (m_Debug)std::cout << " m_PlaneVector " << m_PlaneVector << " dif " << Dif << std::endl;
+if (m_Debug)Rcpp::Rcout << " m_PlaneVector " << m_PlaneVector << " dif " << Dif << std::endl;
 
    float temp=(sqrt(pvMag)*sqrt(arbMag));
    if (temp!=0.0) theta=acos(ip/temp); else theta=0.0; //FIXME?
@@ -1028,8 +1028,8 @@ void     SurfaceCurvatureBase<TSurface,TDimension>
   m_MeanKappa=0.5*(m_Kappa1+m_Kappa2);
   m_GaussianKappa = m_Kappa1*m_Kappa2;
 
-//  std::cout << " eval test " << w1*m_Kappa1 + w2*m_Kappa2 << " e1 " << m_Eval1 << std::endl;
-//  std::cout << " eval test " << w3*m_Kappa1 + w4*m_Kappa2 << " e2 " << m_Eval2 << std::endl;
+//  Rcpp::Rcout << " eval test " << w1*m_Kappa1 + w2*m_Kappa2 << " e1 " << m_Eval1 << std::endl;
+//  Rcpp::Rcout << " eval test " << w3*m_Kappa1 + w4*m_Kappa2 << " e2 " << m_Eval2 << std::endl;
 
 }
 
@@ -1039,13 +1039,13 @@ void     SurfaceCurvatureBase<TSurface,TDimension>
 ::PrintFrame()
 {
 
-  std::cout << " normal " << m_Normal << std::endl;
-  std::cout << " t1 " << m_Tangent1 << std::endl;
-  std::cout << " t2 " << m_Tangent2 << std::endl;
-  std::cout << " k1 " << m_Kappa1 << " k2 " << m_Kappa2 << std::endl;
-  std::cout << " e0 " << m_Eval0 << " e1 " << m_Eval1 << " e2 " << m_Eval2 <<std::endl;
-  std::cout << " A " << m_A << " B " <<  m_B << " C " << m_C << std::endl;
-  std::cout << std::endl;
+  Rcpp::Rcout << " normal " << m_Normal << std::endl;
+  Rcpp::Rcout << " t1 " << m_Tangent1 << std::endl;
+  Rcpp::Rcout << " t2 " << m_Tangent2 << std::endl;
+  Rcpp::Rcout << " k1 " << m_Kappa1 << " k2 " << m_Kappa2 << std::endl;
+  Rcpp::Rcout << " e0 " << m_Eval0 << " e1 " << m_Eval1 << " e2 " << m_Eval2 <<std::endl;
+  Rcpp::Rcout << " A " << m_A << " B " <<  m_B << " C " << m_C << std::endl;
+  Rcpp::Rcout << std::endl;
 }
 
 
@@ -1123,8 +1123,8 @@ SurfaceCurvatureBase<TSurface,TDimension>
       }
     }
   if (m_Debug){
-      std::cout << " single point error " << minrel << " mins " << s<< std::endl;
-      std::cout << " est pt " << est << " pt " << qp << std::endl << std::endl;
+      Rcpp::Rcout << " single point error " << minrel << " mins " << s<< std::endl;
+      Rcpp::Rcout << " est pt " << est << " pt " << qp << std::endl << std::endl;
     }
     toterror+=minrel;
 */  
@@ -1133,7 +1133,7 @@ SurfaceCurvatureBase<TSurface,TDimension>
     }
   }
 
-  if (m_Debug)std::cout << " tot error " << 1./((float)npts+1)*toterror << std::endl;
+  if (m_Debug)Rcpp::Rcout << " tot error " << 1./((float)npts+1)*toterror << std::endl;
 
   return 1./((float)npts+1)*toterror;
  
@@ -1159,7 +1159,7 @@ void  SurfaceCurvatureBase<TSurface,TDimension>
 
    m_MetricTensorDeterminant = sqrt(a*c-b*b);
    
-   if (m_MetricTensorDeterminant < 0.0) std::cout << "bad metric tensor ";
+   if (m_MetricTensorDeterminant < 0.0) Rcpp::Rcout << "bad metric tensor ";
 }
 
 template <typename TSurface, unsigned int TDimension>
@@ -1272,12 +1272,12 @@ float  SurfaceCurvatureBase<TSurface,TDimension>
   m_MetricTensor[2]=cc;
   float denom=sqrt(aa*cc-bb*bb);
 //  denom=1.0;
-//  std::cout << " denom " << denom << " dx " << dx << " dy " << dy << std::endl;
-  //std::cout << " a " << aa << " b " << bb << " c " << cc << std::endl;
+//  Rcpp::Rcout << " denom " << denom << " dx " << dx << " dy " << dy << std::endl;
+  //Rcpp::Rcout << " a " << aa << " b " << bb << " c " << cc << std::endl;
   
   float dstarU = 1.0/denom*(  (bb*Ux - aa*Uy)*dx + (cc*Ux - bb*Uy)*dy );
 
-//std::cout << " dstarU " << dstarU << std::endl;
+//Rcpp::Rcout << " dstarU " << dstarU << std::endl;
 
   return  dstarU;
 

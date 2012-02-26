@@ -107,7 +107,7 @@ public:
 
     typename TGraphSearchNode::Pointer G=SinkNode;
     typename TGraphSearchNode::Pointer P=SinkNode->GetPredecessor();
-	if (!P) {std::cout << " ERROR NO PRED TO SINK " << std::endl; return 1.;}
+	if (!P) {Rcpp::Rcout << " ERROR NO PRED TO SINK " << std::endl; return 1.;}
     m_QS->m_Path.push_back(G);
 //    if (P->GetAncestor() && G) 
 //    {
@@ -120,7 +120,7 @@ public:
 
     while(P && G != P)
     {
-//		std::cout << " Backtrack " << G->GetValue(0) << std::endl;
+//		Rcpp::Rcout << " Backtrack " << G->GetValue(0) << std::endl;
 	    G=P;
 	    P=G->GetPredecessor();
   //    if (P->GetValue(1) < G->GetValue(1) ) P->SetValue(G->GetValue(1),1);
@@ -128,7 +128,7 @@ public:
 	    if (P) m_QS->m_Path.push_back(P);
     }
 //    m_QS->m_Path.push_back(P);
-//    std::cout << " final cost " << P->GetTotalCost() << " high " << highcost << std::endl;
+//    Rcpp::Rcout << " final cost " << P->GetTotalCost() << " high " << highcost << std::endl;
     if (!P) cout << " null pred "; //else cout << " pred == self \n";
     return P->GetValue(2);
   }
@@ -151,7 +151,7 @@ public:
 	    G=P;
 	    P=G->GetPredecessor();
     }
-//	std::cout << " intval " << intval << " at " << G->GetLocation() << std::endl;
+//	Rcpp::Rcout << " intval " << intval << " at " << G->GetLocation() << std::endl;
     if (!P) cout << " null pred "; //else cout << " pred == self \n";
     return;
   }
@@ -174,7 +174,7 @@ public:
 	    G=P;
 	    P=G->GetAncestor();
     }
-//	std::cout << " intval " << intval << " at " << G->GetLocation() << std::endl;
+//	Rcpp::Rcout << " intval " << intval << " at " << G->GetLocation() << std::endl;
     if (!P) cout << " null pred "; //else cout << " pred == self \n";
     return;
   }
@@ -251,7 +251,7 @@ public:
     this->m_LabelCostWeight=c;
   }
   inline void PrintWeights()  { 
-   std::cout << this->m_MaxCost << " " << this->m_DistanceCostWeight << " " << this->m_LabelCostWeight << std::endl; 
+   Rcpp::Rcout << this->m_MaxCost << " " << this->m_DistanceCostWeight << " " << this->m_LabelCostWeight << std::endl; 
   }
   void SetSearchFinished(bool m){ m_SearchFinished=m;} 
   /** sets the boolean that indicates if the algorithm is done */

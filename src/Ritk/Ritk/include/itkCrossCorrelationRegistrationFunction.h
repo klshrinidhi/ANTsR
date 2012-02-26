@@ -180,7 +180,7 @@ public:
        if ( this->m_MetricImage) {
 	 this->m_MetricImage->SetPixel(oindex,cc);
 	 //if ( fabs(cc) > 0)
-	   //	 std::cout << " set cc " << cc << std::endl;
+	   //	 Rcpp::Rcout << " set cc " << cc << std::endl;
        }
        totalcc+=cc;
        }

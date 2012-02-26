@@ -187,7 +187,7 @@ public:
 
   inline bool IsValidSurface(PixelType pix, IndexType ind)
     {
-      //   std::cout << "m_UseLabel "<< m_UseLabel << " pix " << pix << " Thresh " << m_Threshold << " ind " << ind << std::endl;
+      //   Rcpp::Rcout << "m_UseLabel "<< m_UseLabel << " pix " << pix << " Thresh " << m_Threshold << " ind " << ind << std::endl;
       if (this->m_UseLabel)
       {
         if ( pix == this->m_SurfaceLabel ) return true; else return false;

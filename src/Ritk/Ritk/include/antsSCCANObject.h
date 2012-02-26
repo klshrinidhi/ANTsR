@@ -222,9 +222,9 @@ public:
     MatrixType invcov=this->PseudoInverse( cov, true );
     bool debug=false;
     if (debug) {
-    std::cout << " cov " << std::endl;    std::cout << cov << std::endl;
-    std::cout << " invcov " << std::endl;    std::cout << invcov << std::endl; 
-    std::cout << " id? " << std::endl;    std::cout << cov*invcov << std::endl;
+    Rcpp::Rcout << " cov " << std::endl;    Rcpp::Rcout << cov << std::endl;
+    Rcpp::Rcout << " invcov " << std::endl;    Rcpp::Rcout << invcov << std::endl; 
+    Rcpp::Rcout << " id? " << std::endl;    Rcpp::Rcout << cov*invcov << std::endl;
     }
     if ( p.rows() < p.columns() ) return (invcov*p);
     else return p*invcov;
@@ -362,10 +362,10 @@ protected:
   MatrixType mEtoV( eMatrix m , unsigned int ncols = 0) {
     MatrixType m_out( m.data() , m.rows() , m.cols() );
     if (  m(0,1) != m_out(0,1) ) {
-      std::cout << " WARNING!! in eigen to vnl coversion for matrices " << std::endl;
-      std::cout <<" eigen " << m(0,1) << " vnl " << m_out(0,1) << std::endl;
+      Rcpp::Rcout << " WARNING!! in eigen to vnl coversion for matrices " << std::endl;
+      Rcpp::Rcout <<" eigen " << m(0,1) << " vnl " << m_out(0,1) << std::endl;
     }
-    //    std::cout <<" eigen at (0,1) " << m(0,1) << " vnl at (0,1) " << m_out(0,1) <<  " vnl at (1,0) " << m_out(1,0)  << std::endl;
+    //    Rcpp::Rcout <<" eigen at (0,1) " << m(0,1) << " vnl at (0,1) " << m_out(0,1) <<  " vnl at (1,0) " << m_out(1,0)  << std::endl;
     if ( ncols == 0 ) 
       return m_out;
     else return (m_out).get_n_columns(0,ncols);
@@ -389,9 +389,9 @@ protected:
  
   void PrintSelf( std::ostream& os, Indent indent ) const
   {
-    if ( this->m_MaskImageP && this->m_MaskImageQ && this->m_MaskImageR ) std::cout << " 3 matrices " << std::endl;
-    else if ( this->m_MaskImageP && this->m_MaskImageQ  ) std::cout << " 2 matrices " << std::endl;
-    else std::cout << " fewer than 2 matrices " << std::endl;
+    if ( this->m_MaskImageP && this->m_MaskImageQ && this->m_MaskImageR ) Rcpp::Rcout << " 3 matrices " << std::endl;
+    else if ( this->m_MaskImageP && this->m_MaskImageQ  ) Rcpp::Rcout << " 2 matrices " << std::endl;
+    else Rcpp::Rcout << " fewer than 2 matrices " << std::endl;
   }
  
   void RunDiagnostics(unsigned int);
