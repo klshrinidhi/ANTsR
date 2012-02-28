@@ -56,7 +56,18 @@ add_library( Ritk MODULE
   ${Ritk_SOURCE_DIR}/src/WarpTimeSeriesImageMultiTransform.cxx 
   # ants_compcorr
   ${Ritk_SOURCE_DIR}/src/Atropos.cxx 
-  ${Ritk_SOURCE_DIR}/src/sccan.cxx )
+  ${Ritk_SOURCE_DIR}/src/sccan.cxx 
+  # individual targets from ANTS
+  ${Ritk_SOURCE_DIR}/src/antsApplyTransforms.cxx 
+  ${Ritk_SOURCE_DIR}/src/ANTSIntegrateVectorField.cxx 
+  ${Ritk_SOURCE_DIR}/src/ANTSIntegrateVelocityField.cxx 
+  ${Ritk_SOURCE_DIR}/src/ANTSJacobian.cxx
+  #  ${Ritk_SOURCE_DIR}/src/ANTSUseDeformationFieldToGetAffineTransform.cxx
+  ${Ritk_SOURCE_DIR}/src/ANTSUseLandmarkImagesToGetAffineTransform.cxx
+  ${Ritk_SOURCE_DIR}/src/AtroposMin.cxx
+  ${Ritk_SOURCE_DIR}/src/AverageAffineTransform.cxx
+  ${Ritk_SOURCE_DIR}/src/AverageImages.cxx
+  )
 target_link_libraries( Ritk ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
 set_target_properties( Ritk PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
 install( TARGETS Ritk DESTINATION . )
@@ -104,4 +115,68 @@ if( CMAKE_BUILD_TYPE STREQUAL Debug )
     ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
   target_link_libraries( ants_compcorr ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
   set_target_properties( ants_compcorr PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( antsApplyTransforms MODULE 
+    ${Ritk_SOURCE_DIR}/src/antsApplyTransforms.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( antsApplyTransforms ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( antsApplyTransforms PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ANTSIntegrateVectorField MODULE 
+    ${Ritk_SOURCE_DIR}/src/ANTSIntegrateVectorField.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ANTSIntegrateVectorField ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ANTSIntegrateVectorField PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ANTSIntegrateVelocityField MODULE 
+    ${Ritk_SOURCE_DIR}/src/ANTSIntegrateVelocityField.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ANTSIntegrateVelocityField ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ANTSIntegrateVelocityField PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ANTSJacobian MODULE 
+    ${Ritk_SOURCE_DIR}/src/ANTSJacobian.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ANTSJacobian ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ANTSJacobian PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  #  add_library( ANTSUseDeformationFieldToGetAffineTransform MODULE 
+  #    ${Ritk_SOURCE_DIR}/src/ANTSUseDeformationFieldToGetAffineTransform.cxx
+  #    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+  #    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  #  target_link_libraries( ANTSUseDeformationFieldToGetAffineTransform ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  #  set_target_properties( ANTSUseDeformationFieldToGetAffineTransform PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  #  add_library( ANTSUseLandmarkImagesToGetAffineTransform MODULE 
+  #    ${Ritk_SOURCE_DIR}/src/ANTSUseLandmarkImagesToGetAffineTransform.cxx
+  #    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+  #    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  #  target_link_libraries( ANTSUseLandmarkImagesToGetAffineTransform ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  #  set_target_properties( ANTSUseLandmarkImagesToGetAffineTransform PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( AtroposMin MODULE 
+    ${Ritk_SOURCE_DIR}/src/AtroposMin.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( AtroposMin ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( AtroposMin PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+
+  add_library( AverageAffineTransform MODULE 
+    ${Ritk_SOURCE_DIR}/src/AverageAffineTransform.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( AverageAffineTransform ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( AverageAffineTransform PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( AverageImages MODULE 
+    ${Ritk_SOURCE_DIR}/src/AverageImages.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( AverageImages ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( AverageImages PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
 endif( CMAKE_BUILD_TYPE STREQUAL Debug )
