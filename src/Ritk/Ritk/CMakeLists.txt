@@ -63,10 +63,26 @@ add_library( Ritk MODULE
   ${Ritk_SOURCE_DIR}/src/ANTSIntegrateVelocityField.cxx 
   ${Ritk_SOURCE_DIR}/src/ANTSJacobian.cxx
   #  ${Ritk_SOURCE_DIR}/src/ANTSUseDeformationFieldToGetAffineTransform.cxx
-  ${Ritk_SOURCE_DIR}/src/ANTSUseLandmarkImagesToGetAffineTransform.cxx
+  #  ${Ritk_SOURCE_DIR}/src/ANTSUseLandmarkImagesToGetAffineTransform.cxx
   ${Ritk_SOURCE_DIR}/src/AtroposMin.cxx
   ${Ritk_SOURCE_DIR}/src/AverageAffineTransform.cxx
   ${Ritk_SOURCE_DIR}/src/AverageImages.cxx
+  ${Ritk_SOURCE_DIR}/src/AverageTensorImages.cxx
+  ${Ritk_SOURCE_DIR}/src/ClusterImageStatistics.cxx
+  ${Ritk_SOURCE_DIR}/src/ComposeMultiTransform.cxx
+  ${Ritk_SOURCE_DIR}/src/ConvertImagePixelType.cxx
+  ${Ritk_SOURCE_DIR}/src/ConvertScalarImageToRGB.cxx
+  ${Ritk_SOURCE_DIR}/src/ConvertToJpg.cxx
+  ${Ritk_SOURCE_DIR}/src/CopyImageHeaderInformation.cxx
+  ${Ritk_SOURCE_DIR}/src/CreateDTICohort.cxx
+  ${Ritk_SOURCE_DIR}/src/CreateImage.cxx
+  ${Ritk_SOURCE_DIR}/src/CreateWarpedGridImage.cxx
+  ${Ritk_SOURCE_DIR}/src/ExtractRegionFromImage.cxx
+  ${Ritk_SOURCE_DIR}/src/ExtractRegionFromImageByMask.cxx
+  ${Ritk_SOURCE_DIR}/src/ExtractSliceFromImage.cxx
+  ${Ritk_SOURCE_DIR}/src/ImageCompare.cxx
+  ${Ritk_SOURCE_DIR}/src/ImageSetStatistics.cxx
+  ${Ritk_SOURCE_DIR}/src/KellyKapowski.cxx
   )
 target_link_libraries( Ritk ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
 set_target_properties( Ritk PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
@@ -179,4 +195,116 @@ if( CMAKE_BUILD_TYPE STREQUAL Debug )
     ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
   target_link_libraries( AverageImages ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
   set_target_properties( AverageImages PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( AverageTensorImages MODULE 
+    ${Ritk_SOURCE_DIR}/src/AverageTensorImages.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( AverageTensorImages ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( AverageTensorImages PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ClusterImageStatistics MODULE 
+    ${Ritk_SOURCE_DIR}/src/ClusterImageStatistics.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ClusterImageStatistics ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ClusterImageStatistics PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ComposeMultiTransform MODULE 
+    ${Ritk_SOURCE_DIR}/src/ComposeMultiTransform.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ComposeMultiTransform ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ComposeMultiTransform PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ConvertImagePixelType MODULE 
+    ${Ritk_SOURCE_DIR}/src/ConvertImagePixelType.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ConvertImagePixelType ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ConvertImagePixelType PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ConvertScalarImageToRGB MODULE 
+    ${Ritk_SOURCE_DIR}/src/ConvertScalarImageToRGB.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ConvertScalarImageToRGB ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ConvertScalarImageToRGB PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ConvertToJpg MODULE 
+    ${Ritk_SOURCE_DIR}/src/ConvertToJpg.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ConvertToJpg ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ConvertToJpg PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( CopyImageHeaderInformation MODULE 
+    ${Ritk_SOURCE_DIR}/src/CopyImageHeaderInformation.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( CopyImageHeaderInformation ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( CopyImageHeaderInformation PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( CreateDTICohort MODULE 
+    ${Ritk_SOURCE_DIR}/src/CreateDTICohort.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( CreateDTICohort ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( CreateDTICohort PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( CreateImage MODULE 
+    ${Ritk_SOURCE_DIR}/src/CreateImage.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( CreateImage ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( CreateImage PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( CreateWarpedGridImage MODULE 
+    ${Ritk_SOURCE_DIR}/src/CreateWarpedGridImage.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( CreateWarpedGridImage ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( CreateWarpedGridImage PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ExtractRegionFromImage MODULE 
+    ${Ritk_SOURCE_DIR}/src/ExtractRegionFromImage.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ExtractRegionFromImage ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ExtractRegionFromImage PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ExtractRegionFromImageByMask MODULE 
+    ${Ritk_SOURCE_DIR}/src/ExtractRegionFromImageByMask.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ExtractRegionFromImageByMask ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ExtractRegionFromImageByMask PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ExtractSliceFromImage MODULE 
+    ${Ritk_SOURCE_DIR}/src/ExtractSliceFromImage.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ExtractSliceFromImage ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ExtractSliceFromImage PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ImageCompare MODULE 
+    ${Ritk_SOURCE_DIR}/src/ImageCompare.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ImageCompare ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ImageCompare PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ImageSetStatistics MODULE 
+    ${Ritk_SOURCE_DIR}/src/ImageSetStatistics.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ImageSetStatistics ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ImageSetStatistics PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( KellyKapowski MODULE 
+    ${Ritk_SOURCE_DIR}/src/KellyKapowski.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( KellyKapowski ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( KellyKapowski PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
 endif( CMAKE_BUILD_TYPE STREQUAL Debug )

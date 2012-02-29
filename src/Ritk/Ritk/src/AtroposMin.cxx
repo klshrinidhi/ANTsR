@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <vector>
 
-void ConvertToLowerCase( std::string& str )
+static void ConvertToLowerCase( std::string& str )
 {
   std::transform( str.begin(), str.end(), str.begin(), tolower );
 // You may need to cast the above line to (int(*)(int))
@@ -174,7 +174,7 @@ int AtroposSegmentation( itk::ants::CommandLineParser *parser )
   return EXIT_SUCCESS;
 }
 
-void InitializeCommandLineOptions( itk::ants::CommandLineParser *parser )
+static void InitializeCommandLineOptions( itk::ants::CommandLineParser *parser )
 {
   typedef itk::ants::CommandLineParser::OptionType OptionType;
 

@@ -154,7 +154,7 @@ bool ParseInput(int argc, char **argv, char *&output_transform_filename,
     return true;
 }
 
-void DisplayOptQueue(const TRAN_OPT_QUEUE &opt_queue) {
+static void DisplayOptQueue(const TRAN_OPT_QUEUE &opt_queue) {
     const int kQueueSize = opt_queue.size();
     for (int i = 0; i < kQueueSize; i++) {
         Rcpp::Rcout << "[" << i << "/" << kQueueSize << "]: ";
