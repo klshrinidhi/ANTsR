@@ -83,6 +83,33 @@ add_library( Ritk MODULE
   ${Ritk_SOURCE_DIR}/src/ImageCompare.cxx
   ${Ritk_SOURCE_DIR}/src/ImageSetStatistics.cxx
   ${Ritk_SOURCE_DIR}/src/KellyKapowski.cxx
+  ${Ritk_SOURCE_DIR}/src/KellySlater.cxx
+  ${Ritk_SOURCE_DIR}/src/LabelClustersUniquely.cxx
+  ${Ritk_SOURCE_DIR}/src/LabelGeometryMeasures.cxx
+  ${Ritk_SOURCE_DIR}/src/LabelOverlapMeasures.cxx
+  ${Ritk_SOURCE_DIR}/src/LaplacianThickness.cxx
+  ${Ritk_SOURCE_DIR}/src/MeasureImageSimilarity.cxx
+  ${Ritk_SOURCE_DIR}/src/MeasureMinMaxMean.cxx
+  ${Ritk_SOURCE_DIR}/src/MemoryTest.cxx
+  ${Ritk_SOURCE_DIR}/src/MultiplyImages.cxx
+  ${Ritk_SOURCE_DIR}/src/N4BiasFieldCorrection.cxx
+  ${Ritk_SOURCE_DIR}/src/PasteImageIntoImage.cxx
+  ${Ritk_SOURCE_DIR}/src/PermuteFlipImageOrientationAxes.cxx
+  ${Ritk_SOURCE_DIR}/src/PrintHeader.cxx
+  ${Ritk_SOURCE_DIR}/src/ReorientTensorImage.cxx
+  ${Ritk_SOURCE_DIR}/src/ResampleImage.cxx
+  ${Ritk_SOURCE_DIR}/src/ResampleImageBySpacing.cxx
+  ${Ritk_SOURCE_DIR}/src/ResetDirection.cxx
+  ${Ritk_SOURCE_DIR}/src/SetDirectionByMatrix.cxx
+  ${Ritk_SOURCE_DIR}/src/SetOrigin.cxx
+  ${Ritk_SOURCE_DIR}/src/SetSpacing.cxx
+  ${Ritk_SOURCE_DIR}/src/SmoothImage.cxx
+  ${Ritk_SOURCE_DIR}/src/StackSlices.cxx
+  ${Ritk_SOURCE_DIR}/src/SurfaceBasedSmoothing.cxx
+  ${Ritk_SOURCE_DIR}/src/SurfaceCurvature.cxx
+  ${Ritk_SOURCE_DIR}/src/TileImages.cxx
+  ${Ritk_SOURCE_DIR}/src/WarpImageMultiTransform.cxx
+  ${Ritk_SOURCE_DIR}/src/WarpTensorImageMultiTransform.cxx
   )
 target_link_libraries( Ritk ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
 set_target_properties( Ritk PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
@@ -307,4 +334,193 @@ if( CMAKE_BUILD_TYPE STREQUAL Debug )
     ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
   target_link_libraries( KellyKapowski ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
   set_target_properties( KellyKapowski PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( KellySlater MODULE 
+    ${Ritk_SOURCE_DIR}/src/KellySlater.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( KellySlater ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( KellySlater PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( LabelClustersUniquely MODULE 
+    ${Ritk_SOURCE_DIR}/src/LabelClustersUniquely.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( LabelClustersUniquely ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( LabelClustersUniquely PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( LabelGeometryMeasures MODULE 
+    ${Ritk_SOURCE_DIR}/src/LabelGeometryMeasures.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( LabelGeometryMeasures ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( LabelGeometryMeasures PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( LabelOverlapMeasures MODULE 
+    ${Ritk_SOURCE_DIR}/src/LabelOverlapMeasures.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( LabelOverlapMeasures ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( LabelOverlapMeasures PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( LaplacianThickness MODULE 
+    ${Ritk_SOURCE_DIR}/src/LaplacianThickness.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( LaplacianThickness ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( LaplacianThickness PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( MeasureImageSimilarity MODULE 
+    ${Ritk_SOURCE_DIR}/src/MeasureImageSimilarity.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( MeasureImageSimilarity ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( MeasureImageSimilarity PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( MeasureMinMaxMean MODULE 
+    ${Ritk_SOURCE_DIR}/src/MeasureMinMaxMean.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( MeasureMinMaxMean ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( MeasureMinMaxMean PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( MemoryTest MODULE 
+    ${Ritk_SOURCE_DIR}/src/MemoryTest.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( MemoryTest ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( MemoryTest PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( MultiplyImages MODULE 
+    ${Ritk_SOURCE_DIR}/src/MultiplyImages.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( MultiplyImages ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( MultiplyImages PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( N4BiasFieldCorrection MODULE 
+    ${Ritk_SOURCE_DIR}/src/N4BiasFieldCorrection.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( N4BiasFieldCorrection ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( N4BiasFieldCorrection PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( PasteImageIntoImage MODULE 
+    ${Ritk_SOURCE_DIR}/src/PasteImageIntoImage.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( PasteImageIntoImage ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( PasteImageIntoImage PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( PermuteFlipImageOrientationAxes MODULE 
+    ${Ritk_SOURCE_DIR}/src/PermuteFlipImageOrientationAxes.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( PermuteFlipImageOrientationAxes ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( PermuteFlipImageOrientationAxes PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( PrintHeader MODULE 
+    ${Ritk_SOURCE_DIR}/src/PrintHeader.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( PrintHeader ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( PrintHeader PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ReorientTensorImage MODULE 
+    ${Ritk_SOURCE_DIR}/src/ReorientTensorImage.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ReorientTensorImage ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ReorientTensorImage PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ResampleImage MODULE 
+    ${Ritk_SOURCE_DIR}/src/ResampleImage.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ResampleImage ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ResampleImage PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ResampleImageBySpacing MODULE 
+    ${Ritk_SOURCE_DIR}/src/ResampleImageBySpacing.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ResampleImageBySpacing ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ResampleImageBySpacing PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( ResetDirection MODULE 
+    ${Ritk_SOURCE_DIR}/src/ResetDirection.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( ResetDirection ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( ResetDirection PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( SetDirectionByMatrix MODULE 
+    ${Ritk_SOURCE_DIR}/src/SetDirectionByMatrix.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( SetDirectionByMatrix ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( SetDirectionByMatrix PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( SetOrigin MODULE 
+    ${Ritk_SOURCE_DIR}/src/SetOrigin.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( SetOrigin ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( SetOrigin PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( SetSpacing MODULE 
+    ${Ritk_SOURCE_DIR}/src/SetSpacing.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( SetSpacing ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( SetSpacing PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( SmoothImage MODULE 
+    ${Ritk_SOURCE_DIR}/src/SmoothImage.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( SmoothImage ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( SmoothImage PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( StackSlices MODULE 
+    ${Ritk_SOURCE_DIR}/src/StackSlices.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( StackSlices ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( StackSlices PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( SurfaceBasedSmoothing MODULE 
+    ${Ritk_SOURCE_DIR}/src/SurfaceBasedSmoothing.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( SurfaceBasedSmoothing ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( SurfaceBasedSmoothing PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( SurfaceCurvature MODULE 
+    ${Ritk_SOURCE_DIR}/src/SurfaceCurvature.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( SurfaceCurvature ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( SurfaceCurvature PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( TileImages MODULE 
+    ${Ritk_SOURCE_DIR}/src/TileImages.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( TileImages ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( TileImages PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( WarpImageMultiTransform MODULE 
+    ${Ritk_SOURCE_DIR}/src/WarpImageMultiTransform.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( WarpImageMultiTransform ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( WarpImageMultiTransform PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
+
+  add_library( WarpTensorImageMultiTransform MODULE 
+    ${Ritk_SOURCE_DIR}/src/WarpTensorImageMultiTransform.cxx
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineParser.cxx 
+    ${Ritk_SOURCE_DIR}/src/antsCommandLineOption.cxx )
+  target_link_libraries( WarpTensorImageMultiTransform ${RCPP_LIB_DIR} ${R_LIB_DIR} ${ITK_LIBRARIES} )
+  set_target_properties( WarpTensorImageMultiTransform PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE PREFIX "" )
 endif( CMAKE_BUILD_TYPE STREQUAL Debug )
