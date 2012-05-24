@@ -27,7 +27,7 @@ Read the input image into an R object.
 
 <<>>= 
 
-img = antsImageRead( system.file( "demo/data/KKI2009-01-fMRI.nii" , package = "ANTsR" ) , "float" , 4 )
+img = antsImageRead( system.file( "vignettes/data/KKI2009-01-fMRI.nii" , package = "ANTsR" ) , "float" , 4 )
 @
 
 Create a buffer to hold the average image.
@@ -66,7 +66,7 @@ Motion corrected image and motion correction parameters have been written to the
 antsImageWrite( moco_img , "KKI2009-01-fMRI_moco.nii" )
 antsImageWrite( avg_img , "KKI2009-01-fMRI_avg.nii" )
 library(oro.nifti)
-img_oro = readNIfTI( system.file( "demo/data/KKI2009-01-fMRI.nii" , package = "ANTsR" ) )
+img_oro = readNIfTI( system.file( "vignettes/data/KKI2009-01-fMRI.nii" , package = "ANTsR" ) )
 img_oro
 descrip( img_oro )
 avg_img_oro = readNIfTI( "KKI2009-01-fMRI_avg.nii" )
