@@ -4,7 +4,7 @@ Title: ANTs <--> R
 Version: 0.1
 Date: 2012-02-01
 Author: Shrinidhi KL, Brian Avants, ANTs-developers
-Maintainer: Shrinidhi KL <nidhi84shri  at  gmail>
+Maintainer: Shrinidhi KL <nidhi84shri@gmail>
 Description: Package provides access to ANTs routines in R
 License: GPL (>=2)
 LazyLoad: yes
