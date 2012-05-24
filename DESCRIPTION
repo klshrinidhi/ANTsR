@@ -1,10 +1,10 @@
 Package: ANTsR
 Type: Package
 Title: ANTs <--> R
-Version: 1.0
+Version: 0.1
 Date: 2012-02-01
-Author: Shrinidhi KL, Brian Avants, ANTS-developers
-Maintainer: Shrinidhi KL <FAKEID@NOWHERE.COM>
+Author: Shrinidhi KL, Brian Avants, ANTs-developers
+Maintainer: Shrinidhi KL <nidhi84shri  at  gmail>
 Description: Package provides access to ANTs routines in R
 License: GPL (>=2)
 LazyLoad: yes
