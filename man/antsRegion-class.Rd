@@ -2,14 +2,6 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{antsRegion-class}
-\alias{[<-,antsImage,array,antsRegion,ANY-method}
-\alias{[<-,antsImage,logical,antsRegion,ANY-method}
-\alias{[<-,antsImage,matrix,antsRegion,ANY-method}
-\alias{[<-,antsImage,NULL,antsRegion,ANY-method}
-\alias{[,antsImage,array,antsRegion-method}
-\alias{[,antsImage,logical,antsRegion-method}
-\alias{[,antsImage,matrix,antsRegion-method}
-\alias{[,antsImage,NULL,antsRegion-method}
 
 \title{Class \code{"antsRegion"}}
 \description{

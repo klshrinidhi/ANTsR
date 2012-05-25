@@ -1,6 +1,11 @@
 \name{Comparison}
 \alias{Comparison}
 \alias{"=="}
+\alias{"!="}
+\alias{"<="}
+\alias{">="}
+\alias{"<"}
+\alias{">"}
 
 \title{
 Relational operators for antsImage
