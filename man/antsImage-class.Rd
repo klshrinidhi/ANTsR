@@ -52,9 +52,6 @@ Objects can be created by calls of the form \code{new("antsImage", pixeltype, di
 }
 \section{Methods}{
   \describe{
-    \item{antsSetInput}{\code{signature(filter = "antsBinaryThresholdImageFilter", image = "antsImage")}: Specify an \code{antsImage} as input to the filter}
-    \item{antsSetInput}{\code{signature(filter = "antsPermuteAxesImageFilter", image = "antsImage")}: Specify an \code{antsImage} as input to the filter}
-    \item{antsSetInput}{\code{signature(filter = "antsThresholdImageFilter", image = "antsImage")}: Specify an \code{antsImage} as input to the filter}
     \item{as.array}{\code{signature(x = "antsImage")}: Convert/coerce an \code{antsImage} into an \code{array}. Original \code{antsImage} object is not modified}
     \item{as.matrix}{\code{signature(x = "antsImage")}: Convert/coerce an \code{antsImage} into an \code{matrix}. Original \code{antsImage} object is not modified}
     \item{as.numeric}{\code{signature(x = "antsImage")}: Convert/coerce an \code{antsImage} into an \code{numeric vector}. Original \code{antsImage} object is not modified}

@@ -1,0 +1,1 @@
+create_vignette The command 'demo( "create_vignette" , package = "ANTsR" )' creates a vignette for using a set of interesting objects in the package.
