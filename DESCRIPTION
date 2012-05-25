@@ -5,7 +5,7 @@ Version: 0.1
 Date: 2012-02-01
 Author: Shrinidhi KL, Brian Avants, ANTs-developers
 Maintainer: Shrinidhi KL <nidhi84shri@gmail>
-Description: Package provides access to ANTs routines in R
+Description: Package provides access to ANTs routines in R. The package currently only supports Unix platforms.
 License: GPL (>=2)
 LazyLoad: yes
 Depends: Rcpp (>= 0.9.7.2) , signal , timeSeries , mFilter , MASS , methods
