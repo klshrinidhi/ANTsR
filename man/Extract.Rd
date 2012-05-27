@@ -1,5 +1,8 @@
 \name{Extract}
 \alias{Extract}
+\alias{"["}
+\alias{"[<-"}
+
 
 \title{
 Extract/Replace regions an antsImage
@@ -10,63 +13,69 @@ Set of methods extract a \code{numeric vector} from an \code{antsImage}. Set of 
 }
 
 \usage{
-img[ mask ]
-img[ lst ]
-img[ mask , region ]
-img[ row , col , slice , time ]
+x[ i ]                                  # form 1
+x[ i , j ]                              # form 2
+x[ i , j , ... ]                        # form 3
 
-img[ mask ] <- vect
-img[ lst ] <- vect
-img[ mask , region ] <- vect
-img[ row , col , slice , time ] <- vect
+x[ i ] <- value                         # form 4
+x[ i , j ] <- value                     # form 5
+x[ i , j , ... ] <- value               # form 6
 }
 
 \arguments{
-\item{img}{
+\item{x}{
 Image object of S4 class 'antsImage' to be indexed.
 }
 
-\item{mask}{
-\code{logical vector/matrix/array} to be used as mask while extracting pixel values from the image. \code{1/TRUE}s return corresponding pixel values ; \code{0/FALSE}s return \code{NA}. The vector provided will be 'matched' against the image-region column-wise meaning that first column of image-region is extracted using first column-length values from the vector, second column is extracted using the next column-length values from the vector and so on. Default: entire region is extracted.
+\item{i}{
+  \itemize{
+  \item{
+    Usage forms 1,2,4,5 -- \code{logical vector/matrix/array} to be used as mask while extracting pixel values from the image. \code{1/TRUE}s return corresponding pixel values ; \code{0/FALSE}s return \code{NA}. The vector provided will be 'matched' against the image-region column-wise meaning that first column of image-region is extracted using first column-length values from the vector, second column is extracted using the next column-length values from the vector and so on. Default: entire region is extracted.
+  }
+  \item{
+    Usage forms 1,4 -- \code{list} of named arguments containing names 'mask' and 'region'. \code{lst$mask} is used as 'mask' and \code{lst$region} is used as 'region'.
+  }
+  \item{
+    Usage forms 2,3,5,6 -- \code{numeric vector} used to select the 'row' dimension of the image. Use 'NULL' to access the entire 'row' of the image.
+  }
+  }
 }
 
-\item{region}{
-\code{antsRegion} with in the \code{antsImage} to be considered for extraction. An \code{antsRegion} object can be created using \code{new}. Default: largest-possible-region( entire image ) in the image.
+\item{j}{
+  \itemize{
+  \item{
+    Usage forms 2,5 -- \code{antsRegion} with in the \code{antsImage} to be considered for extraction. An \code{antsRegion} object can be created using \code{new}. Default: largest-possible-region( entire image ) in the image.
+  }
+  \item{
+    Usage forms 2,5,3,6 -- \code{numeric vector} used to select the 'column' dimensin of the image. Use 'NULL' to access the entire 'column' of the image.
+  }
+  }
 }
 
-\item{lst}{
-\code{list} of named arguments containing names 'mask' and 'region'. \code{lst$mask} is used as 'mask' and \code{lst$region} is used as 'region'.
+\item{...}{
+  Usage froms 3,6 -- \code{x[i,j,k]} or \code{x[i,j,k,l]}
+  \itemize{
+  \item{
+    k -- \code{numeric vector} used to select the 'slice' dimension of the image. Use 'NULL' to access the all 'slice's of the image.
+  }
+  \item{
+    l -- \code{numeric vector} used to select the 'time' dimension of the image. Use 'NULL' to access all the 'time's of the image.
+  }
+  }
 }
 
-\item{vect}{
+\item{value}{
 \code{numeric vector} of length equal to number of pixels in the 'region' considered. Depending on the mask, the values in the numeric vector will replace the corresponding pixel values in the image indexed by the region. Only the values corresponding to \code{1/TRUE} in the 'mask' are used. Image pixels corresponding to \code{0/FALSE} in the 'mask' are left unchanged. This vector is matched against the image-region column-wise meaning that the first column of the image-region gets its values from the first column-length values in this vector, second column of the image-region gets its values from the second column-length values in this vector and so on.
 }
-
-\item{row}{
-\code{numeric vector} used to select the 'row' dimension of the image. Use 'NULL' to access the entire 'row' of the image.
-}
-
-\item{col}{
-\code{numeric vector} used to select the 'column' dimensin of the image. Use 'NULL' to access the entire 'column' of the image.
-}
-
-\item{slice}{
-\code{numeric vector} used to select the 'slice' dimension of the image. Use 'NULL' to access the all 'slice's of the image.
-}
-
-\item{time}{
-\code{numeric vector} used to select the 'time' dimension of the image. Use 'NULL' to access all the 'time's of the image.
-}
-
 }
 
 \details{
 \describe{
-\item{\code{img[mask]}}{
-Image-region considered is the largest-possible-region( entire image ) of the image.
+\item{All forms}{
+When not specified, image-region considered is the largest-possible-region( entire image ) of the image.
 }
 
-\item{\code{img[row,col,slice,time]}}{
+\item{\code{x[i,j]} , \code{x[i,j,...]}}{
 Number of indices must match the number of dimensions of the image. A 2D image requires and allows indices 'row' and 'col' only. A 3D image requires and allows indices 'row', 'col' and 'slice' only. A 4D image requires and allows indices 'row', 'col', 'slice' and 'time'.
 }
 }

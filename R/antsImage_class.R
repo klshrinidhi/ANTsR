@@ -689,11 +689,14 @@ setMethod( f = "[<-" ,
 	   )
 
 setGeneric( name = "as.antsImage" ,
-	    def = function( object , ... ) standardGeneric( "as.antsImage" )
+	    def = function( object , pixeltype , spacing , origin ) standardGeneric( "as.antsImage" )
 	    )
 
 setMethod( f = "as.antsImage" ,
-	   signature( object = "matrix" 
+	   signature( object = "matrix" ,
+	   	      pixeltype = "character" ,
+		      spacing = "numeric" ,
+		      origin = "numeric"
 	   	      ) ,
 	   definition = function( object , 
 	   	      		  pixeltype = "double" , 
@@ -714,7 +717,10 @@ setMethod( f = "as.antsImage" ,
 	   )
 
 setMethod( f = "as.antsImage" ,
-	   signature( object = "array" 
+	   signature( object = "array" ,
+	   	      pixeltype = "character" ,
+		      spacing = "numeric" ,
+		      origin = "numeric"
 	   	      ) ,
 	   definition = function( object , 
 	   	      		  pixeltype = "double" , 
@@ -735,7 +741,8 @@ setMethod( f = "as.antsImage" ,
 	   )
 
 setMethod( f = "==" ,
-	   signature( e1 = "antsImage" 
+	   signature( e1 = "antsImage" ,
+	   	      e2 = "ANY"
 	   	      ) ,
 	   definition = function( e1 , 
 	   	      		  e2 
@@ -770,7 +777,8 @@ setMethod( f = "==" ,
 	   )
 
 setMethod( f = "!=" ,
-	   signature( e1 = "antsImage" 
+	   signature( e1 = "antsImage" ,
+	   	      e2 = "ANY"
 	   	      ) ,
 	   definition = function( e1 , 
 	   	      		  e2 
@@ -805,7 +813,8 @@ setMethod( f = "!=" ,
 	   )
 
 setMethod( f = "<=" ,
-	   signature( e1 = "antsImage" 
+	   signature( e1 = "antsImage" ,
+	   	      e2 = "ANY"
 	   	      ) ,
 	   definition = function( e1 , 
 	   	      		  e2 
@@ -840,7 +849,8 @@ setMethod( f = "<=" ,
 	   )
 
 setMethod( f = ">=" ,
-	   signature( e1 = "antsImage" 
+	   signature( e1 = "antsImage" ,
+	   	      e2 = "ANY"
 	   	      ) ,
 	   definition = function( e1 , 
 	   	      		  e2 
@@ -875,7 +885,8 @@ setMethod( f = ">=" ,
 	   )
 
 setMethod( f = "<" ,
-	   signature( e1 = "antsImage" 
+	   signature( e1 = "antsImage" ,
+	   	      e2 = "ANY"
 	   	      ) ,
 	   definition = function( e1 , 
 	   	      		  e2 
@@ -910,7 +921,8 @@ setMethod( f = "<" ,
 	   )
 
 setMethod( f = ">" ,
-	   signature( e1 = "antsImage" 
+	   signature( e1 = "antsImage" ,
+	   	      e2 = "ANY"
 	   	      ) ,
 	   definition = function( e1 , 
 	   	      		  e2 

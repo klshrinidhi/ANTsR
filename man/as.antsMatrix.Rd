@@ -15,11 +15,11 @@ as.antsMatrix( object , elementtype )
 
 \arguments{
 \item{object}{
-\code{list} or \code{data.frame} to be used to construct the \code{antsMatrix}. 'names' of the 'object' turn into column-names of the resulting matrix.
+  \code{list} or \code{data.frame} to be used to construct the \code{antsMatrix}. 'names' of the 'object' turn into column-names of the resulting matrix.
 }
 
 \item{elementtype}{
-C++ datatype to be used to represent the elements of the matrix constructed. Make sure you use a type that can represent all the values in the input list or dataframe. Allowed values: "double", "float", "unsigned int", "unsigned char". Default: "double"
+  C++ datatype to be used to represent the elements of the matrix constructed. Make sure you use a type that can represent all the values in the input list or dataframe. Allowed values: "double", "float", "unsigned int", "unsigned char". Default: "double"
 }
 }
 

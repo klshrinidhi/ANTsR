@@ -42,11 +42,13 @@ setMethod( f = "as.list" ,
 	   )
 
 setGeneric( name = "as.antsMatrix" ,
-	    def = function( object , ... ) standardGeneric( "as.antsMatrix" )
+	    def = function( object , elementtype ) standardGeneric( "as.antsMatrix" )
 	    )
 
 setMethod( f = "as.antsMatrix" ,
-	   signature( object = "list" ) ,
+	   signature( object = "list" ,
+	   	      elementtype = "character"
+	   	      ) ,
 	   definition = function( object , elementtype )
 	   	      	{
 			  return( .Call( "antsMatrix_asantsMatrix" , object , elementtype ) )
@@ -54,7 +56,9 @@ setMethod( f = "as.antsMatrix" ,
 	   )
 
 setMethod( f = "as.antsMatrix" ,
-	   signature( object = "data.frame" ) ,
+	   signature( object = "data.frame" ,
+	   	      elementtype = "character"
+	   	      ) ,
 	   definition = function( object , elementtype )
 	   	      	{
 			  return( .Call( "antsMatrix_asantsMatrix" , as.list( object ) , elementtype ) )
