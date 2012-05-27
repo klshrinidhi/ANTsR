@@ -5,6 +5,12 @@ RCPP_LIB_DIR=`Rscript -e 'Rcpp:::LdFlags()'`
 R_INCLUDE_DIR=`R CMD config --cppflags`
 R_LIB_DIR=`R CMD config --ldflags`
 
+# get rid of the 'new-line' in the above variables
+RCPP_INCLUDE_DIR=$(echo ${RCPP_INCLUDE_DIR//\\n/ })
+RCPP_LIB_DIR=$(echo ${RCPP_LIB_DIR//\\n/ })
+R_INCLUDE_DIR=$(echo ${R_INCLUDE_DIR//\\n/ })
+R_LIB_DIR=$(echo ${R_LIB_DIR//\\n/ })
+
 cd ./src
 # ANTS_DIR=(set by the user from command line)
 # ITK_DIR=(set by the user from command line)
