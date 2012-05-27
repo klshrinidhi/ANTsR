@@ -23,6 +23,12 @@ if( NOT ITK_DIR )
 	       -D BUILD_EXAMPLES=OFF # reduces build time
     BINARY_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ITK/ITK-build
     INSTALL_COMMAND "" )
+  # Remove the ITK-src directory so R does not see any version control files (.git in this case)
+  ExternalProject_Add_Step( ITK Remove_ITK-src
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${ANTsR_SuperBuild_SOURCE_DIR}/ITK/ITK-src
+    COMMENT "Removing the ITK-src directory"
+    DEPENDEES configure
+    ALWAYS 1 )
   set( ITK_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ITK/ITK-build )
   set( ANTsR_DEPENDSON_ITK ITK ) # set when ITK is superbuilt so that ITK is superbuilt prior to ANTsR
   set( ANTS_DEPENDSON_ITK ITK ) # set when ITK is superbuilt so that ITK is superbuilt prior to ANTS
@@ -45,6 +51,12 @@ if( NOT ANTS_DIR )
 	       -D ITK_DIR=${ITK_DIR} # user specified ITK-build directory or ITK-build superbuilt from above
     BINARY_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build
     INSTALL_COMMAND "" )
+  # Remove the ANTS-src directory so R does not see any version control files (.svn in this case)
+  ExternalProject_Add_Step( ANTS Remove_ANTS-src
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-src
+    COMMENT "Removing the ANTS-src directory"
+    DEPENDEES configure
+    ALWAYS 1 )
   set( ANTS_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build )
   set( ANTsR_DEPENDSON_ANTS ANTS ) # set when ANTS is superbuilt so that ANTS is superbuilt prior to ANTsR
 endif( NOT ANTS_DIR )
