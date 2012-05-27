@@ -57,6 +57,12 @@ if( NOT ANTS_DIR )
     COMMENT "Removing the ANTS-src directory"
     DEPENDEES configure
     ALWAYS 1 )
+  # Remove the ANTS-src directory so R does not see any version control files (.svn in this case)
+  ExternalProject_Add_Step( ANTS Remove_svn_dir
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build/include/.svn
+    COMMENT "Removing the ANTS-build/include/.svn directory"
+    DEPENDEES configure
+    ALWAYS 1 )
   set( ANTS_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build )
   set( ANTsR_DEPENDSON_ANTS ANTS ) # set when ANTS is superbuilt so that ANTS is superbuilt prior to ANTsR
 endif( NOT ANTS_DIR )
