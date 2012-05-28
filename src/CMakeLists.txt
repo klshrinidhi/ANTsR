@@ -21,9 +21,10 @@ if( NOT ITK_DIR )
                -D BUILD_SHARED_LIBS=ON # R requires shared objects
 	       -D BUILD_TESTING=OFF # reduces build time
 	       -D BUILD_EXAMPLES=OFF # reduces build time
+	       -D CMAKE_INSTALL_PREFIX=${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ITK-libs # all the targets are to be installed to 'inst' so R can load them
     BINARY_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ITK/ITK-build
-    INSTALL_COMMAND "" )
-  set( ITK_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ITK/ITK-build )
+    INSTALL_DIR "" )
+  set( ITK_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ITK-libs )
   set( ANTsR_DEPENDSON_ITK ITK ) # set when ITK is superbuilt so that ITK is superbuilt prior to ANTsR
   set( ANTS_DEPENDSON_ITK ITK ) # set when ITK is superbuilt so that ITK is superbuilt prior to ANTS
 endif( NOT ITK_DIR )
@@ -42,9 +43,19 @@ if( NOT ANTS_DIR )
                -D BUILD_SHARED_LIBS=ON # R requires shared objects
 	       -D BUILD_TESTING=OFF # reduces build time
 	       -D USE_SYSTEM_ITK=ON # use the ITK built above using superbuild or use the one specified by user through 'ITK_DIR'
-	       -D ITK_DIR=${ITK_DIR} # user specified ITK-build directory or ITK-build superbuilt from above
+	       -D ITK_DIR=${ANTsR_SuperBuild_SOURCE_DIR}/ITK/ITK-build # user specified ITK-build directory or ITK-build superbuilt from above
     BINARY_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build
     INSTALL_COMMAND "" )
+  ExternalProject_Add_Step( ANTS Install_ANTS_include_To_inst
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build/include ${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ANTS-libs/include
+    COMMENT "Installing ANTs 'include' to 'inst'"
+    DEPENDEES build
+    ALWAYS 1 )
+  ExternalProject_Add_Step( ANTS Install_ANTS_lib_To_inst
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build/lib ${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ANTS-libs/lib
+    COMMENT "Installing ANTs 'lib' to 'inst'"
+    DEPENDEES build
+    ALWAYS 1 )
   set( ANTS_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build )
   set( ANTsR_DEPENDSON_ANTS ANTS ) # set when ANTS is superbuilt so that ANTS is superbuilt prior to ANTsR
 endif( NOT ANTS_DIR )

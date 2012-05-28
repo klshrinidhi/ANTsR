@@ -6,6 +6,11 @@ project(ANTsR)
 set( CMAKE_CXX_FLAGS_DEBUG "-g -Wall" CACHE STRING "Debug flags" FORCE )
 set( CMAKE_C_FLAGS_DEBUG "-g -Wall" CACHE STRING "Debug flags" FORCE )
 
+# if CMAKE_BUILD_TYPE has been set, set it to 'Release'; 'Release' becomes the default build-type instead of 'none'
+if( NOT CMAKE_BUILD_TYPE )
+  set( CMAKE_BUILD_TYPE "Release" CACHE STRING "Project build-type" )
+endif( NOT CMAKE_BUILD_TYPE )
+
 # check if any of the following required directories are not set; 
 if( NOT R_INCLUDE_DIR )
   message( FATAL_ERROR "R_INCLUDE_DIR invalid. Perhaps R was not built as library." )
@@ -35,14 +40,17 @@ foreach( loop_var IN LISTS R_INCLUDE_DIR_MATCHES )
 endforeach( loop_var )
 
 # ITK ; ITK_DIR is set by caller
-find_package( ITK REQUIRED )
-include( ${ITK_USE_FILE} )
+include_directories( ${ITK_DIR}/include/ITK-4.2 )
+link_directories( ${ITK_DIR}/lib )
+#find_package( ITK REQUIRED )
+#include( ${ITK_USE_FILE} )
 
 # ANTS ; ANTS_DIR is set by caller
 include_directories( ${ANTS_DIR}/include )
 link_directories( ${ANTS_DIR}/lib )
 
 # all targets must have rpath installed so R can find the dependencies when loading them
+set( CMAKE_INSTALL_RPATH "../ITK-libs/lib;../ANTS-lib/lib" )
 set( CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE )
 
 # ANTsR targets
