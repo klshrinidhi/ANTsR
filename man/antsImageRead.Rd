@@ -10,7 +10,7 @@ Read an image file into an S4 object of class 'antsImage'.
 }
 
 \usage{
-antsImageRead( filename , pixletype , dimension )
+antsImageRead( filename , pixeltype , dimension )
 }
 
 \arguments{

@@ -2,7 +2,6 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{antsImageList-class}
-\alias{int_antsExtractXptrAsString,antsImageList-method}
 
 \title{Class \code{"antsImageList"}}
 \description{

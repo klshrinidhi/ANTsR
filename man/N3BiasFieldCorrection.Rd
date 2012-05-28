@@ -10,40 +10,46 @@ Perform Bias Field Correction on the given image
 }
 
 \usage{
-N3BiasFieldCorrection( "<imageDimension>" , "<inputImage>" , "<outputImage>" [, "<shrinkFactor>"] [, "<maskImage>"] [, "<numberOfIterations>"] [, "<numberOfFittingLevels>"] [, "<outputBiasField>"])
+N3BiasFieldCorrection( ... )
+# see 'arguments' below
 }
 
 \arguments{
-\item{imageDimension 2|3}{
-Number of dimensions of the input image
-}
+\item{...}{
+  "<imageDimension>" , "<inputImage>" , "<outputImage>" [, "<shrinkFactor>"] [, "<maskImage>"] [, "<numberOfIterations>"] [, "<numberOfFittingLevels>"] [, "<outputBiasField>"]
+  \itemize{
+  \item{imageDimension 2|3}{
+    Number of dimensions of the input image
+  }
 
-\item{inputImage}{
-Input image to operate on
-}
+  \item{inputImage}{
+    Input image to operate on
+  }
 
-\item{outputImage}{
-Result image
-}
+  \item{outputImage}{
+    Result image
+  }
 
-\item{shrikFactor}{
-Shrink Factor
-}
+  \item{shrikFactor}{
+    Shrink Factor
+  }
 
-\item{maskImage}{
-Image to be used as mask
-}
+  \item{maskImage}{
+    Image to be used as mask
+  }
 
-\item{numberofIterations}{
-Number of Iterations
-}
+  \item{numberofIterations}{
+    Number of Iterations
+  }
 
-\item{numberofFittingLevels}{
-Number of fitting levels
-}
+  \item{numberofFittingLevels}{
+    Number of fitting levels
+  }
 
-\item{outputBiasField}{
-Output bias-field
+  \item{outputBiasField}{
+    Output bias-field
+  }
+  }
 }
 }
 

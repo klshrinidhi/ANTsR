@@ -10,7 +10,7 @@ Write the pixels of an object of class 'antsImage'.
 }
 
 \usage{
-antsSetPixels( x , i , j , k , l )
+antsSetPixels( x , i = NA , j = NA , k = NA , l = NA , value )
 }
 
 \arguments{

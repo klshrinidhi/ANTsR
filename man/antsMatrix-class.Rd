@@ -2,7 +2,6 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{antsMatrix-class}
-\alias{int_antsExtractXptrAsString,antsMatrix-method}
 
 \title{Class \code{"antsMatrix"}}
 \description{
