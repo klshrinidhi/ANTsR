@@ -48,7 +48,7 @@ include_directories( ${ANTS_DIR}/include )
 link_directories( ${ANTS_DIR}/lib )
 
 # all targets must have rpath installed so R can find the dependencies when loading them
-set( CMAKE_INSTALL_RPATH "\${ORIGIN}/../ITK-libs/lib;\${ORIGIN}/../ANTS-lib/lib" )
+set( CMAKE_INSTALL_RPATH "$ORIGIN/../ITK-libs/lib;$ORIGIN/../ANTS-libs/lib" )
 set( CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE )
 
 # ANTsR targets
