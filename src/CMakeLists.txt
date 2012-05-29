@@ -46,11 +46,6 @@ if( NOT ANTS_DIR )
 	       -D ITK_DIR=${ITK_DIR} # user specified ITK-build directory or ITK-build superbuilt from above
     BINARY_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build
     INSTALL_COMMAND "" )
-  ExternalProject_Add_Step( ANTS Install_ANTS_include_To_inst
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build/include ${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ANTS-libs/include
-    COMMENT "Installing ANTs 'include' to 'inst'"
-    DEPENDEES build
-    ALWAYS 1 )
   ExternalProject_Add_Step( ANTS Install_ANTS_lib_To_inst
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build/lib ${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ANTS-libs/lib
     COMMENT "Installing ANTs 'lib' to 'inst'"
