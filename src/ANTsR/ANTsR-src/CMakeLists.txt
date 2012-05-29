@@ -40,17 +40,15 @@ foreach( loop_var IN LISTS R_INCLUDE_DIR_MATCHES )
 endforeach( loop_var )
 
 # ITK ; ITK_DIR is set by caller
-include_directories( ${ITK_DIR}/include/ITK-4.2 )
-link_directories( ${ITK_DIR}/lib )
-#find_package( ITK REQUIRED )
-#include( ${ITK_USE_FILE} )
+find_package( ITK REQUIRED )
+include( ${ITK_USE_FILE} )
 
 # ANTS ; ANTS_DIR is set by caller
 include_directories( ${ANTS_DIR}/include )
 link_directories( ${ANTS_DIR}/lib )
 
 # all targets must have rpath installed so R can find the dependencies when loading them
-set( CMAKE_INSTALL_RPATH "../ITK-libs/lib;../ANTS-lib/lib" )
+set( CMAKE_INSTALL_RPATH "\${ORIGIN}/../ITK-libs/lib;\${ORIGIN}/../ANTS-lib/lib" )
 set( CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE )
 
 # ANTsR targets

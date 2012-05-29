@@ -24,7 +24,7 @@ if( NOT ITK_DIR )
 	       -D CMAKE_INSTALL_PREFIX=${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ITK-libs # all the targets are to be installed to 'inst' so R can load them
     BINARY_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ITK/ITK-build
     INSTALL_DIR "" )
-  set( ITK_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ITK-libs )
+  set( ITK_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/../inst/ITK-libs/lib/cmake/ITK-4.2 )
   set( ANTsR_DEPENDSON_ITK ITK ) # set when ITK is superbuilt so that ITK is superbuilt prior to ANTsR
   set( ANTS_DEPENDSON_ITK ITK ) # set when ITK is superbuilt so that ITK is superbuilt prior to ANTS
 endif( NOT ITK_DIR )
@@ -43,7 +43,7 @@ if( NOT ANTS_DIR )
                -D BUILD_SHARED_LIBS=ON # R requires shared objects
 	       -D BUILD_TESTING=OFF # reduces build time
 	       -D USE_SYSTEM_ITK=ON # use the ITK built above using superbuild or use the one specified by user through 'ITK_DIR'
-	       -D ITK_DIR=${ANTsR_SuperBuild_SOURCE_DIR}/ITK/ITK-build # user specified ITK-build directory or ITK-build superbuilt from above
+	       -D ITK_DIR=${ITK_DIR} # user specified ITK-build directory or ITK-build superbuilt from above
     BINARY_DIR ${ANTsR_SuperBuild_SOURCE_DIR}/ANTS/ANTS-build
     INSTALL_COMMAND "" )
   ExternalProject_Add_Step( ANTS Install_ANTS_include_To_inst
